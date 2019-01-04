@@ -1,0 +1,61 @@
+/* pages/coupons/coupons.wxss */
+/* 空状态 */
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-title {
+  font-size: 28rpx;
+  color:#A5A5A5;
+  margin-top: 310rpx;
+}
+
+.empty-btn {
+  font-size: 32rpx;
+  background-color: #FF5050;
+  padding: 0 32rpx;
+  line-height: 60rpx;
+  margin-top: 34rpx;
+  color:#fff;
+  border-radius: 46rpx;
+}
+
+.main {
+  position: relative;
+  box-sizing: border-box;
+  text-align: left;
+  height: 160rpx;
+  margin: 32rpx;
+  padding: 0 32rpx;
+}
+
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 442rpx;
+  height: 100%;
+}
+
+.money {
+  font-size: 70rpx;
+  color:#D33B33;
+  line-height: 100rpx;
+}
+
+.tip {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color:#979797;
+}

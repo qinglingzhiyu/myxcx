@@ -1,0 +1,100 @@
+/* pages/message-detail/message-detail.wxss */
+.remind-list {
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  padding: 32rpx;
+  border-bottom: 1rpx solid #C1FBFF;
+}
+
+.remind-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.remind-content {
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+  margin-left: 36rpx;
+  line-height: 50rpx;
+}
+
+.remind-user {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.remind-bg {
+  position: absolute;
+  right: 20rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+  font-size: 22rpx;
+  line-height: 38rpx;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.remind-detail {
+  font-size: 24rpx;
+  line-height: 34rpx;
+  width: 408rpx;
+  text-align:left;
+}
+
+.remind-time {
+  font-size: 24rpx;
+  color:#979797;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx;
+} 
+
+.empty-bg {
+  margin-top: 106rpx;
+  width: 268rpx;
+  height: 268rpx;
+}
+
+.empty-title {
+  font-size: 28rpx;
+  margin-top: 94rpx;
+}
+
+.empty-title::before,.empty-title::after {
+  content: "——————";
+  margin: 0 30rpx;
+  color:#70707077;
+}
+
+.empty-content {
+  margin-top: 16rpx;
+  width: 384rpx;
+  font-size: 32rpx;
+  text-align: center;
+}
+
+.empty-btn {
+  font-size: 32rpx;
+  color:#fff;
+  line-height: 60rpx;
+  padding: 0 32rpx;
+  background-color: #FF5050;
+  border-radius: 46rpx;
+  margin-top: 38rpx;
+}
+
+.on::before{
+  content: "●";
+  color:#FF5050;
+  margin-right: 10rpx;
+}

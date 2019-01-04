@@ -1,0 +1,10 @@
+/* components/emoticon/emotion.wxss */
+.emji {
+  display: flex;
+  flex-wrap: wrap;
+}
+.img {
+  padding: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+}

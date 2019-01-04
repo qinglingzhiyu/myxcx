@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText":"越早越优惠",
+    "usingComponents": {
+      "mask": "../../components/mask/mask",
+      "coupon":"../../components/coupon/coupon",
+      "use-coupon": "../../components/use-coupon/use-coupon"
+    }
+}

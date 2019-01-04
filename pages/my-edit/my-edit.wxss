@@ -1,0 +1,136 @@
+/* pages/my-edit/my-edit.wxss */
+.main {
+  width: 100%;
+  background-color: #F8F8F8;
+  padding-bottom: 150rpx;
+}
+
+.top {
+  font-size: 28rpx;
+  line-height: 60rpx;
+  background-color: #000;
+  opacity: 0.6;
+  color: #fff;
+}
+
+.btn {
+  color:#00FFF6;
+}
+
+.top-img {
+  width: 25rpx;
+  height: 25rpx;
+  margin-left: 20rpx;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24rpx;
+  padding-bottom: 24rpx;
+}
+
+.avatar-img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 32rpx;
+  margin: 16rpx 0;
+  font-weight: 700;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+}
+
+.label-text {
+  font-size: 26rpx;
+  color:#3FC1C9;
+  border: 1rpx solid #3FC1C9;
+  padding: 4rpx 20rpx;
+  margin-right: 24rpx;
+  border-radius: 6rpx;
+}
+
+.content-list {
+  background-color: #fff;
+  padding:0 32rpx 30rpx;
+  line-height: 100rpx;
+  font-size: 32rpx;
+
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #7070703a;
+}
+
+.content-title {
+  color:#979797;
+}
+
+/* 动态 */
+.dynamic {
+  
+}
+
+.dy-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 92rpx;
+  padding: 0 30rpx;
+  color:#979797;
+  font-size: 32rpx;
+}
+.dy-more {
+  font-size: 24rpx;
+  color:#979797;
+}
+
+.dy-img {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fff;
+  padding: 30rpx;
+}
+
+.dy-img > image {
+  width: 140rpx;
+  height: 140rpx;
+  margin-right:30rpx;
+  border-radius: 10rpx;
+}
+
+/* 个人介绍 */
+.in-title {
+  line-height: 92rpx;
+  padding: 0 30rpx;
+  color:#979797;
+  font-size: 32rpx;
+}
+
+.in-content {
+  background-color: #fff;
+  padding: 30rpx;
+}
+
+.bottom-btn {
+  position: fixed;
+  bottom: 0;
+  font-size: 36rpx;
+  background: linear-gradient(#FF4B41, #E23A31);
+  line-height: 100rpx;
+  border-radius: 0rpx;
+  text-align: center;
+  width: 100%;
+  color:#fff;
+}

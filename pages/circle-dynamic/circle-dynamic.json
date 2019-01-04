@@ -1,0 +1,8 @@
+{
+  "onReachBottomDistance":1,
+  "enablePullDownRefresh":true,
+  "usingComponents": {
+    "mask": "../../components/mask/mask",
+    "comment": "../../components/comment/comment"
+  }
+}

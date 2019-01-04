@@ -1,0 +1,77 @@
+<!--pages/my/my.wxml-->
+<import src="../../template/tabBar-template/tabbar.wxml"/>
+<template is="tabBar" data="{{tabBar:bindData.tabBar}}"/>
+
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="main">
+     <!-- 头像名字 start -->
+    <button form-type="submit"
+            data-userid="{{userData.userId}}"
+            data-cometo="edit"
+            class="avatar"
+            bindtap="goPageWithMyEdit"
+    >
+      <image class="avatar-img" src="{{userData.avatar}}" />
+      <text class="user-name">{{userData.occupation}}</text>
+    </button>
+    <!-- 头像名字 end -->
+
+    <!-- 编辑 start -->
+    <button class="btn-common" form-type="submit" data-userid="{{userData.userId}}" bindtap="goPageWithPersonInfo">
+      <image class="img-common" mode="widthFix" src="/images/my-icon/edit.png"/>编辑相亲资料
+    </button>
+    <!-- 编辑 end -->
+
+    <!-- 分享 start -->
+    <button class="btn-common"
+            form-type="submit"
+            data-cometo="share"
+            bindtap="goPageWithMyEdit"
+            data-userid="{{userData.userId}}"
+    >
+      <image class="img-common" mode="widthFix" src="/images/my-icon/share.png" />分享相亲名片
+    </button>
+    <!-- 分享 end -->
+
+    <!-- 动态 start  --> <!-- doto -->
+    <button class="btn-common" form-type="submit" data-userid="{{userData.userId}}"  bindtap="goPageWithMyDynamic">
+      <image class="img-common" mode="widthFix" src="/images/my-icon/dynamic.png" />我的动态
+    </button>
+    <!-- 动态 end -->
+
+    <!-- 优惠券 start -->
+    <button class="btn-common" form-type="submit" bindtap="goPageWithCupons">
+      <image class="img-common"  mode="widthFix" src="/images/my-icon/coupon.png" />我的优惠券
+    </button>
+    <!-- 优惠券 end -->
+
+    <!-- 绑定手机 start -->
+    <button class="btn-common" form-type="submit" bindtap="bindPhone">
+      <image class="img-common" mode="widthFix" src="/images/my-icon/bind.png" />绑定手机 <text class="red-message">绑定后可免费使用大亲家app</text>
+    </button>
+    <!-- 绑定手机 end -->
+
+    <!-- 意见反馈 start -->
+    <button class="btn-common" form-type="submit"  bindtap="goPageWithConsulting">
+      <image class="img-common" mode="widthFix" src="/images/my-icon/feedback.png" />意见反馈
+    </button>
+    <!-- 意见反馈 end -->
+
+    <!-- 牵线赚钱 start -->
+    <navigator target="miniProgram" path="pages/openlist"
+               class="btn-common" app-id="{{qxAppid}}" version="trial" hover-class="none">
+     <image class="img-common" mode="widthFix" src="/images/my-icon/money.png" />我要牵线赚钱
+    </navigator>
+    <!-- 牵线赚钱 end -->
+
+    <!-- 下载app start -->
+    <!-- <button class="btn-common" form-type="submit" bindtap="goPageWithDown">
+      <image class="img-common" mode="widthFix" src="/images/my-icon/app.png" />下载大亲家APP<text class="red-message">免费使用</text>
+    </button> -->
+    <!-- 下载app end -->
+  </view>
+</form>
+
+<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
+<bind-phone wx:if="{{isCloseByLogin}}" bind:bindPhone="goLoginByPhone" />
+<warm wx:if="{{isCloseByWarm}}" bind:bindWarm="goLoginByWarm" />

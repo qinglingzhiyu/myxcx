@@ -1,0 +1,51 @@
+/**app.wxss**/
+@import "/template/tabBar-template/tabbar.wxss";
+view,text,button,input,picker {
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,STHeiTi,sans-serif;
+}
+
+button {
+    content: "";
+    border: 0px;
+    padding: 0;
+    margin: 0;
+    line-height: 20px;
+    background: none;
+    overflow: visible;
+    box-sizing: inherit;
+    border-radius: 20rpx;
+}
+
+button::after {
+    border: none;
+}
+
+.button-hover {
+    background-color: transparent;
+}
+
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked{
+   border: none;
+   background: red;
+}
+
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked::before{
+   border-radius: 50%;/* 圆角 */
+   width: 46rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   height: 46rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   line-height: 46rpx;
+   text-align: center;
+   font-size:30rpx; /* 对勾大小 30rpx */
+   color:#fff; /* 对勾颜色 白色 */
+   background: #f00;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
+}
+
+page{
+    padding-bottom:1rpx; /*解决 margin-bottom 失效的问题*/
+}
+  
+

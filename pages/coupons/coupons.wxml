@@ -1,0 +1,27 @@
+<!--pages/coupons/coupons.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <block wx:if="{{isEmpty}}">
+    <view class="empty">
+      <text class="empty-title">您还没有优惠券，去联系客服申请吧！</text>
+      <button class="empty-btn"  
+              form-type="submit" 
+              open-type="contact"
+              send-message-title="添加客服微信，立即申请进圈优惠券"
+              send-message-img="/images/contact.png"
+              show-message-card="true"
+      >申请优惠券</button>
+    </view>
+  </block>
+  <block wx:if="{{!isEmpty}}" wx:for="{{couponList}}" wx:key="index">
+    <button class="main" bindtap="goPageWithCircle">
+      <image class="bg" src="/images/coupon-red.png" />
+      <view class="list">
+        <text class="money">¥{{item.money}}</text>
+        <view class="tip">
+          <text class="tip-title">{{item.notice}}</text>
+          <text class="tip-time">{{item.expired}}到期</text>
+        </view>
+      </view>
+    </button>
+  </block>
+</form>

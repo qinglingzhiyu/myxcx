@@ -1,0 +1,1 @@
+<image animation="{{animationData}}"  style="{{style}}" class="main" src="{{images}}" />

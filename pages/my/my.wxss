@@ -1,0 +1,55 @@
+/* pages/my/my.wxss */
+.main {
+  width: 100%;
+  background-color: #F8F8F8;
+  padding-bottom: 150rpx;
+}
+
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 24rpx;
+}
+
+
+.avatar-img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 32rpx;
+  margin-top: 16rpx;
+  font-weight: 700;
+  padding-bottom: 32rpx;
+}
+
+.btn-common {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  background-color: #fff;
+  font-size: 32rpx;
+  padding-left: 32rpx;
+  line-height: 92rpx;
+  border-radius: 0;
+  margin-bottom: 15rpx;
+}
+
+.img-common {
+  position: relative;
+  width: 36rpx;
+  margin-right: 32rpx;
+}
+
+.red-message {
+  color:#FF5050;
+  margin-left:16rpx;
+  font-size: 28rpx;
+}
+
+
+
+

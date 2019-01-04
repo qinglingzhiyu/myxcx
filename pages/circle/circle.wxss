@@ -1,0 +1,82 @@
+/* 我的圈子 */
+
+.circle {
+  margin: 38rpx 38rpx 60rpx;
+}
+
+.title {
+  font-size: 48rpx;
+  font-weight: 700rpx;
+  padding-left: 20rpx;
+  line-height: 48rpx;
+  border-left: 10rpx solid #ff6d6d;
+  margin: 32rpx 0;
+}
+
+.list {
+  display: flex;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.11);
+  padding: 2rpx;
+  border-radius: 20rpx;
+  margin-bottom: 32rpx;
+  text-align: left;
+}
+
+.bg {
+  width: 198rpx;
+  height: 198rpx;
+  border-top-left-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 440rpx;
+  padding: 16rpx 24rpx;
+}
+
+.content-title {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.content-tip {
+  font-size: 24rpx;
+  color: #979797;
+  margin-top: 24rpx;
+}
+
+.on ::before {
+  content: '●';
+  width: 14rpx;
+  height: 14rpx;
+  color: #f80;
+  margin-right: 10rpx;
+}
+
+.content-rec {
+  font-size: 24rpx;
+  color:#FF8800;
+  line-height: 48rpx;
+}
+
+.content-introduce {
+  font-size: 24rpx;
+  color:#979797;
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.content-img {
+  position: absolute;
+  width: 70rpx;
+  height: 70rpx;
+  right: 0;
+  top:0;
+}

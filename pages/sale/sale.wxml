@@ -1,0 +1,95 @@
+<!--pages/sale/sale.wxml-->
+<view class="main">
+  <!-- banner start -->
+  <view class="banner">
+    <image class="banner-bg" src='/images/icon/trumpet_red.png' />
+    <swiper class="banner-content" vertical autoplay circular interval="3000">
+      <block wx:for="{{bannerList}}" wx:key="index">
+        <swiper-item>{{item}}</swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- banner end -->
+
+  <!-- sale start -->
+  <view class="sale">
+    <image class="sale-bg" src="/images/red.png" />
+    <view class="sale-title font34">圈子名称: {{saleData.name}}</view>
+    <view class="sale-price">当前价格: {{saleData.newprice}}元
+      <text style="color:#FBFF95;margin-left:30rpx" wx:if="{{couponData.isOnSale}}">已优惠 <text style="font-size:48rpx">{{couponData.money}}</text> 元</text>
+    </view>
+    <view wx:if="{{couponData.isOnSale}}" class="count-down">优惠券倒计时: <text class="count-time">{{couponData.deadline}}</text></view>
+    <view class="sale-content">
+      <view wx:for="{{saleData.declaration}}" wx:key="index">{{item}}</view>
+    </view>
+    <view class="sale-name">
+      <text class="user">宣言</text>
+    </view>
+  </view>
+  <!-- sale end -->
+
+  <!-- price-rule start -->
+  <view class="price-rule">
+    <image class="rule-bg" src="/images/blue.png" />
+    <view class="rule-title">定价规则</view>
+    <view class="rule-content">
+      <view class="content-left">
+        <view class="left-content">
+          <text>{{saleData.p1[0]}}</text>
+          <text>{{saleData.p1[1]}}元/人</text>
+        </view>
+        <view class="left-content">
+          <text>{{saleData.p2[0]}}</text>
+          <text>{{saleData.p2[1]}}元/人</text>
+        </view>
+        <view class="left-content">
+          <text>{{saleData.p3[0]}}</text>
+          <text>{{saleData.p3[1]}}元/人</text>
+        </view>
+        <view class="left-content">
+          <text>{{saleData.p4[0]}}</text>
+          <text>{{saleData.p4[1]}}元/人</text>
+        </view>
+      </view>
+      <view class="content-right">
+        <view class="right-title">价值</view>
+        <view class="right-content">越先进入越早挑选真爱无价</view>
+      </view>
+    </view>
+  </view>
+  <!-- price-rule end -->
+
+  <!-- 优惠券 start  -->
+  <view class="coupon">
+    <button class="select" bindtap="powerDrawer" data-statu="open">
+      <image class="select-bg" mode="widthFix" src="/images/coupon.png" />
+      <text class="select-title">优惠券</text>
+      <text class="select-content">{{couponData.tip}}</text>
+      <image class="select-more" mode="widthFix" src="/images/icon/price-more.png" />
+    </button>
+    <view class="pay">
+      <image class="pay-bg" src="/images/icon/weChat.png" />
+      <text class="pay-title">微信支付</text>
+      <text class="pay-content">已选择</text>
+      <image class="pay-on" src="/images/icon/pay_succ.png" />
+    </view>
+  </view>
+  <!-- 优惠券 end -->
+
+  <!-- 付款须知 start -->
+  <view class="notice">
+    <view class="notice-title">付款须知</view>
+    <view class="notice-content">1. 圈主定期组织线下聚会。</view>
+    <view class="notice-content">2. 圈内全都是符合条件的人，找到儿媳/女婿，指日可待！</view>
+    <view class="notice-content">3. 帮助他人，还能赚钱。</view>
+  </view>
+  <!-- 付款须知 end -->
+</view>
+<!-- 确认支付 start -->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <button class="comfirm-pay" form-type="submit" bindtap="goPageWithPersonInfo">确认支付</button>
+</form>
+<!-- 确认支付 end -->
+<view class="mask" wx:if="{{isCloseByMask}}" catchtouchmove="true" catchtap="true"/>
+<coupon wx:if="{{isCloseBycoupon}}" firstCoupon="{{firstCouponData}}" bind:MyFirstCoupon="onFirstCoupon" />
+<use-coupon animation="{{animationData}}" couponList="{{couponListData}}"wx:if="{{isCloseByUseCoupon}}" bind:myList="closeCouponList" />

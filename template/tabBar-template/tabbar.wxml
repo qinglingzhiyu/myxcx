@@ -1,0 +1,19 @@
+<template name="tabBar">
+  <view class="tabBar">
+    <block wx:for="{{tabBar}}" wx:for-item="item" wx:key="tabBar">
+      <view class="tabBar-item">
+        <button data-url="{{item.pagePath}}" 
+                open-type="{{item.userInfo}}" 
+                bindtap="{{item.current== 1?'':'goOtherPages'}}" 
+                form-type="submit" 
+                bindgetuserinfo="goOtherPagesWithAuthor">
+          <view>
+            <image class="icon" src='{{item.iconPath}}'></image>
+          </view>
+          <view class="{{item.current== 1 ? 'tabBartext' :''}}" style='font-size:20rpx'>{{item.text}}</view>
+          <text class="red-point" wx:if="{{item.withPoint}}">●</text>
+        </button>
+      </view>
+    </block>
+  </view>
+</template>

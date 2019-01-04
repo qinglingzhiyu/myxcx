@@ -1,0 +1,2 @@
+<!--pages/down/down.wxml-->
+<web-view src="{{url}}" />

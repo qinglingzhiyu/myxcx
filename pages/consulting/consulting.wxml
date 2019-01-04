@@ -1,0 +1,16 @@
+<!--pages/consulting/consulting.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="main">
+    <view class="title">请填写您的宝贵意见</view>
+    <textarea class="content" placeholder="{{placeholderContent}}" placeholder-class="content-default" name="textarea" />
+    <view class="add-title">添加照片</view>
+      <view class="photo-content">
+        <view class="img" wx:for="{{images}}" wx:key="index">
+          <image src="{{item}}" class="bigimg" bindtap='goPreview' data-index="{{index}}" />
+          <image src="/images/icon/close.png" class="closeimg" bindtap="closeImg" data-index="{{index}}" />
+        </view>
+        <image wx:if="{{isUploading}}" src="/images/icon/default-photo.png" class="defaultimg" bindtap="choosePhoto" />
+      </view>
+    </view>
+  <button class="btn" form-type="submit" >提交</button>
+</form>

@@ -1,0 +1,45 @@
+<!--pages/message-detail/message-detail.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <block wx:if="{{isEmpty}}">
+    <view class="empty">
+      <image class="empty-bg" src="/images/msg-empty.png" />
+      <text class="empty-title">圈子宣言</text>
+      <view class="empty-content">
+        <view>不进圈，成功率20%</view>
+        <view>进圈后，成功率85% </view>
+        <view> 活着就要尽快找到幸福！</view>
+        <view>活着就要让家庭更加美满！</view>
+        <view>这才是人生的意义！</view>
+      </view>
+      <button class="empty-btn" bindtap="goPageWithCircle">加入圈子，发布动态</button>
+    </view>
+  </block>
+  <block wx:if="{{!isEmpty}}">
+    <view class="remind-list" wx:for="{{messageList}}" wx:key="index" bindtap="goPageWithDynamicDetail" data-feedid="{{item.feed_id}}" data-noticeid="{{item.notice_id}}">
+    <button form-type='submit' 
+            catchtap="goPageWithMyEdit"
+            data-btn="留言"
+            data-userId="{{item.send_user_id}}"
+            data-circleId="{{item.circle_id}}"
+            data-navTitle="TA的信息"
+            form-type="submit"
+            class="{{}}">
+      <image class="remind-avatar" src="{{item.send_user_info.avatar}}" />
+    </button>
+      <view class="remind-content">
+        <button class="remind-user"
+                catchtap="goPageWithMyEdit"
+                data-btn="留言"
+                data-userId="{{item.send_user_id}}"
+                data-circleId="{{item.circle_id}}"
+                data-navTitle="TA的信息"
+                form-type="submit">
+          {{item.send_user_info.occupation}}</button>
+        <text class="remind-detail {{item.on}}">{{item.content}}</text>
+        <text class="remind-time">{{item.create_time}}</text>
+      </view>
+      <image wx:if="{{item.isPhoto}}" class="remind-bg" src="{{item.feed_image}}" />
+      <text wx:if="{{!item.isPhoto}}" class="remind-bg">{{item.feed_image}}</text>
+    </view>
+  </block>
+</form>

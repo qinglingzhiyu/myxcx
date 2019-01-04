@@ -1,0 +1,55 @@
+/* pages/circle-dynamic-release/circle-dynamic-release.wxss */
+.main {
+  margin: 32rpx;
+}
+
+.content {
+  border: 1rpx solid #fff
+}
+
+.add-img {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.release {
+  background: #D33B33;
+  font-size: 36rpx;
+  color:#fff;
+  line-height: 88rpx;
+  border-radius: 10rpx;
+  margin-top: 100rpx;
+}
+
+.photo-content {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.img {
+  position: relative;
+  width: 153rpx;
+  height: 153rpx;
+  margin: 20rpx 19rpx 20rpx 0;
+}
+
+.bigimg{
+ width: 100%;
+ height: 100%;
+ border-radius: 10rpx;
+}
+
+.defaultimg{
+   width: 153rpx;
+   height: 153rpx;
+}
+
+.closeimg{
+  position: absolute;
+  top:-10rpx;
+  right: -8rpx;
+  width: 20rpx;
+  height: 20rpx;
+}

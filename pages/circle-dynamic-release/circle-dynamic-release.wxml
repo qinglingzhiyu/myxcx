@@ -1,0 +1,14 @@
+<!--pages/circle-dynamic-release/circle-dynamic-release.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="main">
+    <textarea class="content" placeholder="输入文字" name="content" />
+    <view class="photo-content">
+      <view class="img" wx:for="{{images}}" wx:key="index">
+        <image src="{{item}}" class="bigimg" bindtap='goPreview' data-index="{{index}}" />
+        <image src="/images/icon/close.png" class="closeimg" bindtap="closeImg" data-index="{{index}}" />
+      </view>
+      <image wx:if="{{isUploading}}" src="/images/icon/default-photo.png" class="defaultimg" bindtap="choosePhoto" />
+    </view>
+    <button class="release" form-type="submit">发布</button>
+  </view>
+</form>

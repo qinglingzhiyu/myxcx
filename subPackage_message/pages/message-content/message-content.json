@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "工程师",
+  "enablePullDownRefresh":true,
+  "usingComponents": {
+    "emotion": "../../../components/emotion/emotion"
+  }
+}

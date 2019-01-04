@@ -1,0 +1,58 @@
+/* components/rule-toast/rule-toast.wxss */
+.toast {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top:350rpx;
+  left:75rpx;
+  width: 600rpx;
+  height: 400rpx;
+  background-color: rgb(255, 248, 248);
+  font-size: 36rpx;
+  font-weight: 700;
+  border-radius: 20rpx;
+  z-index: 9999;
+}
+
+.toast-img {
+  width: 60rpx;
+  height: 60rpx;
+  margin-top: 16rpx;
+} 
+
+.toast-title {
+  font-size: 28rpx;
+  font-weight: normal;
+}
+
+.toast-content {
+  line-height: 60rpx;
+  margin-top: 20rpx;
+}
+
+.toast-content-bottom {
+   line-height: 60rpx;
+}
+
+.toast-btn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  line-height: 112rpx;
+  background: linear-gradient(#FF4B41, #E23A31);
+  color:#fff;
+  border-radius: 0;
+  border-bottom-right-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+}
+
+.toast-close {
+  position: absolute;
+  top:0;
+  right: 0;
+  width: 20rpx;
+  height: 20rpx;
+  padding: 38rpx;
+}

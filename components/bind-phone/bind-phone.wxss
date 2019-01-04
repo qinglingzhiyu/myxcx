@@ -1,0 +1,57 @@
+/* components/bind-phone/bind-phone.wxss */
+/* 登录 */
+.login {
+  position: fixed;
+  top: 350rpx;
+  z-index: 9001;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  margin-left: 90rpx;
+  width:500rpx;
+}
+
+.user {
+  width: 400rpx;
+  margin: 76rpx 0;
+  border-bottom: 1rpx solid #70707049;
+}
+
+.verification {
+  display: flex;
+  align-items: center;
+}
+
+.ver-input {
+  width: 300rpx;
+  border-bottom: 1rpx solid #70707049;
+}
+
+.ver-btn {
+  color: #979797;
+  font-size: 26rpx;
+  background-color: #EFEFEF;
+  line-height: 44rpx;
+  width: 172rpx;
+  align-items: center;
+}
+
+.close {
+  position: absolute;
+  width: 20rpx;
+  height: 20rpx;
+  right: 0;
+  top: 0;
+  padding: 40rpx;
+}
+
+.affirm {
+  font-size: 28rpx;
+  width: 208rpx;
+  line-height: 72rpx;
+  background-color: #FF958F;
+  color:#fff;
+  margin-top: 76rpx;
+  border-radius: 36rpx;
+  margin-left: 141rpx;
+}

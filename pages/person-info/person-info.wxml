@@ -1,0 +1,87 @@
+<!--pages/person-info/person-info.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <!-- 头像 start -->
+  <view class="avatar form-flex ">
+    <text class="avatar-title">头像</text>
+    <button class="avatar-btn" bindtap="chooeseImage" name="avatar">
+      <image class="avatar-img" src="{{personInfo.avatarUrl}}" />
+    </button>
+  </view>
+  <!-- 头像 end -->
+
+  <!-- 性别 start -->
+  <view class="gender form-flex">
+    <text class="gender-title">性别</text>
+    <radio-group name="gender" bindchange="changeGender">
+      <label style="margin-right:50rpx">
+        <radio value="男" checked="{{personInfo.checked}}" disabled="{{personInfo.disabled}}"/>男</label>
+      <label>
+        <radio value="女" checked="{{!personInfo.checked}}" disabled="{{personInfo.disabled}}"/>女</label>
+    </radio-group>
+  </view>
+  <!-- 性别 end -->
+
+  <!-- 出生日期 start -->
+  <view class="birthday form-flex">
+    <text>出生日期</text>
+    <picker class="font-red" mode="date" value="{{personInfo.birthday}}" start="1960-01-01" end="2000-12-31" bindchange="onDateChange" name="birthday">
+      {{personInfo.birthday}}
+    </picker>
+  </view>
+  <!-- 出生日期 end -->
+
+  <!-- 职业 start -->
+  <view class="profession form-flex ">
+    <text>职业</text>
+    <input class="profession-input font-red" placeholder='请填写' placeholder-style="color:#D33B33;right:0" maxlength="10" name="occupation" value="{{personInfo.occupation}}" bindblur="notBlur"/>
+  </view>
+  <!-- 职业 end -->
+
+  <!-- 居住地 start -->
+  <view class="place form-flex">
+    <text>居住地</text>
+    <picker class="font-red" mode="region" value="{{personInfo.residence}}" custom-item="{{customItem}}" bindchange="onResidenceChange" name="residence">{{personInfo.residence}}</picker>
+  </view>
+  <!-- 居住地 end -->
+
+  <!-- 身高 start -->
+  <view class="form-flex">
+    <text>身高</text>
+    <picker class="font-red" value="{{heightIndex}}" range="{{heightRange}}" bindchange="onHeightChange" name="height">
+      {{heightRange[heightIndex]}}
+    </picker>
+  </view>
+  <!-- 身高 end -->
+
+  <!--学历 start -->
+  <view class="education form-flex">
+    <text>学历</text>
+    <picker class="font-red" value="{{educationIndex}}" range="{{educationRange}}" bindchange="onEducationChange" name="education">
+      {{educationRange[educationIndex]}}
+    </picker>
+  </view>
+  <!-- 学历 end -->
+
+  <!-- 照片 start -->
+  <view class="photo">
+    <view class="photo-title">生活照
+      <text style="color:#D33B33">(请添加照片)</text>
+    </view>
+    <view class="photo-content">
+      <view class="img" wx:for="{{personInfo.images}}" wx:key="index">
+        <image src="{{item.src}}" class="bigimg" bindtap='goPreview' data-index="{{index}}"/>
+        <image src="/images/icon/close.png" class="closeimg" bindtap="closeImg" data-index="{{index}}"/>
+      </view>
+      <image wx:if="{{isUploading}}" src="/images/icon/default-photo.png" class="defaultimg"  bindtap="choosePhoto"/>
+    </view>
+  </view>
+  <!-- 照片 end -->
+
+  <!-- 个性介绍 start -->
+  <view class="introduce">
+    <view class="introduce-title">个性介绍</view>
+    <textarea class="introduce-content" placeholder="请用一段话来介绍您的孩子" placeholder-style="color:#D33B33" maxlength="240" name="textarea" value="{{personInfo.descr}}" cursor-spacing="10rpx" bindinput="changeTextarea"/>
+  </view>
+  <!-- 个性介绍 end -->
+  <button class="submit-btn" form-type="submit">保存</button>
+</form>

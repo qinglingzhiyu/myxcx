@@ -1,0 +1,9 @@
+<!--pages/coast-content/coast-content.wxml-->
+<view class="title">2019年法定节假日</view>
+<block wx:for="{{date}}" wx:key="index">
+  <view class="list">
+    <text class="item-title">{{item.title}}</text>
+    <text class="item-day">放假时间:{{item.day}}</text>
+  </view>
+
+</block>

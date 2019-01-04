@@ -1,0 +1,130 @@
+/* pages/message/message.wxss */
+.main {
+  margin: 32rpx 32rpx 100rpx;
+}
+
+.dynamic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid rgba(174, 174, 174, 0.2);
+  border-radius: 0;
+}
+
+.dy-bg {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.dy-title {
+  font-size: 32rpx;
+  margin-left: 32rpx;
+}
+
+.dy-content {
+  font-size: 24rpx;
+  color:#979797;
+  margin-left: 100rpx;
+}
+
+.content ::before {
+  content: "●";
+  color:#FF5050;
+  margin-right: 10rpx;
+}
+
+.right {
+  position: absolute;
+  right: 0;
+  width: 34rpx;
+  height: 34rpx;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-bg {
+  width: 268rpx;
+  height: 268rpx;
+  margin-top: 106rpx;
+}
+
+.empty-content {
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  color:#A5A5A5;
+}
+
+/* 消息列表 */
+.msg {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 36rpx 0;
+  border-bottom: 1rpx solid #9797972a;
+  border-radius: 0;
+}
+
+.msg-bg {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.msg-right {
+  margin-left: 24rpx;
+  width: 550rpx;
+}
+
+.msg-title {
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+  margin-bottom: 12rpx;
+}
+
+.msg-user {
+  font-size: 32rpx;
+}
+
+.msg-time {
+  font-size: 20rpx;
+  color:#979797;
+}
+
+.msg-content {
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  color: #979797;
+}
+
+.msg-count {
+  width: 28rpx;
+  height: 28rpx;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  color:#fff;
+  text-align: center;
+  background-color: #FF5050;
+  border-radius: 50%;
+}
+
+.delBtn {
+  position: fixed;
+  bottom: 200rpx;
+  background-color:#fff;
+  padding: 30rpx 200rpx;
+  z-index: 9999;
+  border-radius: 15rpx;
+  margin-left: 137rpx;
+}
+
+.msg-detail{
+  width: 400rpx;
+  text-align: justify;
+}

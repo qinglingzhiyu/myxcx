@@ -1,0 +1,54 @@
+/* pages/bind-phone/bind-phone.wxss */
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bg {
+  margin-top: 98rpx;
+  width: 262rpx;
+  height: 312rpx;
+}
+
+.title {
+  font-size: 24rpx;
+  color:#979797;
+  margin-top: 86rpx;
+}
+
+.phone {
+  font-size: 50rpx;
+}
+
+.content {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  margin-top: 16rpx;
+  width: 600rpx;
+  text-align: center;
+  padding-bottom: 186rpx;
+}
+
+.toast-title {
+  font-size: 28rpx;
+  margin-top: 32rpx;  
+}
+
+.toast-content {
+  font-size: 32rpx;
+  margin-top: 16rpx;
+  width: 600rpx;
+  text-align: center;
+}
+
+.goApp {
+  font-size: 34rpx;
+  color:#FFf;
+  line-height: 61rpx;
+  padding: 0 22rpx;
+  background-color: #FF5050;
+  border-radius: 6rpx;
+  margin-top: 32rpx;
+}

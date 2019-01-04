@@ -1,0 +1,15 @@
+<!--components/warm/warm.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="warm" catchtouchmove="ture">
+    <image class="warm-img"src="/images/icon/toast.png" />
+    <text class="warm-title">温馨提示</text>
+    <text class="warm-content">系统检测到您的手机号已在大亲家 APP注册，如果绑定该手机号，您需 要选择保留APP账号或者小程序账号 的个人信息。绑定成功后，APP账号 和小程序账号数据互通，您可以用该 微信号登陆大亲家app使用圈子功 能。</text>
+    <text class="consulte">*请选择您要保留的资料：</text>
+    <radio-group class="warm-radio" name="saveType">
+      <label style="margin-right:50rpx"><radio value="1"/>相亲小红圈</label>
+      <label><radio value="2" checked/>大亲家APP</label>
+    </radio-group>
+    <button class="affirm" form-type="submit">确认绑定</button>
+    <image class="close" src="/images/icon/close.png" bindtap="closeLogin"/>
+  </view>
+</form>

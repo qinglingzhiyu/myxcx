@@ -1,0 +1,278 @@
+/* pages/sale/sale.wxsmain*/
+.mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  z-index: 90;
+  opacity: 0.5;
+}
+
+.main {
+  background-color: #EFEFEF;
+  width: 100%;
+  padding-bottom: 100rpx;
+}
+
+/* banner */
+.banner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 66rpx;
+  background-color: #E5E5E5;
+}
+
+.banner-bg {
+  width: 34rpx;
+  height: 34rpx;
+  margin-left: 37rpx;
+}
+
+.banner-content {
+  margin-left: 20rpx;
+  width: 640rpx;
+  height: 66rpx;
+  font-size: 32rpx;
+  line-height: 66rpx;
+}
+
+/* sale */
+.sale {
+  position: relative;
+  width: 710rpx;
+  margin: 20rpx 20rpx 0;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.137);
+  border-top-right-radius:30rpx; 
+  border-top-left-radius:30rpx;
+}
+
+.sale-bg {
+  display: block;
+  width: 100%;
+  height: 160rpx;
+  border-top-right-radius:30rpx; 
+  border-top-left-radius:30rpx;
+}
+
+.sale-title {
+  position: absolute;
+  color:#fff;
+  top:32rpx;
+  left:34rpx;
+  font-size: 34rpx;
+}
+
+.sale-price {
+  position: absolute;
+  color:#fff;
+  top: 95rpx;
+  left:34rpx;
+  font-size: 34rpx;
+}
+
+.count-down {
+  font-size: 34rpx;
+  color: #FBFF95;
+  background: linear-gradient(#67D298,#57C188);
+  padding: 14rpx 34rpx;
+  letter-spacing:5rpx;
+}
+
+.count-time {
+  font-size: 48rpx;
+  font-weight: 700;
+  letter-spacing:10rpx;
+  
+}
+
+.sale-content {
+  background-color: #fff;
+  padding: 30rpx;
+  font-size: 32rpx;
+  line-height: 52rpx;
+  border-bottom-right-radius: 15rpx;
+  border-bottom-left-radius: 15rpx;
+}
+
+.sale-name {
+  position: absolute;
+  font-size: 28rpx;
+  bottom: 0;
+  right: 0;
+  width: 83rpx;
+  height: 83rpx;
+  background-color: #E44035;
+  line-height: 83rpx;
+  text-align: center;
+  border-top-left-radius: 150%;
+  color: #fff;
+}
+
+.user {
+  position: relative;
+  left: 10rpx;
+  top: 5rpx;
+}
+
+/* 定价规则 */
+.price-rule {
+  position: relative;
+  width: 100%;
+  margin-top: 30rpx;
+}
+
+.rule-bg {
+  width: 100%;
+  height: 80rpx;
+  display: block;
+}
+
+.rule-title {
+  position: absolute;
+  top:0;
+  font-size: 34rpx;
+  color:#fff;
+  line-height: 80rpx;
+  margin-left: 27rpx;
+}
+
+.rule-content {
+  display: flex;
+}
+
+.content-left {
+  width: 514rpx;
+  line-height: 70rpx;
+  background-color: #FFF9F1
+}
+
+.left-content {
+  border-bottom: 1rpx solid #DADADA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:  0 40rpx 0 20rpx;
+}
+
+.content-left >.left-content:nth-child(2n-1) {
+  background-color: #FFFFFF
+}
+
+.content-right {
+  width: 235rpx;
+  background-color: #FFF9F1;
+  text-align: center;
+  border-bottom: 1rpx solid #DADADA;
+  border-left: 1rpx solid #DADADA;
+}
+.right-title {
+  color:#818181;
+  font-size: 34rpx;
+}
+.right-content {
+  font-size: 36rpx;
+  margin: 40rpx 40rpx 0;
+}
+
+/* 优惠券 */
+.coupon {
+  margin-top: 20rpx;
+  width: 100%;
+  background-color: #fff;
+
+}
+
+.select,.pay {
+  display: flex;
+  align-items: center;
+  height: 104rpx;
+  border-bottom: 1rpx solid #EFEFEF;
+  padding: 0 20rpx;
+}
+
+.select-bg {
+  width: 80rpx;
+}
+
+.select-title,.pay-title {
+  font-size: 36rpx;
+  margin-left: 39rpx;
+} 
+
+.select-content {
+  font-size: 32rpx;
+  color:#9A9A9A;
+  width: 340rpx;
+  text-align: right;
+}
+
+.select-more {
+  width: 50rpx;
+  margin-left: 50rpx;
+}
+
+.pay-bg {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.pay-content{
+  font-size: 32rpx;
+  color:#9A9A9A;
+  margin-left: 200rpx;
+}
+
+.pay-on {
+  width: 62rpx;
+  height: 62rpx;
+  margin-left: 50rpx;
+}
+
+/* 付款须知 */
+.notice {
+  width: 710rpx;
+  margin: 22rpx 21rpx;
+  background-color: #F7F5F8;
+  border-radius: 15rpx;
+}
+.notice-title {
+  line-height: 83rpx;
+  background-color: #C1C1C1;
+  color:#fff;
+  padding-left: 37rpx;
+  border-right-width: 
+}
+
+.notice-content {
+  padding-left: 37rpx;
+  font-size: 32rpx;
+  line-height: 50rpx;
+}
+.notice > .notice-content:nth-child(2) {
+  margin-top: 33rpx;
+}
+.notice > .notice-content:last-child {
+  padding-bottom: 38rpx;
+}
+
+.comfirm-pay {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  line-height: 98rpx;
+  font-size: 34rpx;
+  background: linear-gradient(#FF4B41, #E23A31);
+  color:#fff;
+  border-radius: 0;
+}
+
+
+
+::-webkit-scrollbar{
+width: 0;
+height: 0;
+color: transparent;
+}

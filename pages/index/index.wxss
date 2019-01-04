@@ -1,0 +1,192 @@
+.main {
+  margin-bottom: 100rpx;
+}
+/* banner */
+.banner {
+  width: 100%;
+  height: 344rpx;
+}
+
+.banner-item image {
+  width: 100%;
+}
+
+/* title */
+.list-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  margin: 24rpx 0 32rpx 32rpx;
+}
+
+/* 选择器 */
+.select {
+  display: flex;
+  padding: 0 60rpx;
+  justify-content: space-between;
+  height: 76rpx;
+  font-size: 34rpx;
+  line-height:76rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid rgba(174, 174, 174, 0.1);
+  box-shadow: 0 0 10rpx rgba(174, 174, 174, 0.4);
+} 
+.picker {
+  width: 300rpx;
+  display: inline-block;
+  margin-left: 30rpx
+}
+
+.select-img {
+  position: relative;
+  width: 32rpx;
+  top:5rpx;
+}
+
+/* 动态样式 */
+.dynamic-list {
+  display: flex;
+  justify-content: space-between;
+  margin: 32rpx;
+  font-size: 28rpx;
+  padding-bottom: 10rpx;
+  border-bottom:  1rpx solid #97979756
+}
+
+.dynamic-avatar {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.dynamic-avatar > image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+
+.dynamic-container {
+  position: relative;
+  width: 82%;
+}
+.dynamic-title {
+  text-align: left;
+  font-size: 32rpx;
+  font-weight: 700;
+  line-height: 44rpx;
+}
+
+.dynamic-content {
+  line-height: 44rpx;
+  letter-spacing:4rpx;
+  margin-top: 24rpx;
+}
+
+.on {
+  color:#007FEE;
+  z-index: 9999;
+}
+
+/* .on{
+  max-height: 180rpx;
+  display:-webkit-box; 
+  overflow:hidden; 
+  -webkit-line-clamp:5;
+  -webkit-box-orient:vertical;
+} */
+
+.dynamic-avatar {
+  display: flex;
+  flex-wrap: wrap;
+ 
+}
+.dynamic-img {
+   display: flex;
+   flex-wrap: wrap;
+   margin-top: 24rpx;
+}
+
+.dynamic-img image {
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 22rpx 22rpx 0;
+  border-radius: 15rpx;
+}
+.dynamic-img image:nth-child(3n){
+  margin-right: 0;
+}
+
+.location {
+  position: absolute;
+  left: 0;
+  font-size: 26rpx;
+  color:#D33B33;
+  line-height: 34rpx;
+}
+
+.like {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50rpx;
+}
+.like-btn,.like-share {
+  color:#979797;
+  font-size: 26rpx;
+}
+
+.like-btn image {
+  position: relative;
+  top: 7rpx;
+  width: 34rpx;
+  margin-right: 8rpx;
+  height: 34rpx;
+}
+
+.like-share image {
+  width: 148rpx;
+  height: 60rpx;
+  vertical-align: middle;
+}
+
+/* 评论列表 */
+.comment-list {
+  display: flex;
+  margin-top: 20rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.075);
+  border-radius: 0;
+} 
+
+.comment-list :last{
+  border-bottom:0;
+}
+
+.coment-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 10rpx;
+  margin-right: 16rpx;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  font-size: 28rpx;
+}
+.comment-title {
+  color: #D33B33;
+  line-height: 36rpx;
+  font-size: 28rpx;
+  text-align: left;
+}
+.comment-message {
+  font-size: 28rpx;
+  align-items: left;
+  line-height: 50rpx;
+  text-align:left;
+}
+
+.dynamic-img > image {
+    height: 150rpx;
+    width: 150rpx;
+}

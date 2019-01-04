@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText":"我的",
+  "usingComponents": {
+    "mask": "../../components/mask/mask",
+    "bind-phone":"../../components/bind-phone/bind-phone",
+    "warm":"../../components/warm/warm"
+  }
+}

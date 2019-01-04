@@ -1,0 +1,16 @@
+<!--components/emoticon/emotion.wxml-->
+<form report-submit="true" 
+      bindsubmit="bindSubmit"
+>
+  <swiper indicator-dots
+          circular
+  >
+    <block wx:for="{{emjiList}}" wx:for-item="subEmjiList" wx:key="index">
+      <swiper-item class="emji">
+        <block wx:for="{{subEmjiList}}" wx:for-item="emji" wx:key="item-index">
+          <image class="img" mode="aspectFit" src="/subPackage_message/images/{{emji.value}}"/>
+        </block>
+      </swiper-item>
+    </block>
+  </swiper>
+</form>

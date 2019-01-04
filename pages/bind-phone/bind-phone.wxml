@@ -1,0 +1,12 @@
+<!--pages/bind-phone/bind-phone.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="main">
+    <image class="bg" src="/images/phone-default.png" />
+    <text class="title">当前绑定手机号</text>
+    <text class="phone">{{phone}}</text>
+    <text class="content">您可以使用该微信号和手机号登录大亲家APP，享受更多更精彩的功能哦！</text>
+    <!-- <text class="toast-title">温馨提醒</text>
+    <text class="toast-content">您可以使用绑定的手机号登录大亲家 APP，26万人在线热聊，期待您的加入！</text>
+    <button class="goApp" form-type="submit">打开APP</button> -->
+  </view>
+</form>

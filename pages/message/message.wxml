@@ -1,0 +1,41 @@
+<!--pages/message/message.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <import src="../../template/tabBar-template/tabbar.wxml" />
+  <template is="tabBar" data="{{tabBar:bindData.tabBar}}" />
+  <view class="main">
+    <!-- 圈子动态 start -->
+    <button class="dynamic" bindtap="goPageWithMessageDetail">
+      <image class="dy-bg" src="/images/msg-dynamic.png" />
+      <text class="dy-title">圈子动态</text>
+      <text wx:if="{{messageData.notice_content}}" class="dy-content {{content}}">{{messageData.notice_content}} </text>
+      <image wx:if="{{messageData.notice_content}}" class="right" src="/images/icon/right.png" />
+    </button>
+    <!-- 圈子动态 end -->
+    <block wx:if="{{isEmpty}}">
+      <view class="empty">
+        <image class="empty-bg" src="/images/msg-empty.png" />
+        <view class="empty-content">您还没有消息，快进圈子找人聊天吧</view>
+      </view>
+    </block>
+    <block wx:if="{{!isEmpty}}" wx:for="{{messageData.conversation}}" wx:key="index">
+      <view class="msg"  bindtap="goPageWithMessageContent" data-withUserId="{{item.with_user_id}}" 
+            data-navtitle="{{item.with_user_info.occupation}}"
+            data-conversationid="{{item.conversation_id}}" bindlongpress="deleteMessage">
+        <image class="msg-bg" src="{{item.with_user_info.avatar}}" />
+        <view class="msg-right">
+          <view class="msg-title">
+            <text class="msg-user">{{item.with_user_info.occupation}}</text>
+            <text class="msg-time">{{item.update_time}}</text>
+          </view>
+          <view class="msg-content">
+            <text class="msg-detail">{{item.last_message}}</text>
+            <text class="msg-count" wx:if="{{item.unread_count>0?true:false}}">{{item.unread_count}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+</form>
+
+<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
+<button class="delBtn" wx:if="{{isDelete}}" bindtap="affirmDelete">删除</button>

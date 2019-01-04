@@ -1,0 +1,69 @@
+<!--pages/my-edit/my-edit.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="main">
+    <!-- <view class="top" wx:if="{{isbanner}}">我正在使用大亲家APP，26万人正在热聊中！
+      <text class="btn">立即打开</text> 
+      <image class="top-img" src="/images/icon/close.png" bindtap="closeBanner"/>
+    </view> -->
+    <!-- 头像名字 start -->
+    <view class="avatar">
+      <image class="avatar-img" bindtap='goPreview' src="{{editInfoData.avatar}}" />
+      <text class="user-name">{{editInfoData.occupation}}</text>
+      <view class="label">
+        <text class="label-text">{{editInfoData.gender}}</text>
+        <text class="label-text">{{editInfoData.birthday}}年</text>
+      </view>
+    </view>
+    <!-- 头像名字 end -->
+
+    <!-- 显示内容 start -->
+    <view class="content-list">
+      <view class="content">
+        <text class="content-title">居住地</text>
+        <text class="content-main">{{editInfoData.residence}}</text>
+      </view>
+      <view class="content">
+        <text class="content-title">身高</text>
+        <text class="content-main">{{editInfoData.height}}cm</text>
+      </view>
+      <view class="content">
+        <text class="content-title">学历</text>
+        <text class="content-main">{{editInfoData.education}}</text>
+      </view>
+    </view>
+    <!-- 显示内容 end -->
+
+    <!-- 动态 start -->
+    <button class="dynamic" form-type="submit" 
+            open-type="getUserInfo" bindgetuserinfo="getUserInfo" 
+            data-cometo="dynamic">
+      <view class="dy-title">
+        <text>动态</text>
+        <view class="dy-more">更多 ></view>
+      </view>
+      <view class="dy-img">
+        <block wx:for="{{editInfoData.images}}" wx:key="index">
+          <image mode="aspectFill" src="{{item.src}}" />
+        </block>
+      </view>
+    </button>
+    <!-- 动态 end -->
+
+    <!-- 个人介绍 start -->
+    <view class="introduce">
+      <view class="in-title">个人介绍</view>
+      <view class="in-content">{{editInfoData.descr}}</view>
+    </view>
+    <!-- 个人介绍 end -->
+  </view>
+  <button class="bottom-btn" 
+          form-type="submit" 
+          data-navtitle="{{editInfoData.occupation}}"
+          open-type="{{share}}" 
+          data-cometo="btn"
+          data-userid="{{userId}}"
+          bindgetuserinfo="getUserInfo" 
+          >{{bottomBtn}}</button>
+</form>
+<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
+<rule-toast wx:if="{{isCloseBytoast}}"  bind:mytoast="mytoast"/>

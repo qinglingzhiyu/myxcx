@@ -1,0 +1,147 @@
+<!--pages/dynamic-detail/dynamic-detail.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="dynamic-list">
+    <button form-type='submit' 
+            bindtap="goPageWithMyEdit"
+            data-userId="{{feedDetailData.user_id}}"
+            data-circleId="{{feedDetailData.circle_id}}"
+            class="dynamic-avatar">
+      <image src="{{feedDetailData.avatar}}" />
+    </button>
+    <!-- 动态右侧部分 start -->
+    <view class="dynamic-container">
+      <view class="title">
+        <button class="dynamic-title"
+                bindtap="goPageWithMyEdit"
+                data-userId="{{feedDetailData.user_id}}"
+                data-circleId="{{feedDetailData.circle_id}}">
+          {{feedDetailData.nickname}}</button>
+        <button class="title-more" wx:if="{{feedDetailData.isShowWithMore}}" bindtap='popDel'>更多</button>
+      </view>
+      <view class="dynamic-content">{{feedDetailData.content}}</view>
+      <view class="dynamic-img">
+          <image  wx:for="{{feedDetailData.images}}" 
+                  mode="aspectFill"
+                  wx:key="i"  
+                  wx:for-item="imageIndex" 
+                  src="{{feedDetailData.images[index]}}" 
+                  bindtap="goPreview" 
+                  data-imageindex="{{imageIndex}}"
+          />
+      </view>
+      <view class="location">{{feedDetailData.circle_name}}</view>
+      <view class="like">
+        <button class="like-btn" 
+                open-type="getUserInfo" 
+                bindgetuserinfo="getUseInfo"
+                form-type='submit'
+                data-feedid="{{feedDetailData.feed_id}}"
+                data-comeTo="interest"
+                data-circleid="{{feedDetailData.circle_id}}"
+        >
+           <image wx:if="{{!feedDetailData.isInterest}}" src="/images/icon/collect.png" mode="aspectFit"/>
+           <image wx:if="{{feedDetailData.isInterest}}" src='/images/icon/collect_on.png' mode="aspectFit"/>感兴趣 {{feedDetailData.like}}
+        </button>
+        <button class="like-btn"
+                open-type="getUserInfo"
+                bindgetuserinfo="getUseInfo"
+                form-type="submit" 
+                data-comeTo="comment"
+                data-feedid="{{feedDetailData.feed_id}}"
+                data-circleid="{{feedDetailData.circle_id}}"
+                data-commentto="0"
+        >
+          <image src="/images/icon/msg.png" mode="widthFix" />评论 {{feedDetailData.comment_count}}
+        </button>
+        <button class="like-share" 
+                open-type="share" 
+                form-type="submit" 
+                data-feedid="{{feedDetailData.feed_id}}" 
+                data-img="{{feedDetailData.images[0]}}"
+                data-sex="{{feedDetailData.user_sex}}"
+        >
+          <image src="/images/index-share.png" mode="aspectFill"/>
+        </button>
+      </view>
+      <block wx:for="{{feedDetailData.comment}}" wx:key="i">
+          <view class="comment-list">
+            <button form-type='submit' 
+                    bindtap="goPageWithMyEdit"
+                    data-userId="{{item.user_id}}"
+                    data-circleId="{{feedDetailData.circle_id}}"
+            >
+              <image class="coment-avatar" src="{{item.user_id_avatar}}" />
+            </button>
+            <view class="comment-content">
+              <button form-type="submit"
+                      bindtap="goPageWithMyEdit"
+                      class="comment-title"
+                      data-userId="{{item.user_id}}"
+                      data-circleId="{{feedDetailData.circle_id}}"
+              >
+                {{item.user_id_nickname}}
+              </button>
+              <button wx:if="{{!item.comment_to_nickname}}"
+                      class="comment-message"
+                      open-type="getUserInfo" 
+                      form-type="submit" 
+                      data-feedid="{{item.feed_id}}"
+                      data-circleId="{{feedDetailData.circle_id}}"
+                      data-commentto="{{item.user_id}}"
+                      data-comeTo="comment"
+                      bindgetuserinfo="getUseInfo"
+              >{{item.content}}</button>
+              <button wx:if="{{item.comment_to_nickname}}" 
+                      class="comment-message"
+                      open-type="getUserInfo" 
+                      form-type="submit" 
+                      data-feedid="{{item.feed_id}}"
+                      data-commentto="{{item.user_id}}"
+                      data-comeTo="comment"
+                      data-circleId="{{feedDetailData.circle_id}}"
+                      bindgetuserinfo="getUseInfo"
+              >
+                <text>回复<text style="color:#D33B33">{{item.comment_to_nickname}}</text>
+                  {{item.content}}
+                </text>
+              </button>
+            </view>
+          </view>
+        </block>
+    </view>
+    <!-- 动态右侧部分 end-->
+  </view>
+
+  <!-- 底部btn start-->
+  <view class="back">
+    <button class="btn-more"  bindtap="goPageWithIndex">更多精选动态</button>
+    <button class="connect" 
+            open-type="getUserInfo" 
+            bindgetuserinfo="getUseInfo"
+            form-type='submit'
+            data-userid="{{feedDetailData.user_id}}"
+            data-comeTo="contact"
+            data-circleid="{{feedDetailData.circle_id}}"
+    >联系TA</button>
+  </view>
+  <!-- 底部btn end -->
+
+  <!-- 2个固定删除弹窗 start-->
+  <button class="del" wx:if="{{del}}">
+    <image class="del-img" mode="widthFix" src="/images/icon/delete.png" />
+  </button>
+  <mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask"></mask>
+  <button wx:if="{{delAffirm}}" 
+          class="delete-btn" 
+          data-feedid="{{feedDetailData.feed_id}}"
+          data-userid="{{feedDetailData.user_id}}"
+          bindtap="deleteDynamic"
+  >删除动态</button>
+  <!-- 2个固定删除弹窗 end -->
+</form>
+
+<!-- 自定义弹窗start -->
+<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
+<rule-toast wx:if="{{isCloseBytoast}}"  bind:mytoast="mytoast"/>
+<comment wx:if="{{isComment}}" commentInfo="{{commentInfo}}" bind:myComment="onComment"/>
+<!-- 自定义弹窗 end -->

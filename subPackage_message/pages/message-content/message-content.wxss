@@ -1,0 +1,145 @@
+/* pages/message-content/message-content.wxss */
+.bg {
+  width: 100%;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  margin: 28rpx 32rpx;
+}
+
+.time {
+  text-align: center;
+  font-size: 20rpx;
+  color: #979797;
+  margin-bottom: 16rpx;
+}
+
+.content {
+  display: flex;
+  margin-bottom: 40rpx;
+}
+
+.content-right {
+  display: flex;
+}
+
+.content-right {
+  flex-direction: row-reverse;
+}
+
+
+.avatar {
+  width: 94rpx;
+  height: 94rpx;
+}
+
+.avatar image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.detail {
+  margin-left: 20rpx;
+
+}
+
+.detail-right {
+  margin-right: 20rpx;
+}
+
+.user {
+  font-size: 24rpx;
+  color: #565656;
+  margin-bottom: 10rpx;
+  margin-left: 20rpx;
+}
+
+
+.user-right {
+  margin-right: 20rpx;
+  text-align: right;
+}
+
+.msg {
+  margin-bottom: 100rpx;
+}
+
+.msg-content {
+  top: 10rpx;
+  font-size: 28rpx;
+  background-color: #FFF6BC;
+  padding: 10rpx 30rpx;
+  line-height: 40rpx;
+  border-radius: 30rpx;
+  max-width: 350rpx;
+  text-align: left;
+  word-wrap: normal;
+}
+
+.msg-img {
+  top: 10rpx;
+  font-size: 28rpx;
+  background-color: #FFF6BC;
+  line-height: 40rpx;
+  border-radius: 30rpx;
+  width: 350rpx;
+  padding: 30rpx;
+}
+
+.msg-right {
+  text-align: left;
+}
+
+
+.fix-bottom {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 96rpx;
+  bottom: 0;
+  background-color: rgb(232, 232, 232);
+  padding: 16rpx 22rpx 16rpx 32rpx;
+  box-sizing: border-box;
+  box-shadow: 0 0 10rpx rgba(232, 232, 232, 0.411);
+}
+
+.fix-input {
+  width: 420rpx;
+  background-color: #fff;
+  height: 64rpx;
+  padding-left: 5rpx;
+}
+
+.photo,
+.expresse {
+  display: flex;
+  align-items: center;
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.photo>image,
+.expresse>image {
+  width: 50rpx;
+  height: 50rpx;
+  margin-left: 10rpx;
+}
+
+.affirm {
+  font-size: 36rpx;
+  line-height: 50rpx;
+  color: #979797;
+  padding: 5rpx 16rpx;
+  border-radius: 5rpx;
+  margin-left: 5rpx;
+}
+
+.affirm_on {
+  background-color: #D33B33;
+  color: #fff;
+}

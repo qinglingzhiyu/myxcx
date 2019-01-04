@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "动态详情",
+  "usingComponents": {
+    "mask": "../../components/mask/mask",
+    "rule-toast": "../../components/rule-toast/rule-toast",
+    "comment": "../../components/comment/comment"
+  }
+}

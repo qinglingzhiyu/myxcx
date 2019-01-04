@@ -1,0 +1,109 @@
+<!--pages/circle-dynamic/circle-dynamic.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="swiper-tab">
+    <button form-type="submit" class="swiper-tab-list {{currentTab==0 ? 'awiper-on' : ''}}" data-current="0" bindtap="swichNav">动态</button>
+    <button form-type="submit" class="swiper-tab-list {{currentTab==1 ? 'awiper-on' : ''}}" data-current="1" bindtap="swichNav">成员</button>
+  </view>
+  <view wx:if="{{showComment}}">
+    <image class="release" src="/images/release-dynamic.png" bindtap="goPageWithCircleDynamicRelease" data-circleid="{{circleId}}" />
+  </view>
+  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{winHeight?winHeight+'px':'auto'}}" circular>
+    <!-- 动态 start -->
+    <swiper-item>
+      <scroll-view scroll-y style="height:{{winHeight?winHeight+'px':'auto'}}" bindscrolltolower="loadMore">
+        <block wx:for="{{feedDynamicData}}" wx:key="i" wx:for-index="index">
+          <view class="dynamic-list">
+            <button class="dynamic-avatar" form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}"
+              data-circleId="{{item.circle_id}}">
+              <image src="{{item.avatar}}" />
+            </button>
+            <!-- 动态右侧部分 start -->
+            <view class="dynamic-container">
+              <view class="dynamic-title">
+                <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{item.circle_id}}">
+                  <text>{{item.nickname}}</text>
+                </button>
+                <text wx:if="{{item.status}}" class="dynamic-block">置顶</text>
+              </view>
+              <view class="dynamic-content" form-type='submit' data-feedid="{{item.feed_id}}" bindtap="goPageWithDynamicDetail">
+                <text>{{item.isShowWithContent?item.contentSub:item.content}}</text>
+                <text class="on" wx:if="{{item.isShowWithContent}}" data-index="{{index}}" catchtap="openContent">查看全文</text>
+              </view>
+              <view class="dynamic-img">
+                <block wx:for="{{item.images}}" wx:key="i" wx:for-index="imageIndex">
+                  <image mode="aspectFill" src="{{item}}" bindtap="goPreview" data-index="{{index}}" data-imageindex="{{imageIndex}}" />
+                </block>
+              </view>
+              <view class="time">{{item.time}}</view>
+              <view class="like">
+                <button class="like-btn" formType="submit" data-index="{{index}}" data-feedid="{{item.feed_id}}"
+                  bindtap="onisLike">
+                  <image wx:if="{{!item.isInterest}}" src="/images/icon/collect.png" mode="aspectFit" />
+                  <image wx:if="{{item.isInterest}}" src='/images/icon/collect_on.png' mode="aspectFit" /> 感兴趣
+                  {{item.like}}
+                </button>
+                <button class="like-btn" bindtap="oncomentBybtn" data-index="{{index}}" data-feedid="{{item.feed_id}}"
+                  data-commentto="0">
+                  <image src="/images/icon/msg.png" mode="widthFix" />评论 {{item.comment_count}}
+                </button>
+                <button class="like-share" open-type="share" form-type="submit" data-feedid="{{item.feed_id}}" data-sex="{{item.user_sex}}"
+                  data-img="{{item.images[0]}}" data-feedid="{{item.feed_id}}">
+                  <image src="/images/index-share.png" mode="aspectFill" />
+                </button>
+              </view>
+              <block wx:for="{{item.comment}}" wx:for-index="commentIndex" wx:key="i">
+                <view class="comment-list">
+                  <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{feedDynamicData[index].circle_id}}">
+                    <image class="coment-avatar" src="{{item.user_id_avatar}}" />
+                  </button>
+                  <view class="comment-content">
+                    <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{feedDynamicData[index].circle_id}}"
+                      class="comment-title">
+                      {{item.user_id_nickname}}
+                    </button>
+                    <button bindtap="oncomentBybtn" style="font-size:28rpx" data-feedid="{{item.feed_id}}"
+                      data-commentto="{{item.user_id}}" data-index="{{index}}" form-type="submit" class="commentbtn">
+                      <text wx:if="{{!item.comment_to_nickname}}" class="comment-message">{{item.content}}</text>
+                      <text wx:if="{{item.comment_to_nickname}}" class="comment-message">回复<text style="color:#D33B33">{{item.comment_to_nickname}}</text>{{item.content}}
+                      </text>
+                    </button>
+                  </view>
+                </view>
+              </block>
+            </view>
+            <!-- 动态右侧部分 end-->
+          </view>
+        </block>
+        <!-- 发布动态start -->
+        <!-- 发布动态end -->
+      </scroll-view>
+    </swiper-item>
+    <!-- 动态 end -->
+
+    <!-- 成员 start -->
+    <swiper-item>
+      <scroll-view scroll-y style="height:{{winHeight?winHeight+'px':'auto'}}" class="scroll-member" bindscrolltolower="loadMore">
+        <block wx:for="{{memberList}}" wx:key="i" wx:for-index="index">
+          <view class="member" form-type="submit" data-userid="{{item.user_id}}" data-circleid="{{item.circle_id}}"
+            bindtap="goPageWithMyEdit">
+            <image class="member-avatar" src="{{item.user.avatar}}" />
+            <view class="member-introduce">
+              <text class="introduce-top">{{item.user.occupation}} <text class="top-app" wx:if="{{item.user.isAPP}}">app</text></text>
+              <text class="introduce-middle">
+                <text wx:if="{{item.user.child_gender}}" class="middle-gender">{{item.user.child_gender}}</text>
+                <text wx:if="{{item.user.birthday}}" class="middle-birth">{{item.user.birthday}}</text>
+              </text>
+              <text class="introduce-bottom">{{item.user.residence}} {{item.user.height}}cm {{item.education}}</text>
+            </view>
+            <button wx:if="{{!item.ismy}}" form-type="submit" class="introduce-btn" data-userid="{{item.user_id}}"
+              data-navtitle="{{item.user.occupation}}" catchtap="goPageWithMessageContent">留言</button>
+          </view>
+        </block>
+      </scroll-view>
+    </swiper-item>
+    <!-- 成员 end -->
+  </swiper>
+</form>
+
+<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
+<comment wx:if="{{isComment}}" commentInfo="{{commentInfo}}" bind:myComment="onComment" />

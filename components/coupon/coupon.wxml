@@ -1,0 +1,12 @@
+<!--components/coupon/coupon.wxml-->
+<view class="coupon-toast" catchtouchmove="ture">
+  <image class="coupon-avatar" src="{{firstCoupon.extra_info.image}}" />
+  <view class="coupon-user">{{firstCoupon.extra_info.name}}</view>
+  <view class="coupon-content">"{{firstCoupon.notice}}"</view>
+  <image class="" mode="widthFix" src="/images/coupon-20.png" />
+  <view class="coupon-content-time">{{firstCoupon.deadline}}后到期</view>
+  <image class="coupon-close" src="/images/icon/close.png" bindtap="closeToast"></image>
+  <form report-submit="true" bindsubmit="bindSubmit">
+    <button class="coupon-btn" form-type="submit" bindtap="getFirstCoupon" data-couponId="{{firstCoupon.coupon_id}}">立即领取</button>
+  </form>
+</view>

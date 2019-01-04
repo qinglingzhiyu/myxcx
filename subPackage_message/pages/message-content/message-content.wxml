@@ -1,0 +1,39 @@
+<!--pages/message-content/message-content.wxml-->
+<form report-submit="true" bindsubmit="bindSubmit">
+  <!-- <image class="bg" mode="widthFix" src="/images/msg-banner.png" bindtap="goPageWithDown"/> -->
+  <view class="msg">
+    <block wx:for="{{messageData}}" wx:key="index">
+      <view class="time">{{item.create_time}}</view>
+      <view  class="content {{item.contentR}}">
+        <button class="avatar" 
+                bindtap="goPageWithMyEdit"
+                data-userId="{{item.send_user_id}}"
+                form-type="submit">
+          <image src="{{item.send_user_info.avatar}}" />
+        </button>
+        <view class="detail {{item.detailR}}">
+          <view class="user {{item.userR}}">{{item.send_user_info.occupation}}</view>
+          <view  wx:if="{{item.message_type===0?true:false}}" class="msg-content {{item.msgR}}">{{item.content}}</view>
+          <image wx:if="{{item.message_type===1?true:false}}" class="msg-img" 
+                 src="{{item.content}}" bindtap="goPreview" data-index="{{index}}"/>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部 -->
+  <view class="fix-bottom">
+    <input class="fix-input" focus placeholder="请输入内容" cursor-spacing="10rpx" bindinput="changeInput" value="{{content}}" name="content"/>
+    <button class="photo" bindtap="chooseImg" form-type="submit">
+      <image src="/images/icon/photo.png"/>
+    </button>
+    <button class="expresse" form-type="submit" bindtap="onExpression">
+       <image src="/images/icon/expression.png" />
+    </button>
+    <button class="affirm" style="{{onStyle}}" form-type="submit"  disabled="{{disabled}}">发送</button>
+  </view>
+</form>
+
+<!-- 表情 start -->
+<emotion wx:if="{{true}}"/>
+<!-- 表情 end -->

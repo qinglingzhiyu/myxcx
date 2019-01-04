@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的相亲名片",
+  "usingComponents": {
+    "mask": "../../components/mask/mask",
+    "rule-toast": "../../components/rule-toast/rule-toast"
+  }
+}

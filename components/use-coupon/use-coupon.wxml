@@ -1,0 +1,25 @@
+<!--components/use-coupon/use-coupon.wxml-->]
+<form report-submit="true" bindsubmit="bindSubmit">
+  <view class="coupon-list" catchtouchmove="ture">
+    <view class="list-top">
+      <text class="list-title">优惠券</text>
+      <image class="list-close" bindtap="close" src="/images/icon/close.png" />
+    </view>
+    <scroll-view class="list-main" scroll-y>
+      <radio-group name="couponId">
+        <view class="list" wx:for="{{couponList}}" wx:key="index">
+          <image class="list-bg" mode="widthFix" src="/images/coupon-bg.png" />
+          <view class="list-content">
+            <view class="money"><text>￥</text>{{item.coupon_info.money}}</view>
+            <view class="money-content">
+              <view class="money-title">{{item.coupon_info.notice}}</view>
+              <view class="money-time">{{item.expired}}过期</view>
+            </view>
+            <radio class="money-on" value="{{item.coupon_id}}" checked="{{item.checked}}"></radio>
+          </view>
+        </view>
+      </radio-group>
+    </scroll-view>
+    <button class="list-btn" form-type="submit">确认</button>
+  </view>
+</form>

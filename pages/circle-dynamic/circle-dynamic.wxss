@@ -1,0 +1,258 @@
+
+.swiper-tab {
+  position: fixed;
+  top:0;
+  font-size: 48rpx;
+  line-height: 60rpx;
+  margin-left: 16rpx;
+  padding:  16rpx 0;
+  background-color: #fff;
+  width: 100%;
+  z-index: 1000;
+}
+
+.swiper-tab-list {
+  display: inline-block;
+  color: #979797;
+  border-radius: 0;
+  margin-right: 32rpx;
+  padding-bottom:12rpx; 
+}
+
+.awiper-on {
+  color: #000;
+  font-size: 60rpx;
+  border-bottom: 10rpx solid #FF6D6D;
+}
+.swiper-box {
+  margin-top: 100rpx;
+}
+
+
+/* 动态样式 */
+.dynamic-list {
+  display: flex;
+  justify-content: space-between;
+  margin: 32rpx;
+  font-size: 28rpx;
+  padding-bottom: 20rpx;
+  /* border-bottom: 1rpx solid #9797975b */
+}
+
+.dynamic-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+}
+
+.dynamic-avatar  image {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+}
+
+
+.dynamic-container {
+  position: relative;
+  margin-left: 24rpx;
+  width: 80%;
+}
+.dynamic-title {
+  display: flex;
+  font-size: 32rpx;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  line-height: 44rpx;
+  padding-bottom: 24rpx;
+}
+
+.dynamic-block {
+  font-size: 26rpx;
+  color:#3FC1C9;
+  font-weight: normal;
+  padding: 0 24rpx;
+  border: 1rpx solid #3FC1C9;
+  border-radius: 6rpx;
+} 
+
+.dynamic-content {
+  line-height: 44rpx;
+  letter-spacing:4rpx;
+}
+
+.on {
+  color:#007FEE;
+  z-index: 9999;
+}
+
+.dynamic-img {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 24rpx;
+}
+
+.dynamic-img image {
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 16rpx 16rpx 0;
+  border-radius: 15rpx;
+}
+
+.time {
+  position: absolute;
+  left: 0;
+  font-size: 26rpx;
+  line-height: 34rpx;
+  color:#979797;
+}
+
+.like {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50rpx;
+}
+.like-btn,.like-share {
+  color:#979797;
+  font-size: 24rpx;
+}
+
+.like-btn image {
+  position: relative;
+  top: 8rpx;
+  width: 34rpx;
+  height: 34rpx;
+  margin-right: 8rpx;
+}
+
+.like-share image {
+  width: 148rpx;
+  height: 60rpx;
+  vertical-align: middle;
+}
+
+/* 评论列表 */
+.comment-list {
+  display: flex;
+  margin-top: 20rpx;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.075);
+  border-radius: 0;
+} 
+
+.coment-avatar {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 10rpx;
+  margin-right: 16rpx;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  font-size: 28rpx;
+}
+
+.comment-title {
+  color: #D33B33;
+  line-height: 36rpx;
+  font-size: 28rpx;
+}
+
+
+/* 成员 */
+.member {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #70707023;
+  border-radius: 0;
+  padding: 20rpx 32rpx;
+}
+
+.member-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+
+.member-introduce {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 40rpx;
+}
+
+.introduce-top {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.top-app {
+  font-size: 20rpx;
+  color: #979797;
+  padding: 0 12rpx;
+  font-weight: normal;
+  border: 1rpx solid #979797;
+  margin-left: 18rpx;
+}
+
+.introduce-middle {
+  font-size: 26rpx;
+  margin: 16rpx 0;
+}
+
+.middle-gender {
+  padding: 0 20rpx;
+  border: 1rpx solid #FC5185;
+  color:#FC5185;
+  border-radius: 6rpx;
+  margin-right: 24rpx;
+}
+
+.middle-birth {
+  padding: 0 20rpx;
+  border: 1rpx solid #3FC1C9;
+  color:#3FC1C9;
+  border-radius: 6rpx;
+}
+
+.introduce-bottom {
+  font-size: 28rpx;
+}
+
+.introduce-btn {
+  position: absolute;
+  margin-left: 35rpx;
+  font-size: 28rpx;
+  background-color: #FF5050;
+  padding: 8rpx 40rpx;
+  color:#fff;
+  border-radius: 28rpx;
+  right: 32rpx;
+}
+
+/* 去掉滚动条 */
+::-webkit-scrollbar{
+width: 0;
+height: 0;
+color: transparent;
+}
+
+.release {
+  position: fixed;
+  right: 64rpx;
+  bottom: 284rpx;
+  width: 150rpx;
+  height: 150rpx;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 200;
+  box-shadow: 0rpx 0rpx 20rpx rgba(0, 0, 0, 0.116);
+}
+
+.commentbtn{
+  text-align: left;
+}
