@@ -5,33 +5,66 @@
   <block wx:if="{{isOwn}}">
     <!-- 我的圈子 start -->
     <view class="circle">
-      <view class="title">我的圈子</view>
-      <block wx:for="{{myCircleList}}" wx:key="index">
-        <button class="list" bindtap="goPageWithCircleDynamic" 
-                data-index="{{index}}"  data-completed="{{item.completed}}"
-        data-circleid="{{item.circle_id}}" data-circleName="{{item.name}}">
-          <image class="bg" mode="aspectFill" src="{{item.image}}" />
+      <view class="title my-tag">我的圈子</view>
+      <block wx:if="{{myCircleList.length <=2}}" wx:for="{{myCircleList}}" wx:key="index">
+        <button 
+          class="list" 
+          bindtap="goPageWithCircleDynamic" 
+          data-index="{{index}}"  
+          data-completed="{{item.completed}}"
+          data-circleid="{{item.circle_id}}" 
+          data-circleName="{{item.name}}"
+        >
+          <image class="bg bg-img-photo animated faster simpleOpacity" mode="aspectFill" src="{{item.image}}" />
           <view class="content">
             <text class="content-title">{{item.name}}</text>
             <text class="content-tip {{item.on}}">{{item.content}}</text>
           </view>
         </button>
       </block>
+      <swiper
+        wx:if="{{myCircleList.length > 2}}"
+        class="my-circle-list" 
+        display-multiple-items="2"
+        next-margin="180rpx"
+      >
+        <block wx:for="{{myCircleList}}" wx:key="index">
+          <swiper-item 
+            class="my-circle-item" 
+            bindtap="goPageWithCircleDynamic" 
+            data-index="{{index}}"  
+            data-completed="{{item.completed}}"
+            data-circleid="{{item.circle_id}}" 
+            data-circleName="{{item.name}}"
+          >
+            <image 
+              class="my-circle-img bg-img-photo animated faster simpleOpacity" 
+              src="{{item.image}}" 
+              mode="spectFill" 
+              lazy-load 
+            />
+            <text class="content-title my-circle-title" decode>{{item.name}}</text>
+            <text class="content-tip {{item.on}} my-circle-tip">{{item.content}}</text>
+          </swiper-item>
+        </block>
+      </swiper>
     </view>
     <!-- 我的圈子 end -->
   </block>
+
   <!-- 推荐圈子 start -->
   <view class="circle">
-    <view class="title">推荐圈子</view>
+    <view class="title recommend-tag">推荐圈子</view>
     <block wx:for="{{selectCircleList}}" wx:key="index">
       <button class="list" data-circleid="{{item.circle_id}}" bindtap="goPageWithCircleIntroduce"> 
-        <image class="bg" mode="aspectFill" src="{{item.image}}" />
+        <image class="bg bg-img-photo animated faster simpleOpacity" mode="aspectFill" src="{{item.image}}" />
         <view class="content">
           <text class="content-title">{{item.name}}</text>
           <text class="content-rec">{{item.recommend_text}}</text>
           <text class="content-introduce">{{item.recommend_brief}}</text>
           <image src="{{item.top_img}}" class="content-img" />
         </view>
+        <view class="circle-btn">进圈 ></view>
       </button>
     </block>
   </view>

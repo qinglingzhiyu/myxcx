@@ -1,6 +1,6 @@
 // components/rule-toast/rule-toast.js
-import { getStorageInfoPromisify } from "../../api/promisify.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+import { getStorageInfoPromisify } from '../../api/promisify.js'
+import regeneratorRuntime from '../../api/regeneratorRuntime.js'
 let app = getApp();
 Component({
   /**
@@ -25,11 +25,11 @@ Component({
    */
   methods: {
     closeToast: function() {
-      this.triggerEvent("mytoast", "close")
+      this.triggerEvent('mytoast', 'close')
     },
 
     goPageWithCircleIntroduce: function() {
-      this.triggerEvent("mytoast", "navgiteWithClose")
+      this.triggerEvent('mytoast', 'navgiteWithClose')
 
     },
     /**

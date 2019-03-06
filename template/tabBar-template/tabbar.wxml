@@ -2,11 +2,14 @@
   <view class="tabBar">
     <block wx:for="{{tabBar}}" wx:for-item="item" wx:key="tabBar">
       <view class="tabBar-item">
-        <button data-url="{{item.pagePath}}" 
-                open-type="{{item.userInfo}}" 
-                bindtap="{{item.current== 1?'':'goOtherPages'}}" 
-                form-type="submit" 
-                bindgetuserinfo="goOtherPagesWithAuthor">
+        <button 
+          data-url="{{item.pagePath}}" 
+          class="tarBtn"
+          open-type="{{item.userInfo}}" 
+          bindtap="{{item.current== 1?'':'goOtherPages'}}" 
+          form-type="submit" 
+          bindgetuserinfo="goOtherPagesWithAuthor"
+        >
           <view>
             <image class="icon" src='{{item.iconPath}}'></image>
           </view>

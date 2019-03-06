@@ -1,21 +1,33 @@
-// pages/my/my.js
+/**
+ * Created by Terris
+ * https://github.com/qinglingzhiyu
+ *
+ * @date: 2019-01-09
+ * @flow
+ *
+ * description: my 的逻辑
+ *
+ */
+
 import {
-  getStoragePromisify,
   jumpToPromisify,
+  showModalPromisify,
   showToastPromisify,
+  getStoragePromisify,
   getStorageInfoPromisify
-} from "../../api/promisify.js"
+} from '../../api/promisify.js'
 import {
   getUseridInfo,
   getPhone,
   getConfig
-} from "../../api/request.js"
+} from '../../api/request.js'
 import regeneratorRuntime, {
   async
-} from "../../api/regeneratorRuntime.js"
+} from '../../api/regeneratorRuntime.js'
 import {
-  config
-} from "../../api/config.js"
+  isTestEnvironment
+} from '../../api/config.js'
+import { MasterMapByThumbnail } from '../../common/common'
 
 const app = getApp()
 const tabBar = require('../../template/tabBar-template/tabbar.js');
@@ -28,57 +40,76 @@ Page({
     isCloseByMask: false,
     isCloseByLogin: false,
     isCloseByWarm: false,
-    userData: {}, //页面数据
+    userData: {
+      avatar:'/images/touxiang.jpg'
+    }, //页面数据
     qxAppid:null, //跳转的appid
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function (options) {
+  onLoad: function (options) {
     let {
       comeFrom
     } = options;
-    if (comeFrom && comeFrom === "coupon") jumpToPromisify("coupons")
-    //底部导航
-    let pointStatus = wx.getStorageSync("pointStatus") || false;
-    tabBar.tabbarmain("tabBar", 3, this, pointStatus);
+    if (comeFrom && comeFrom === 'coupon') jumpToPromisify('coupons')
 
-    //获取牵线的appid
-    let result =await getConfig({key:'jump'})
-    if(typeof result === "undefined" && !result) throw new Error(`getConfig api is ${result}`)
-    if(result.statusCode ===200){
-      this.setData({qxAppid:result.data.detail})
-    }else{
-      throw new Error(`getConfig api statusCode is ${result.statusCode}`)
-    }
+    //底部导航
+    let pointStatus = wx.getStorageSync('pointStatus') || false;
+    tabBar.tabbarmain('tabBar', 3, this, pointStatus);
+
+    wx.hideShareMenu(); //取消顶部分享
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
+  onReady:async function () {
+    //获取牵线的appid
+    try {
+      let result =await getConfig({key:'jump'})
+      if (typeof result === 'undefined') throw new Error(`getConfig is ${result}`)
+      if (result.statusCode ===200) {
+        this.setData({qxAppid:result.data.detail})
+      } else {
+        throw new Error(`getConfig api statusCode is ${result.statusCode}`)
+      }
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title:'测试提示',
+        content:String(error)
+      })
+    }
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: async function () {
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("userId") && storageInfo.keys.includes("NICKNAME")) {
-      let userId = wx.getStorageSync("userId");
-      let nickname = wx.getStorageSync("NICKNAME");
-      let userinfo = await getUseridInfo({
-        user_id: userId
-      })
-      if (userinfo.statusCode === 200) {
-        let userData = this.data.userData
-        userData["avatar"] = userinfo.data.avatar;
-        userData["occupation"] = userinfo.data.occupation || nickname;
-        userData["userId"] = userinfo.data.id
-        this.setData({
-          userData
+    if (storageInfo.keys.includes('userId') && storageInfo.keys.includes('NICKNAME')) {
+      try {
+        let { userId, NICKNAME } = await getStoragePromisify(['userId','NICKNAME']);
+        if (typeof userId === 'undefined') throw new Error(`userId is ${userId}`)
+        let userinfo = userId && await getUseridInfo({
+          user_id: userId
+        })
+        if (typeof userinfo === 'undefined') throw new Error(`getUseridInfo api is ${userinfo}`) 
+        if (userinfo.statusCode === 200) {
+          let userData = this.data.userData
+          userData['avatar'] = MasterMapByThumbnail(userinfo.data.avatar,180);
+          userData['occupation'] = userinfo.data.occupation || NICKNAME;
+          userData['userId'] = userinfo.data.id
+          this.setData({
+            userData
+          })
+        } else {
+          throw new Error(`statusCode of getUseridInfo: ${userinfo.statusCode}`)
+        }
+      } catch (error) {
+        isTestEnvironment && await showModalPromisify({
+          title:'测试提示',
+          content:String(error)
         })
       }
     }
@@ -135,7 +166,7 @@ Page({
    */
   goLoginByPhone: function (e) {
     let _this = this;
-    if (e.detail === "close") {
+    if (e.detail === 'close') {
       _this.setData({
         isCloseByLogin: false,
         isCloseByMask: false,
@@ -145,15 +176,20 @@ Page({
         _this.setData({
           isCloseByLogin: false,
           isCloseByWarm: true,
+        });
+        showToastPromisify({
+          title: '绑定成功'
+        })
+      }else if(e.detail.detail ==='验证码错误'){
+        showToastPromisify({
+          title: '验证码错误'
         })
       } else {
         _this.setData({
           isCloseByLogin: false,
           isCloseByMask: false,
         })
-        showToastPromisify({
-          title: "绑定成功"
-        })
+       
       }
     }
 
@@ -163,8 +199,8 @@ Page({
   /**
    * 关闭warm
    */
-  goLoginByWarm: function (e) {
-    if (e.detail === "close") {
+  goLoginByWarm:async function (e) {
+    if (e.detail === 'close') {
       this.setData({
         isCloseByMask: false,
         isCloseByWarm: false,
@@ -176,11 +212,17 @@ Page({
           isCloseByWarm: false,
         });
         showToastPromisify({
-          title: "绑定成功"
+          title: '绑定成功'
         })
       } else {
-        showToastPromisify({
-          title: "绑定失败,请重试!"
+        let errModel = await showModalPromisify({
+          title:'绑定失败',
+          content:'您的手机已绑定微信号，如需更换，请联系客服微信号 daqinjia02',
+          showCancel:false,
+        })
+        errModel.confirm && this.setData({
+          isCloseByMask: false,
+          isCloseByWarm: false,
         })
       }
     }
@@ -192,27 +234,23 @@ Page({
    */
   bindPhone: async function (e) {
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("Token")) {
-      let tokentoken = await getStoragePromisify("Token")
+    if (storageInfo.keys.includes('Token')) {
       let result = await getPhone();
       if (result.statusCode === 200) {
-        if (result.data.detail === "") this.setData({
+        if (result.data.detail === '') this.setData({
           isCloseByMask: true,
           isCloseByLogin: true,
         });
-        else jumpToPromisify("bind-phone", "navigate", {
+        else jumpToPromisify('bind-phone', 'navigate', {
           phone: result.data.detail
         });
       } else {
         showToastPromisify({
-          title: "网络错误",
-          image: "/images/icon/fail.png"
+          title: '网络错误',
+          image: '/images/icon/fail.png'
         })
       }
-    } else {
-
     }
-
   },
 
   /**
@@ -223,12 +261,12 @@ Page({
       userid,
       cometo
     } = e.currentTarget.dataset;
-    cometo === "edit" && jumpToPromisify("my-edit", "navigate", {
-      bottomBtn: "编辑信息",
+    cometo === 'edit' && jumpToPromisify('my-edit', 'navigate', {
+      bottomBtn: '编辑信息',
       userId: userid
     })
-    cometo === "share" && jumpToPromisify("my-edit", "navigate", {
-      bottomBtn: "分享名片给好友",
+    cometo === 'share' && jumpToPromisify('my-edit', 'navigate', {
+      bottomBtn: '分享名片给好友',
       userId: userid
     })
   },
@@ -237,9 +275,9 @@ Page({
    * 跳转编辑信息
    */
   goPageWithPersonInfo: (e) => {
-    jumpToPromisify('person-info', "navigate", {
+    jumpToPromisify('person-info', 'navigate', {
       userId: e.currentTarget.dataset.userid,
-      comeTo: "my"
+      comeTo: 'my'
     })
   },
 
@@ -250,7 +288,7 @@ Page({
     let {
       userid
     } = e.currentTarget.dataset;
-    jumpToPromisify('dynamic', "navigate", {
+    jumpToPromisify('dynamic', 'navigate', {
       userId: userid
     })
   },
@@ -266,17 +304,17 @@ Page({
    * 跳转其他页面
    */
   goOtherPages: function (e) {
-    e.currentTarget.dataset.url !== "my" &&
-      jumpToPromisify(e.currentTarget.dataset.url, "reLaunch")
+    e.currentTarget.dataset.url !== 'my' &&
+      jumpToPromisify(e.currentTarget.dataset.url, 'reLaunch')
   },
 
   /**
    * 跳转带授权的页面
    */
   goOtherPagesWithAuthor: function (e) {
-    e.detail.errMsg === "getUserInfo:ok" &&
-      e.currentTarget.dataset.url !== "my" &&
-      jumpToPromisify(e.currentTarget.dataset.url, "reLaunch")
+    e.detail.errMsg === 'getUserInfo:ok' &&
+      e.currentTarget.dataset.url !== 'my' &&
+      jumpToPromisify(e.currentTarget.dataset.url, 'reLaunch')
   },
 
   /**
@@ -293,7 +331,7 @@ Page({
    * 跳转我的优惠券
    */
   goPageWithCupons: function (e) {
-    jumpToPromisify("coupons")
+    jumpToPromisify('coupons')
   },
 
 })

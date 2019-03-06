@@ -1,13 +1,28 @@
-// pages/coupons/coupons.js
+/**
+ * Created by Terris
+ * https://github.com/qinglingzhiyu
+ *
+ * @date: 2019-01-09
+ * @flow
+ *
+ * description: 这是优惠券的逻辑
+ *
+ */
+
 import {
   getMyCouponList
-} from "../../api/request.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+} from '../../api/request.js'
+import regeneratorRuntime, {
+  async
+} from '../../api/regeneratorRuntime.js'
 import {
   getStorageInfoPromisify,
   showLoadingPromisify,
   jumpToPromisify
-} from "../../api/promisify.js"
+} from '../../api/promisify.js'
+import {
+  isTestEnvironment
+} from '../../api/config';
 
 const app = getApp();
 
@@ -18,44 +33,64 @@ Page({
    */
   data: {
     couponList: [], //页面数据
-    isEmpty: true
+    isEmpty: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: async function () {
-    let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("Token")) {
-      showLoadingPromisify()
-      let coupons = await getMyCouponList()
-      if (coupons.statusCode === 200) {
-        coupons.data.length === 0 && this.setData({
-          isEmpty: true
-        })
-        coupons.data.length >0 &&this.setData({isEmpty:false})
-        let couponList = this.data.couponList;
-        coupons.data && coupons.data.map(item => {
-          let coupon = {};
-          coupon["money"] = item.coupon_info.money;
-          coupon["notice"] = item.coupon_info.notice;
-          coupon["coupon_id"] = item.coupon_id;
-          coupon["expired"] = item.expired;
-          couponList.push(coupon)
-        })
-        this.setData({
-          couponList
-        })
-      } else jumpToPromisify("index", "reLaunch")
-    } else jumpToPromisify("index", "reLaunch")
-
+  onLoad: function () {
+    wx.hideShareMenu(); //取消顶部分享
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
+  onReady: async function () {
+    let {
+      couponList
+    } = this.data;
+    try {
+      let storageInfo = await getStorageInfoPromisify();
+      if (storageInfo.keys.includes('Token')) {
+        showLoadingPromisify();
+        let coupons = await getMyCouponList();
+        if (typeof coupons === 'undefined' || !coupons) throw new Error(`getMyCouponList api is ${coupons}`)
+        if (coupons.statusCode === 200) {
+          if (coupons.data.length === 0) {
+            this.setData({
+              isEmpty: true
+            })
+          } else {
+            coupons.data.map(item => {
+              let coupon = {};
+              coupon['money'] = item.coupon_info.money;
+              coupon['notice'] = item.coupon_info.notice;
+              coupon['coupon_id'] = item.coupon_id;
+              coupon['expired'] = item.expired.slice(5);
+              couponList.push(coupon)
+            })
+            this.setData({
+              isEmpty: false,
+              couponList
+            })
+          }
+        } else {
+          throw new Error(`statusCode of getMyCouponList is ${coupons.statusCode}`)
+        }
+      } else {
+        let errModal = await showModalPromisify({
+          content: '账号异常,点击确定返回首页',
+          showCancel: false
+        });
+        errModal.confirm && jumpToPromisify('index', 'reLaunch')
+      }
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        content: String(error),
+        showCancel: false
+      })
+    }
   },
 
   /**
@@ -114,6 +149,6 @@ Page({
    * 跳转圈子页面
    */
   goPageWithCircle: function () {
-    jumpToPromisify("circle", "reLaunch");
+    jumpToPromisify('circle', 'reLaunch');
   }
 })

@@ -1,25 +1,46 @@
-// pages/dynamic-detail/dynamic-detail.js
+/**
+ * Created by Terris
+ * https://github.com/qinglingzhiyu
+ *
+ * @date: 2019-01-09
+ * @flow
+ *
+ * description:
+ *
+ */
+
 import {
   getDynamicDetail,
   updateLike,
   deleteDynamic,
-  isJoinCircle
-} from "../../api/request.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+  isJoinCircle,
+  createOrDeleteComment
+} from '../../api/request.js'
+import regeneratorRuntime, {
+  async
+} from '../../api/regeneratorRuntime.js'
 import {
   jumpToPromisify,
   getStorageInfoPromisify,
   showLoadingPromisify,
   showToastPromisify,
   getStoragePromisify,
-  setStoragePromisify
-} from "../../api/promisify.js"
+  setStoragePromisify,
+  showModalPromisify
+} from '../../api/promisify.js'
 import {
   isAuthor,
   QiniuToken,
-  sleep
-} from "../../common/common.js"
+  sleep,
+  MasterMapByThumbnail,
+  thumbnailByMasterMap
+} from '../../common/common.js'
+import {
+  isTestEnvironment
+} from '../../api/config';
+
 const app = getApp();
+
 Page({
 
   /**
@@ -34,6 +55,7 @@ Page({
     isComment: false,
     feedDetailData: {}, //页面数据
     commentInfo: {},
+    isFromIndex: false
   },
 
   /**
@@ -41,16 +63,17 @@ Page({
    */
   onLoad: async function (options) {
     let {
-      feedId,
-      selectFeedId
+      fromTo
     } = options;
-    if(typeof feedId ==="undefined" || !feedId ) throw new Error(`feedId is ${feedId}`);
-    if (!selectFeedId) this.getDataByRequest({
-      feed_id: feedId
+    console.log('fromTo: ', fromTo);
+    if (fromTo === 'index') this.setData({
+      isFromIndex: true,
+      options
+    })
+    else this.setData({
+      options
     });
-    else this.getDataByRequest({
-      select_feed_id: selectFeedId
-    });
+    wx.hideShareMenu(); //取消顶部分享
   },
 
   /**
@@ -63,9 +86,9 @@ Page({
     });
     if (feedDetail.statusCode === 200) {
       //如果动态不存在,则提醒并退出
-      if (feedDetail.data.detail === "动态不存在") {
+      if (feedDetail.data.detail === '动态不存在') {
         showToastPromisify({
-          title: "动态已删除"
+          title: '动态已删除'
         })
         await sleep(1000);
         wx.navigateBack({
@@ -74,17 +97,19 @@ Page({
         return
       }
       //动态存在情况
-      let ownUserId = wx.getStorageSync("userId");
+      let ownUserId = wx.getStorageSync('userId');
       if (ownUserId == feedDetail.data.user_id) {
-        feedDetail.data["isShowWithMore"] = true
+        feedDetail.data['isShowWithMore'] = true
       } else {
-        feedDetail.data["isShowWithMore"] = false
+        feedDetail.data['isShowWithMore'] = false
       }
-      feedDetail.data["isInterest"] = false
-      let imglist = feedDetail.data.images.split(",").filter(item => {
-        if (item) return item
-      })
-      feedDetail.data["images"] = imglist;
+      feedDetail.data['isInterest'] = false
+      feedDetail.data['avatar'] = MasterMapByThumbnail(feedDetail.data.avatar, 100);
+      let images = MasterMapByThumbnail(feedDetail.data.images.split(',').filter(Boolean), 264)
+      feedDetail.data['images'] = images.slice(0, 9);
+      feedDetail.data.comment.map(item => {
+        item['user_id_avatar'] = MasterMapByThumbnail(item.user_id_avatar, 60)
+      });
       this.setData({
         feedDetailData: feedDetail.data
       })
@@ -93,7 +118,25 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: async function () {
+    let {
+      feedId,
+      selectFeedId
+    } = this.data.options;
+    try {
+      if (typeof feedId === 'undefined' || !feedId) throw new Error(`feedId is ${feedId}`);
+      if (!selectFeedId) this.getDataByRequest({
+        feed_id: feedId
+      });
+      else this.getDataByRequest({
+        select_feed_id: selectFeedId
+      });
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title: '错误提示',
+        content: String(error)
+      })
+    }
 
   },
 
@@ -141,13 +184,13 @@ Page({
       feedid,
       img
     } = e.target.dataset;
-    let title = "";
-    sex === "男" && (title = "快来看看这家孩子适不适合你家小美女？我亲自挑的!");
-    sex === "女" && (title = "快来看看这家孩子适不适合你家帅哥？我亲自挑的!")
+    let title = '';
+    sex === '男' && (title = '快来看看这家孩子适不适合你家小美女？我亲自挑的!');
+    sex === '女' && (title = '快来看看这家孩子适不适合你家帅哥？我亲自挑的!')
     return {
       title: title,
       path: `/pages/dynamic-detail/dynamic-detail?feedId=${feedid}`,
-      imageUrl: img
+      imageUrl: img.split('?')[0]
     }
   },
 
@@ -156,7 +199,7 @@ Page({
    * 关闭mask
    */
   closeMask: function (e) {
-    e.detail === "close" && this.setData({
+    e.detail === 'close' && this.setData({
       isCloseByMask: false,
       isCloseBytoast: false,
       isComment: false,
@@ -168,14 +211,14 @@ Page({
    * 关闭toast 并跳转圈子规则
    */
   mytoast: function (e) {
-    e.detail === "close" && this.setData({
+    e.detail === 'close' && this.setData({
       isCloseByMask: false,
       isCloseBytoast: false
     })
     let {
       circle_id
     } = this.data.feedDetailData;
-    e.detail === "navgiteWithClose" && jumpToPromisify("circle-introduce", "navigate", {
+    e.detail === 'navgiteWithClose' && jumpToPromisify('circle-introduce', 'navigate', {
       circleId: circle_id
     }), this.setData({
       isCloseByMask: false,
@@ -188,22 +231,27 @@ Page({
    * 评论
    */
   onComment: async function (e) {
-    let _this = this;
     let {
-      statusCode,data
+      statusCode,
+      data
     } = e.detail.result;
-    let { feedDetailData,commentInfo } = this.data
+    let {
+      feedDetailData,
+      commentInfo
+    } = this.data
     if (statusCode === 201) {
-      data.results["circle_id"] = commentInfo.circleid;
+      data.results['circle_id'] = commentInfo.circleid;
       feedDetailData.comment.push(data.results);
       feedDetailData.comment_count += 1;
       showToastPromisify({
-        title: "评论成功"
+        title: '评论成功'
       });
-    }else{
-      showToastPromisify({title:"评论失败"})
+    } else {
+      showToastPromisify({
+        title: '评论失败'
+      })
     };
-    _this.setData({
+    this.setData({
       isCloseByMask: false,
       isComment: false,
       feedDetailData
@@ -219,24 +267,24 @@ Page({
       circleid
     } = e.currentTarget.dataset;
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("userId")) {
-      let myUserId = (await getStoragePromisify("userId")).userId;
-      Number(userid) !== Number(myUserId) && jumpToPromisify("my-edit", "navigate", {
-        navTitle: "TA的信息",
-        bottomBtn: "留言",
+    if (storageInfo.keys.includes('userId')) {
+      let myUserId = (await getStoragePromisify('userId')).userId;
+      Number(userid) !== Number(myUserId) && jumpToPromisify('my-edit', 'navigate', {
+        navTitle: 'TA的信息',
+        bottomBtn: '留言',
         userId: userid,
         circleId: circleid
       });
-      Number(userid) === Number(myUserId) && jumpToPromisify("my-edit", "navigate", {
-        navTitle: "我的相亲名片",
-        bottomBtn: "编辑信息",
+      Number(userid) === Number(myUserId) && jumpToPromisify('my-edit', 'navigate', {
+        navTitle: '我的相亲名片',
+        bottomBtn: '编辑信息',
         userId: userid,
         circleId: circleid
       })
     } else {
-      jumpToPromisify("my-edit", "navigate", {
-        navTitle: "TA的信息",
-        bottomBtn: "留言",
+      jumpToPromisify('my-edit', 'navigate', {
+        navTitle: 'TA的信息',
+        bottomBtn: '留言',
         userId: userid,
         circleId: circleid
       });
@@ -248,52 +296,58 @@ Page({
    *是否授权
    */
   getUseInfo: async function (info) {
-    if (info.detail.errMsg === "getUserInfo:fail auth deny") return
+    if (info.detail.errMsg === 'getUserInfo:fail auth deny') return
     let {
       nickName
     } = info.detail.userInfo;
     setStoragePromisify({
-      "NICKNAME": nickName
+      'NICKNAME': nickName
     })
     let {
       cometo,
       circleid,
-      navtitle,
       feedid,
       commentto,
       userid
     } = info.currentTarget.dataset;
-    let authorStatus = await isAuthor({
-      encryptedData: info.detail.encryptedData,
-      iv: info.detail.iv
-    })
-    if (authorStatus.statusCode === "isOk" || authorStatus.statusCode === 200) {
-      if (cometo === "interest") {
-        if (typeof feedid === "undefined" || !feedid) throw new Error(`feedid is ${feedid}`);
-        feedid && this.onInterest({
-          feedid
-        });
-      } else if (cometo === "comment") {
-        if (typeof feedid === "undefined" || !feedid) throw new Error(`feedid is ${feedid}`);
-        if (typeof commentto === "undefined") throw new Error(`commentto is ${commentto}`);
-        if (typeof circleid === "undefined" || !circleid) throw new Error(`circleid is ${circleid}`)
-        feedid && circleid && this.onCommentByBtn({
-          feedid,
-          commentto,
-          circleid,
-          authorStatus
-        })
-      } else if (cometo === "contact") {
-        if (typeof circleid === "undefined" || !circleid) throw new Error(`circleid is ${circleid}`);
-        if (typeof userid === "undefined" || !userid) throw new Error(`userid is ${userid}`);
-        circleid && userid && this.contact({
-          circleid,
-          userid,
-          authorStatus
-        })
+    try {
+      let authorStatus = await isAuthor({
+        encryptedData: info.detail.encryptedData,
+        iv: info.detail.iv
+      })
+      if (authorStatus.statusCode === 'isOk' || authorStatus.statusCode === 200) {
+        if (cometo === 'interest') {
+          if (typeof feedid === 'undefined' || !feedid) throw new Error(`feedid is ${feedid}`);
+          feedid && this.onInterest({
+            feedid
+          });
+        } else if (cometo === 'comment') {
+          if (typeof feedid === 'undefined' || !feedid) throw new Error(`feedid is ${feedid}`);
+          if (typeof commentto === 'undefined') throw new Error(`commentto is ${commentto}`);
+          if (typeof circleid === 'undefined' || !circleid) throw new Error(`circleid is ${circleid}`)
+          feedid && circleid && this.onCommentByBtn({
+            feedid,
+            commentto,
+            circleid,
+            authorStatus
+          })
+        } else if (cometo === 'contact') {
+          if (typeof circleid === 'undefined' || !circleid) throw new Error(`circleid is ${circleid}`);
+          if (typeof userid === 'undefined' || !userid) throw new Error(`userid is ${userid}`);
+          circleid && userid && this.contact({
+            circleid,
+            userid,
+            authorStatus
+          })
+        }
       }
+      if (authorStatus.statusCode === 200) QiniuToken()
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title: '错误提示',
+        content: String(error)
+      })
     }
-    if (authorStatus.statusCode === 200) QiniuToken()
   },
 
   /**
@@ -310,26 +364,28 @@ Page({
     feedDetailData.isInterest = true;
     feedDetailData.like += 1;
     showLoadingPromisify({
-      title: "操作中"
+      title: '操作中'
     })
-    showLoadingPromisify();
-    let result = await updateLike({
-      feed_id: feedid
-    })
-    if (!result) throw new Error("updateLike api is undefine")
-    if (result.statusCode === 200) {
-      showToastPromisify({
-        title: '点赞成功',
-        icon: "success",
+    try {
+      let result = await updateLike({
+        feed_id: feedid
       })
-      this.setData({
-        feedDetailData
-      })
-    } else {
-      throw new Error(`updateLike api statusCode:${result.statusCode}`)
-      showToastPromisify({
-        title: '点赞失败',
-        icon: "fail",
+      if (typeof result === 'undefined' || !result) throw new Error(`updateLike api is ${result}`)
+      if (result.statusCode === 200) {
+        showToastPromisify({
+          title: '点赞成功',
+          icon: 'success',
+        })
+        this.setData({
+          feedDetailData
+        })
+      } else {
+        throw new Error(`statusCode of updateLike :${result.statusCode}`)
+      }
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title: '错误提示',
+        content: String(error)
       })
     }
   },
@@ -346,47 +402,51 @@ Page({
       feedid,
       authorStatus
     } = param;
-    let result = await isJoinCircle({
-      circle_id: circleid
-    });
-    if (!result) throw new Error(`isJoinCircle api is ${result}`)
-    if (result.statusCode === 200) {
-      if (result.data.detail) {
-        let myUserid = wx.getStorageSync("userId");
-        if (typeof myUserid === "undefined" || !myUserid) throw new Error(`本地userid不存在`);
-        if (myUserid === commentto) commentto = 0;
-        this.setData({
-          isCloseByMask: true,
-          isComment: true,
-          commentInfo: {
-            feed_id: feedid,
-            comment_to: commentto,
-            circleid,
-          }
-        })
-      } else {
-        authorStatus.statusCode === "isOk" && (
-          showToastPromisify({
-            title: "您需要先加入该圈子才能评论哦"
-          }), await sleep(1000), jumpToPromisify("circle-introduce", "navigate", {
-            circleId: circleid
-          }), setStoragePromisify({
-            jump: "circleDynamic"
-          })
-        );
-        authorStatus.statusCode === 200 && (
+    try {
+      let result = await isJoinCircle({
+        circle_id: circleid
+      });
+      if (typeof result === 'undefined' || !result) throw new Error(`isJoinCircle api is ${result}`)
+      if (result.statusCode === 200) {
+        if (result.data.joined) {
+          let myUserid = wx.getStorageSync('userId');
+          if (typeof myUserid === 'undefined' || !myUserid) throw new Error(`本地userid不存在`);
+          if (myUserid === commentto) commentto = 0;
           this.setData({
             isCloseByMask: true,
-            isCloseBytoast: true,
-          }), setStoragePromisify({
-            jump: "circleDynamic"
+            isComment: true,
+            commentInfo: {
+              feed_id: feedid,
+              comment_to: commentto,
+              circleid,
+            }
           })
-        )
+        } else {
+          authorStatus.statusCode === 'isOk' && (
+            showToastPromisify({
+              title: '您需要先加入该圈子才能评论哦'
+            }), await sleep(1000), jumpToPromisify('circle-introduce', 'navigate', {
+              circleId: circleid
+            }), setStoragePromisify({
+              jump: 'circleDynamic'
+            })
+          );
+          authorStatus.statusCode === 200 && (
+            this.setData({
+              isCloseByMask: true,
+              isCloseBytoast: true,
+            }), setStoragePromisify({
+              jump: 'circleDynamic'
+            })
+          )
+        }
+      } else {
+        throw new Error(`isJoinCircle api statusCode:${result.statusCode}`)
       }
-    } else {
-      throw new Error(`isJoinCircle api statusCode:${result.statusCode}`)
-      showToastPromisify({
-        title: "网络错误,请重试!"
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title: '错误提示',
+        content: String(error)
       })
     }
   },
@@ -402,47 +462,39 @@ Page({
       userid,
       authorStatus
     } = param;
-    let result = await isJoinCircle({
-      circle_id: circleid
-    });
-    if (!result) throw new Error(`isJoinCircle api is ${result}`);
-    if (result.statusCode === 200) {
-      if (result.data.detail) {
-        let storageInfo = await getStorageInfoPromisify();
-        if (storageInfo.keys.includes("userId")) {
-          let myUserId = (await getStoragePromisify("userId")).userId;
-          if (userid !== myUserId) jumpToPromisify("message-content", "navigate", {
-            with_user_id: userid
-          })
-          else showToastPromisify({
-            title: "不能跟自己联系哦"
+    try {
+      let result = await isJoinCircle({
+        circle_id: circleid
+      });
+      if (typeof result === 'undefined' || !result) throw new Error(`isJoinCircle api is ${result}`);
+      if (result.statusCode === 200) {
+        if (result.data.joined) {
+          let storageInfo = await getStorageInfoPromisify();
+          if (storageInfo.keys.includes('userId')) {
+            let myUserId = (await getStoragePromisify('userId')).userId;
+            if (userid !== myUserId) jumpToPromisify('/subPackage_message/pages/message-content/message-content', 'navigate', {
+              with_user_id: userid
+            }, true)
+            else showToastPromisify({
+              title: '不能跟自己联系哦'
+            })
+          }
+        } else {
+          if (authorStatus.statusCode === 'isOk' || authorStatus.statusCode === 200) this.setData({
+            isCloseByMask: true,
+            isCloseBytoast: true,
+          }), await setStoragePromisify({
+            jump: 'messageContent',
+            withUserid: userid
           })
         }
       } else {
-        authorStatus.statusCode === "isOk" && (
-          showToastPromisify({
-            title: "您需要先加入该圈子才能评论哦"
-          }), await sleep(1000), jumpToPromisify("circle-introduce", "navigate", {
-            circleId: circleid
-          }), setStoragePromisify({
-            jump: "messageContent",
-            withUserid: userid
-          })
-        );
-        authorStatus.statusCode === 200 && (
-          this.setData({
-            isCloseByMask: true,
-            isCloseBytoast: true,
-          }), setStoragePromisify({
-            jump: "messageContent",
-            withUserid: userid
-          })
-        )
+        throw new Error(`isJoinCircle api statusCode:${result.statusCode}`)
       }
-    } else {
-      throw new Error(`isJoinCircle api statusCode:${result.statusCode}`)
-      showToastPromisify({
-        title: "网络错误,请重试!"
+    } catch (error) {
+      isTestEnvironment && await showModalPromisify({
+        title: '错误提示',
+        content: String(error)
       })
     }
   },
@@ -451,13 +503,16 @@ Page({
    * 预览图片
    */
   goPreview: function (e) {
-    let _this = this;
+    let {
+      index
+    } = e.currentTarget.dataset;
     let {
       images
-    } = _this.data.feedDetailData;
+    } = this.data.feedDetailData;
+    let imgs = thumbnailByMasterMap(images)
     wx.previewImage({
-      urls: images,
-      current: images[e.currentTarget.dataset.imageindex]
+      urls: imgs,
+      current: imgs[index]
     })
   },
 
@@ -475,7 +530,9 @@ Page({
    * 跳回首页
    */
   goPageWithIndex: function () {
-    jumpToPromisify("index", "reLaunch")
+    let { options } = this.data;
+    if (options.fromTo)  jumpToPromisify(1, 'back')
+    else jumpToPromisify('index', 'reLaunch')
   },
 
   /**
@@ -502,8 +559,8 @@ Page({
     })
     if (result.statusCode === 200) {
       showToastPromisify({
-        title: "删除成功",
-        image: "/images/icon/success.png"
+        title: '删除成功',
+        image: '/images/icon/success.png'
       })
       this.setData({
         isCloseByMask: false,
@@ -515,8 +572,70 @@ Page({
       })
     } else {
       showToastPromisify({
-        title: "网络异常",
-        image: "/images/icon/fail.png"
+        title: '网络异常',
+        image: '/images/icon/fail.png'
+      })
+    }
+  },
+
+  /**
+   * 删除评论
+   * @param {*} e
+   */
+  deleteComment: async function (e) {
+    let {
+      commentid,
+      index,
+      userid,
+    } = e.currentTarget.dataset;
+    let {
+      feedDetailData
+    } = this.data;
+    let storageInfo = await getStorageInfoPromisify();
+    if (storageInfo.keys.includes('userId')) {
+      let {
+        userId
+      } = await getStoragePromisify('userId');
+      if (Number(userId) === Number(userid)) {
+        let affirmComment = await showModalPromisify({
+          title: '提示',
+          content: '是否删除评论?'
+        });
+        if (affirmComment.confirm) {
+          let result = await createOrDeleteComment({
+            type: -1,
+            comment_id: commentid
+          })
+          if (result.statusCode === 200) {
+            if (result.data.detail === '操作成功') {
+              showToastPromisify({
+                title: '删除成功',
+                image: '/images/icon/success.png'
+              })
+              feedDetailData.comment.splice(index, 1);
+              feedDetailData.comment_count -= 1;
+              await sleep(1500);
+              this.setData({
+                feedDetailData
+              })
+            } else {
+              showToastPromisify({
+                title: '删除失败',
+                image: '/images/icon/fail.png'
+              })
+            }
+          } else {
+            showToastPromisify({
+              title: '删除失败',
+              image: '/images/icon/fail.png'
+            })
+          }
+        }
+      }
+    } else {
+      showModalPromisify({
+        content: '请先点击评论内容授权哦!',
+        showCancel: false
       })
     }
   }

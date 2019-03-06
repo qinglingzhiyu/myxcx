@@ -1,75 +1,228 @@
-<!--pages/circle-dynamic/circle-dynamic.wxml-->
-<form report-submit="true" bindsubmit="bindSubmit">
+  <!--pages/circle-dynamic/circle-dynamic.wxml-->
+<form 
+  report-submit="true" 
+  bindsubmit="bindSubmit"
+>
   <view class="swiper-tab">
-    <button form-type="submit" class="swiper-tab-list {{currentTab==0 ? 'awiper-on' : ''}}" data-current="0" bindtap="swichNav">动态</button>
-    <button form-type="submit" class="swiper-tab-list {{currentTab==1 ? 'awiper-on' : ''}}" data-current="1" bindtap="swichNav">成员</button>
+    <button 
+      form-type="submit" 
+      class="swiper-tab-list {{currentTab==0 ? 'awiper-on' : ''}}" 
+      data-current="0" 
+      bindtap="swichNav"
+    >动态</button>
+    <button 
+      form-type="submit" 
+      class="swiper-tab-list {{currentTab==1 ? 'awiper-on' : ''}}" 
+      data-current="1" 
+      bindtap="swichNav"
+    >成员</button>
   </view>
   <view wx:if="{{showComment}}">
-    <image class="release" src="/images/release-dynamic.png" bindtap="goPageWithCircleDynamicRelease" data-circleid="{{circleId}}" />
+    <image 
+      class="release" 
+      src="/images/release-dynamic.png" 
+      bindtap="goPageWithCircleDynamicRelease" 
+      data-circleid="{{circleId}}" />
   </view>
-  <swiper current="{{currentTab}}" class="swiper-box" duration="300" bindchange="bindChange" style="height:{{winHeight?winHeight+'px':'auto'}}" circular>
+  <swiper 
+    current="{{currentTab}}" 
+    class="swiper-box" 
+    duration="300" 
+    bindchange="bindChange" 
+    style="height:{{winHeight?winHeight+'px':'auto'}}" 
+    circular
+  >
     <!-- 动态 start -->
     <swiper-item>
-      <scroll-view scroll-y style="height:{{winHeight?winHeight+'px':'auto'}}" bindscrolltolower="loadMore">
-        <block wx:for="{{feedDynamicData}}" wx:key="i" wx:for-index="index">
-          <view class="dynamic-list">
-            <button class="dynamic-avatar" form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}"
-              data-circleId="{{item.circle_id}}">
-              <image src="{{item.avatar}}" />
+      <scroll-view 
+        scroll-y 
+        style="height:{{winHeight?winHeight+'px':'auto'}}" 
+        bindscrolltoupper="loadShell" 
+        bindscrolltolower="loadMore"
+      >
+        <block 
+          wx:key="i" 
+          wx:for="{{feedDynamicData}}" 
+          wx:for-index="index"
+        >
+          <view 
+            class="dynamic-list"
+            bindtap="goPageWithDynamicDetail"
+            data-feedid="{{item.feed_id}}"
+          >
+            <button 
+              class="dynamic-avatar" 
+              form-type="submit" 
+              catchtap="goPageWithMyEdit" 
+              data-userId="{{item.user_id}}"
+              data-circleId="{{item.circle_id}}"
+            >
+              <image class="bg-img-avatar animated faster simpleOpacity" lazy-load mode="aspectFill" src="{{item.avatar}}" />
             </button>
             <!-- 动态右侧部分 start -->
             <view class="dynamic-container">
               <view class="dynamic-title">
-                <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{item.circle_id}}">
-                  <text>{{item.nickname}}</text>
+                <button 
+                  class="dynamic-title-btn"
+                  catchtap="goPageWithMyEdit" 
+                  form-type="submit" 
+                  data-userId="{{item.user_id}}"
+                  data-circleId="{{item.circle_id}}"
+                >{{item.nickname}}
                 </button>
                 <text wx:if="{{item.status}}" class="dynamic-block">置顶</text>
               </view>
-              <view class="dynamic-content" form-type='submit' data-feedid="{{item.feed_id}}" bindtap="goPageWithDynamicDetail">
-                <text>{{item.isShowWithContent?item.contentSub:item.content}}</text>
-                <text class="on" wx:if="{{item.isShowWithContent}}" data-index="{{index}}" catchtap="openContent">查看全文</text>
+              <view 
+                class="dynamic-content" 
+                form-type="submit" 
+                data-feedid="{{item.feed_id}}" 
+                catchtap="goPageWithDynamicDetail"
+              >
+                <text class="{{item.isOpenText? 'on':''}}">{{item.content}}</text>
+                <view 
+                  class="openShow" 
+                  wx:if="{{item.isShowWithContent}}" 
+                  data-index="{{index}}" 
+                  catchtap="openContent"
+                >{{item.isOpenText?"查看全文":"收起"}}
+                </view>
               </view>
               <view class="dynamic-img">
                 <block wx:for="{{item.images}}" wx:key="i" wx:for-index="imageIndex">
-                  <image mode="aspectFill" src="{{item}}" bindtap="goPreview" data-index="{{index}}" data-imageindex="{{imageIndex}}" />
+                  <image 
+                    class="bg-img-photo animated faster simpleOpacity"
+                    lazy-load 
+                    src="{{item}}" 
+                    mode="aspectFill" 
+                    catchtap="goPreview" 
+                    data-index="{{index}}" 
+                    data-imageindex="{{imageIndex}}" 
+                  />
                 </block>
               </view>
               <view class="time">{{item.time}}</view>
               <view class="like">
-                <button class="like-btn" formType="submit" data-index="{{index}}" data-feedid="{{item.feed_id}}"
-                  bindtap="onisLike">
-                  <image wx:if="{{!item.isInterest}}" src="/images/icon/collect.png" mode="aspectFit" />
-                  <image wx:if="{{item.isInterest}}" src='/images/icon/collect_on.png' mode="aspectFit" /> 感兴趣
-                  {{item.like}}
+                <button 
+                  class="like-btn" 
+                  formType="submit" 
+                  catchtap="onisLike"
+                  data-index="{{index}}" 
+                  data-feedid="{{item.feed_id}}"
+                >
+                  <image 
+                    wx:if="{{!item.isInterest}}" 
+                    lazy-load 
+                    class="interest-img"
+                    mode="aspectFit" 
+                    src="/images/icon/collect.png" 
+                  />
+                  <image 
+                    lazy-load
+                    wx:else   
+                    class="interest-img"
+                    mode="aspectFit" 
+                    src="/images/icon/collect_on.png" 
+                  /> 
+                  {{item.like}}人感兴趣
                 </button>
-                <button class="like-btn" bindtap="oncomentBybtn" data-index="{{index}}" data-feedid="{{item.feed_id}}"
-                  data-commentto="0">
-                  <image src="/images/icon/msg.png" mode="widthFix" />评论 {{item.comment_count}}
+                <button 
+                  class="like-btn" 
+                  catchtap="oncomentBybtn" 
+                  data-index="{{index}}" 
+                  data-feedid="{{item.feed_id}}"
+                  data-commentto="0"
+                >
+                  <image 
+                    lazy-load 
+                    class="comment-img"
+                    src="/images/icon/msg.png" 
+                    mode="widthFix" 
+                  />评论 {{item.comment_count}}
                 </button>
-                <button class="like-share" open-type="share" form-type="submit" data-feedid="{{item.feed_id}}" data-sex="{{item.user_sex}}"
-                  data-img="{{item.images[0]}}" data-feedid="{{item.feed_id}}">
-                  <image src="/images/index-share.png" mode="aspectFill" />
+                <button 
+                  class="like-share" 
+                  open-type="share" 
+                  form-type="submit" 
+                  data-feedid="{{item.feed_id}}" 
+                  data-sex="{{item.user_sex}}"
+                  data-img="{{item.images[0]}}" 
+                  data-feedid="{{item.feed_id}}"
+                >
+                  <image lazy-load src="/images/wechat.png" mode="aspectFill" />
+                  <text>分享</text>
                 </button>
               </view>
-              <block wx:for="{{item.comment}}" wx:for-index="commentIndex" wx:key="i">
-                <view class="comment-list">
-                  <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{feedDynamicData[index].circle_id}}">
-                    <image class="coment-avatar" src="{{item.user_id_avatar}}" />
-                  </button>
-                  <view class="comment-content">
-                    <button form-type='submit' bindtap="goPageWithMyEdit" data-userId="{{item.user_id}}" data-circleId="{{feedDynamicData[index].circle_id}}"
-                      class="comment-title">
-                      {{item.user_id_nickname}}
+              <view 
+                wx:if="{{item.comment.length>0}}" 
+                class="triangle"   
+                catchtap="oncomentBybtn" 
+                data-index="{{index}}" 
+                data-feedid="{{item.feed_id}}"
+                data-commentto="0"></view>
+              <view wx:if="{{item.comment.length>0}}" class="comment-container">
+                <block wx:for="{{item.comment}}" wx:for-index="commentIndex" wx:key="i">
+                  <view 
+                    class="comment-list"
+                    data-index="{{index}}"
+                    data-userid="{{item.user_id}}"
+                    data-commentid="{{item.comment_id}}"
+                    data-commentindex="{{commentIndex}}"
+                    catchlongpress="deleteComment"
+                  >
+                    <button 
+                      form-type="submit" 
+                      bindtap="goPageWithMyEdit" 
+                      data-userId="{{item.user_id}}" 
+                      data-circleId="{{feedDynamicData[index].circle_id}}"
+                    >
+                      <image 
+                        class="bg-img-avatar comment-avatar animated faster simpleOpacity" 
+                        lazy-load mode="aspectFill" 
+                        src="{{item.user_id_avatar}}" 
+                      />
                     </button>
-                    <button bindtap="oncomentBybtn" style="font-size:28rpx" data-feedid="{{item.feed_id}}"
-                      data-commentto="{{item.user_id}}" data-index="{{index}}" form-type="submit" class="commentbtn">
-                      <text wx:if="{{!item.comment_to_nickname}}" class="comment-message">{{item.content}}</text>
-                      <text wx:if="{{item.comment_to_nickname}}" class="comment-message">回复<text style="color:#D33B33">{{item.comment_to_nickname}}</text>{{item.content}}
-                      </text>
-                    </button>
+                    <view class="comment-content">
+                      <button 
+                        class="comment-title"
+                        catchtap="goPageWithMyEdit" 
+                        form-type="submit" 
+                        data-userId="{{item.user_id}}" 
+                        data-circleId="{{feedDynamicData[index].circle_id}}"
+                      >
+                        <text class="text-left">{{item.user_id_nickname}}</text>
+                      </button>
+                      <view 
+                        class="text-left"
+                        catchtap="oncomentBybtn" 
+                        style="font-size:28rpx" 
+                        data-feedid="{{item.feed_id}}"
+                        data-commentto="{{item.user_id}}" 
+                        data-index="{{index}}" 
+                      >
+                        <text 
+                          wx:if="{{!item.comment_to_nickname}}" 
+                          class="text-left"
+                        >{{item.content}}</text>
+                        <text  
+                          wx:if="{{item.comment_to_nickname}}" 
+                          class="text-left"
+                        >回复</text>
+                        <text 
+                          wx:if="{{item.comment_to_nickname}}" 
+                          style="color:#D33B33"
+                          catchtap="goPageWithMyEdit" 
+                          data-userId="{{item.comment_to}}" 
+                          data-circleId="{{feedDynamicData[index].circle_id}}"
+                        >{{item.comment_to_nickname}}</text>
+                        <text 
+                          class="text-left"
+                          wx:if="{{item.comment_to_nickname}}" 
+                        >: {{item.content}}</text>
+                      </view>
+                    </view>
                   </view>
-                </view>
-              </block>
+                </block>
+              </view>
             </view>
             <!-- 动态右侧部分 end-->
           </view>
@@ -82,21 +235,57 @@
 
     <!-- 成员 start -->
     <swiper-item>
-      <scroll-view scroll-y style="height:{{winHeight?winHeight+'px':'auto'}}" class="scroll-member" bindscrolltolower="loadMore">
-        <block wx:for="{{memberList}}" wx:key="i" wx:for-index="index">
-          <view class="member" form-type="submit" data-userid="{{item.user_id}}" data-circleid="{{item.circle_id}}"
-            bindtap="goPageWithMyEdit">
-            <image class="member-avatar" src="{{item.user.avatar}}" />
+      <scroll-view 
+        scroll-y 
+        style="height:{{winHeight?winHeight+'px':'auto'}}" 
+        class="scroll-member" 
+        bindscrolltoupper="loadShell" 
+        bindscrolltolower="loadMore"
+      >
+        <block 
+          wx:for="{{memberList}}" 
+          wx:for-index="index"
+          wx:key="i" 
+        >
+          <view 
+            class="member" 
+            bindtap="goPageWithMyEdit"
+            form-type="submit" 
+            data-userid="{{item.user_id}}" 
+            data-circleid="{{item.circle_id}}"
+          >
+            <image
+              class="bg-img-avatar animated faster simpleOpacity" 
+              lazy-load 
+              class="member-avatar" 
+              mode="aspectFill"
+              src="{{item.user.avatar}}" 
+            />
             <view class="member-introduce">
-              <text class="introduce-top">{{item.user.occupation}} <text class="top-app" wx:if="{{item.user.isAPP}}">app</text></text>
+              <view class="introduce-top">
+                <text>{{item.user.occupation}}</text>
+                <text wx:if="{{item.user.isAPP}}" class="top-app">app</text>
+              </view>
               <text class="introduce-middle">
-                <text wx:if="{{item.user.child_gender}}" class="middle-gender">{{item.user.child_gender}}</text>
-                <text wx:if="{{item.user.birthday}}" class="middle-birth">{{item.user.birthday}}</text>
+                <text 
+                  wx:if="{{item.user.child_gender}}" 
+                  class="middle-gender"
+                >{{item.user.child_gender}}</text>
+                <text 
+                  wx:if="{{item.user.birthday}}" 
+                  class="middle-birth"
+                >{{item.user.birth_year}}</text>
               </text>
-              <text class="introduce-bottom">{{item.user.residence}} {{item.user.height}}cm {{item.education}}</text>
+              <text class="introduce-bottom">{{item.user.residence}} {{item.user.height}}cm {{item.user.education}}</text>
             </view>
-            <button wx:if="{{!item.ismy}}" form-type="submit" class="introduce-btn" data-userid="{{item.user_id}}"
-              data-navtitle="{{item.user.occupation}}" catchtap="goPageWithMessageContent">留言</button>
+            <button 
+              wx:if="{{!item.ismy}}" 
+              form-type="submit" 
+              class="introduce-btn" 
+              data-userid="{{item.user_id}}"
+              data-navtitle="{{item.user.occupation}}" 
+              catchtap="goPageWithMessageContent"
+            >留言</button>
           </view>
         </block>
       </scroll-view>
@@ -105,5 +294,11 @@
   </swiper>
 </form>
 
-<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
-<comment wx:if="{{isComment}}" commentInfo="{{commentInfo}}" bind:myComment="onComment" />
+<mask 
+  wx:if="{{isCloseByMask}}" 
+  bind:myMask="closeMask" />
+<comment 
+  wx:if="{{isComment}}" 
+  commentInfo="{{commentInfo}}" 
+  bind:myComment="onComment" 
+/>

@@ -1,4 +1,4 @@
-/* pages/message-detail/message-detail.wxss */
+@import '/common/animate.wxss';
 .remind-list {
   display: flex;
   position: relative;

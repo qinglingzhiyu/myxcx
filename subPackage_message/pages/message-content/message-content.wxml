@@ -1,39 +1,103 @@
-<!--pages/message-content/message-content.wxml-->
 <form report-submit="true" bindsubmit="bindSubmit">
-  <!-- <image class="bg" mode="widthFix" src="/images/msg-banner.png" bindtap="goPageWithDown"/> -->
-  <view class="msg">
+  <button 
+    form-type="submit" 
+    open-type="contact"
+    send-message-title="点击下面链接下载大亲家APP，体验更多精彩功能!"
+    send-message-img="/images/downAPP.jpg"
+    show-message-card="true"
+  >
+    <image 
+      class="bg animated faster simpleOpacity"
+      mode="aspectFit" 
+      src="/images/msg-banner.png" 
+    />
+  </button>
+  <scroll-view 
+    class="msg {{padBottom}}"
+    scroll-y="true"
+    style="height:{{height+'rpx'}}"
+    scroll-top="{{scrollTop}}"
+    scroll-with-animation="true"
+    bindscrolltoupper="onShell"
+    bindtap="onCloseTosat"
+  >
     <block wx:for="{{messageData}}" wx:key="index">
       <view class="time">{{item.create_time}}</view>
-      <view  class="content {{item.contentR}}">
-        <button class="avatar" 
-                bindtap="goPageWithMyEdit"
-                data-userId="{{item.send_user_id}}"
-                form-type="submit">
-          <image src="{{item.send_user_info.avatar}}" />
+      <view id="{{item.id}}" class="content {{item.contentR}}">
+        <button 
+          class="avatar" 
+          bindtap="goPageWithMyEdit"
+          data-userId="{{item.send_user_id}}"
+          form-type="submit"
+        >
+          <image class="bg-img-avatar animated faster simpleOpacity" mode="aspectFill" src="{{item.send_user_info.avatar}}" />
         </button>
         <view class="detail {{item.detailR}}">
           <view class="user {{item.userR}}">{{item.send_user_info.occupation}}</view>
-          <view  wx:if="{{item.message_type===0?true:false}}" class="msg-content {{item.msgR}}">{{item.content}}</view>
-          <image wx:if="{{item.message_type===1?true:false}}" class="msg-img" 
-                 src="{{item.content}}" bindtap="goPreview" data-index="{{index}}"/>
+          <view  
+            class="msg-content {{item.msgR}}"
+            wx:if="{{item.message_type===0?true:false}}" 
+          >
+          <block wx:for="{{item.newContent}}" wx:key="index">
+            <text wx:if="{{item.node === 'text'}}">{{item.text}}</text>
+            <image 
+              class="content-emji"
+              wx:if="{{item.node === 'img'}}" 
+              src="../../images/{{item.newImg}}"
+            />
+          </block>
+        </view>
+          <image
+            class="bg-img-photo animated faster simpleOpacity"
+            src="{{item.content}}" 
+            mode="aspectFill"
+            wx:if="{{item.message_type===1?true:false}}" 
+            class="msg-img" 
+            bindtap="goPreview" 
+            data-index="{{index}}"
+          />
         </view>
       </view>
     </block>
-  </view>
+  </scroll-view>
 
-  <!-- 底部 -->
-  <view class="fix-bottom">
-    <input class="fix-input" focus placeholder="请输入内容" cursor-spacing="10rpx" bindinput="changeInput" value="{{content}}" name="content"/>
-    <button class="photo" bindtap="chooseImg" form-type="submit">
+  <!-- 底部start -->
+  <view class="fix-bottom {{clickEmoji}}">
+    <input 
+      focus="{{focus}}"
+      name="content"
+      class="fix-input" 
+      value="{{content}}" 
+      bindinput="changeInput" 
+      placeholder="请输入内容" 
+      cursor-spacing="10rpx" 
+      bindfocus="onFocus"
+    />
+    <button 
+      class="photo" 
+      form-type="submit"
+      bindtap="chooseImg" 
+    >
       <image src="/images/icon/photo.png"/>
     </button>
-    <button class="expresse" form-type="submit" bindtap="onExpression">
+    <button 
+      class="expresse" 
+      form-type="submit" 
+      bindtap="onExpression"
+    >
        <image src="/images/icon/expression.png" />
     </button>
-    <button class="affirm" style="{{onStyle}}" form-type="submit"  disabled="{{disabled}}">发送</button>
+    <button 
+      class="affirm {{affirmOn}}" 
+      form-type="submit"  
+      disabled="{{disabled}}"
+      bindtap="onSend"
+    >发送</button>
   </view>
+  <!-- 底部end -->
+  <emotion 
+    wx:if="{{isEmotion}}" 
+    class="message-emotion" 
+    bind:selectedEmoji="selectEmoji"
+  />
 </form>
-
-<!-- 表情 start -->
-<emotion wx:if="{{true}}"/>
-<!-- 表情 end -->

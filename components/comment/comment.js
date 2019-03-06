@@ -1,13 +1,13 @@
 // components/comment/comment.js
 import {
-  createComment
-} from "../../api/request.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+  createOrDeleteComment
+} from '../../api/request.js'
+import regeneratorRuntime from '../../api/regeneratorRuntime.js'
 import {
   getStorageInfoPromisify,
   showToastPromisify,
   jumpToPromisify
-} from "../../api/promisify.js"
+} from '../../api/promisify.js'
 
 const app = getApp();
 Component({
@@ -24,9 +24,10 @@ Component({
    * 组件的初始数据
    */
   data: {
-    value:"",
+    value:'',
     disabled:true,
-    on:""
+    on:'',
+    animatedType:'fadeInUp'
   },
 
   /**
@@ -41,12 +42,12 @@ Component({
       if(value.length >0){
         this.setData({
           disabled: false,
-          on: "on"
+          on: 'on'
         })
       }else{
         this.setData({
           disabled: true,
-          on: ""
+          on: ''
         })
       }
     },
@@ -62,30 +63,31 @@ Component({
         feed_id,
         comment_to
       } = this.data.commentInfo;
-      if (content === "") {
+      if (content === '') {
         showToastPromisify({
-          title: "内容不为空哦"
+          title: '内容不为空哦'
         })
       } else {
         let storageInfo = await getStorageInfoPromisify();
-        if (storageInfo.keys.includes("Token")) {
-          let result = await createComment({
+        if (storageInfo.keys.includes('Token')) {
+          let result = await createOrDeleteComment({
             feed_id,
             comment_to,
             content,
             type: 0
           })
-          this.triggerEvent("myComment", {
+          this.triggerEvent('myComment', {
             result
           })
 
         } else {
           showToastPromisify({
-            title: "未登录,请返回!"
+            title: '未登录,请返回!'
           })
-          jumpToPromisify("index", "reLaunch")
+          jumpToPromisify('index', 'reLaunch')
         }
       }
+      
       //收集fromid
       let {
         formId

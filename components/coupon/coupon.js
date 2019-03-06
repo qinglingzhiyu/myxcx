@@ -1,8 +1,8 @@
 // components/coupon/coupon.js
 import {
   getCouponWithToken
-} from "../../api/request.js";
-import regeneratorRuntime from "../../api/regeneratorRuntime.js";
+} from '../../api/request.js';
+import regeneratorRuntime from '../../api/regeneratorRuntime.js';
 
 const app = getApp();
 Component({
@@ -45,14 +45,14 @@ Component({
         type: 0,
         coupon_id: e.currentTarget.dataset.couponid
       })
-      this.triggerEvent("MyFirstCoupon", result.data)
+      this.triggerEvent('MyFirstCoupon', result.data)
     },
 
     /**
      * 关闭
      */
     closeToast:function () {
-      this.triggerEvent("MyFirstCoupon", "close")
+      this.triggerEvent('MyFirstCoupon', 'close')
     }
   }
 })

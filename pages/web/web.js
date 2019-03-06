@@ -1,11 +1,11 @@
 import regeneratorRuntime, {
   async
-} from "../../api/regeneratorRuntime.js"
+} from '../../api/regeneratorRuntime.js'
 import {
   getStoragePromisify,
   jumpToPromisify,
   getStorageInfoPromisify
-} from "../../api/promisify";
+} from '../../api/promisify';
 // pages/web/web.js
 Page({
 
@@ -21,14 +21,14 @@ Page({
    */
   onLoad: async function () {
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("link")) {
+    if (storageInfo.keys.includes('link')) {
       let {
         link
       } = await getStoragePromisify('link');
       this.setData({
         link
       });
-    } else jumpToPromisify(1, "back")
+    } else jumpToPromisify(1, 'back')
   },
 
   /**

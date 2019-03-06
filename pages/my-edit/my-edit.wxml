@@ -1,13 +1,30 @@
 <!--pages/my-edit/my-edit.wxml-->
 <form report-submit="true" bindsubmit="bindSubmit">
   <view class="main">
-    <!-- <view class="top" wx:if="{{isbanner}}">我正在使用大亲家APP，26万人正在热聊中！
-      <text class="btn">立即打开</text> 
-      <image class="top-img" src="/images/icon/close.png" bindtap="closeBanner"/>
-    </view> -->
+    <view class="top" wx:if="{{editInfoData.isAPP}}">
+      <button 
+        class="banner"
+        form-type="submit" 
+        open-type="contact"
+        send-message-title="点击下面链接下载大亲家APP，体验更多精彩功能!"
+        send-message-img="/images/downAPP.jpg"
+        show-message-card="true"
+      >
+        我正在使用大亲家APP,26万人正在热聊中!
+        <text class="btn">立即打开</text> 
+      </button>
+      <button class="banner" bindtap="closeBanner">
+        <image class="top-img" src="/images/icon/close.png" />
+      </button>
+    </view>
     <!-- 头像名字 start -->
     <view class="avatar">
-      <image class="avatar-img" bindtap='goPreview' src="{{editInfoData.avatar}}" />
+      <image 
+        class="avatar-img bg-img-avatar animated faster simpleOpacity" 
+        mode="aspectFill" 
+        bindtap="goPreview" 
+        src="{{editInfoData.avatar}}"
+      />
       <text class="user-name">{{editInfoData.occupation}}</text>
       <view class="label">
         <text class="label-text">{{editInfoData.gender}}</text>
@@ -34,16 +51,24 @@
     <!-- 显示内容 end -->
 
     <!-- 动态 start -->
-    <button class="dynamic" form-type="submit" 
-            open-type="getUserInfo" bindgetuserinfo="getUserInfo" 
-            data-cometo="dynamic">
+    <button 
+      class="dynamic" 
+      form-type="submit" 
+      open-type="getUserInfo" 
+      bindgetuserinfo="getUserInfo" 
+      data-cometo="dynamic"
+    >
       <view class="dy-title">
         <text>动态</text>
         <view class="dy-more">更多 ></view>
       </view>
       <view class="dy-img">
         <block wx:for="{{editInfoData.images}}" wx:key="index">
-          <image mode="aspectFill" src="{{item.src}}" />
+          <image 
+            class="bg-img-photo animated faster simpleOpacity" 
+            mode="aspectFill" 
+            src="{{item}}" 
+          />
         </block>
       </view>
     </button>
@@ -56,14 +81,15 @@
     </view>
     <!-- 个人介绍 end -->
   </view>
-  <button class="bottom-btn" 
-          form-type="submit" 
-          data-navtitle="{{editInfoData.occupation}}"
-          open-type="{{share}}" 
-          data-cometo="btn"
-          data-userid="{{userId}}"
-          bindgetuserinfo="getUserInfo" 
-          >{{bottomBtn}}</button>
+  <button 
+    class="bottom-btn" 
+    form-type="submit" 
+    data-navtitle="{{editInfoData.occupation}}"
+    open-type="{{share}}" 
+    data-cometo="btn"
+    data-userid="{{userId}}"
+    bindgetuserinfo="getUserInfo" 
+    >{{bottomBtn}}</button>
 </form>
 <mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
 <rule-toast wx:if="{{isCloseBytoast}}"  bind:mytoast="mytoast"/>

@@ -14,9 +14,9 @@
 		"uglifyFileName": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.4.3",
-	"appid": "wx85b1f48339a52927",
-	"projectname": "%E5%B0%8F%E7%BA%A2%E5%9C%88%E4%B8%8B%E4%B8%AA%E7%89%88%E6%9C%AC",
+	"libVersion": "2.6.1",
+	"appid": "wx9fa47d9522cc0237",
+	"projectname": "%E7%9B%B8%E4%BA%B2%E5%B0%8F%E7%BA%A2%E5%9C%88",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -38,82 +38,35 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 3,
 			"list": [
 				{
 					"id": -1,
-					"name": "越早越优惠",
-					"pathName": "pages/sale/sale",
-					"query": "circleId=32"
+					"name": "圈子介绍页",
+					"pathName": "pages/circle-introduce/circle-introduce",
+					"query": "circleId=10",
+					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "动态详情",
-					"pathName": "pages/dynamic-detail/dynamic-detail",
-					"query": "feedId=409&circleId=32",
-					"scene": "1001"
+					"id": 1,
+					"name": "上海相亲群",
+					"pathName": "pages/circle-dynamic/circle-dynamic",
+					"query": "circleId=30&navTitle=上海相亲群",
+					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "我的",
-					"pathName": "pages/my/my",
-					"query": "",
-					"scene": "1001"
+					"id": 2,
+					"name": "我的动态",
+					"pathName": "pages/dynamic/dynamic",
+					"query": "userId=3061",
+					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "圈子",
-					"pathName": "pages/circle/circle",
-					"query": "",
-					"scene": "1001"
-				},
-				{
-					"id": 8,
-					"name": "牵线跳圈子",
-					"pathName": "pages/index/index",
-					"query": "",
-					"scene": "1037",
-					"referrerInfo": {
-						"appId": "wx17ebf8231f79504d",
-						"extraData": "{\"from\":\"牵线\",\"circleId\":\"41\",\"userId\":\"411\",\"bottomBtn\":\"留言\",\"lineShareid\":\"1314\"}"
-					}
-				},
-				{
-					"id": 5,
-					"name": "留言",
-					"pathName": "subPackage_message/pages/message-content/message-content",
-					"query": "with_user_id=1160"
-				},
-				{
-					"id": 6,
-					"name": "牵线分享过来的数据",
-					"pathName": "pages/index/index",
-					"query": "circleId=30&circleName=上海有房圈&userId=1035",
-					"scene": "1037",
-					"referrerInfo": {
-						"appId": "wx17ebf8231f79504d",
-						"extraData": "{\"from\":\"牵线\",\"circleId\":\"33\",\"userId\":\"1417\",\"circleName\":\"上海小拉拉\",\"lineShareid\":\"204\"}"
-					}
-				},
-				{
-					"id": 7,
-					"name": "服务通知 优惠券",
-					"pathName": "pages/my/my",
-					"query": "comeFrom=coupon",
-					"scene": "1001"
-				},
-				{
-					"id": -1,
-					"name": "服务通知 感兴趣",
-					"pathName": "pages/message/message",
-					"query": "comeFrom=detail",
-					"scene": "1001"
-				},
-				{
-					"id": 9,
-					"name": "分享",
-					"pathName": "pages/circle/circle",
-					"query": "from=share&userId=1386"
+					"id": 3,
+					"name": "圈子介绍",
+					"pathName": "pages/circle-introduce/circle-introduce",
+					"query": "circleId=74",
+					"scene": null
 				}
 			]
 		}

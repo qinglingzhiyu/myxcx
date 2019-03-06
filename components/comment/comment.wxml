@@ -1,8 +1,22 @@
 <!--components/comment/comment.wxml-->
-<form report-submit="true" bindsubmit="bindSubmit">
-    <view class="comment-input" >
-      <input cursor-spacing="20" focus confirm-type="完成" placeholder="回复" value="{{value}}" name="content" bindinput="changeValue"/>
-      <button type='mini' class="{{on}}" form-type="submit"  disabled="{{disabled}}">发送</button>
-    </view>
+<form 
+  report-submit="true" 
+  bindsubmit="bindSubmit"
+>
+  <view class="comment-input">
+    <input 
+      focus 
+      cursor-spacing="35rpx" 
+      placeholder="回复" 
+      value="{{value}}" 
+      name="content" 
+      bindinput="changeValue" 
+    />
+    <button 
+      type='mini' 
+      class="{{on}}" 
+      form-type="submit" 
+      disabled="{{disabled}}"
+    >发送</button>
+  </view>
 </form>
-

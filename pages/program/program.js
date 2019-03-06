@@ -1,6 +1,6 @@
 // pages/program/program.js
 import { getConfig } from "../../api/request";
-import regeneratorRuntime, { async } from "../../api/regeneratorRuntime";
+import regeneratorRuntime from "../../api/regeneratorRuntime";
 import { jumpToPromisify, setStoragePromisify, getStoragePromisify, getStorageInfoPromisify} from "../../api/promisify";
 import { sleep } from '../../common/common'
 Page({

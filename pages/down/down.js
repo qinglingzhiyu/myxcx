@@ -1,5 +1,5 @@
 // pages/down/down.js
-import { config } from "../../api/config.js"
+import { config } from '../../api/config.js'
 Page({
 
   /**

@@ -1,10 +1,13 @@
-/* pages/circle-dynamic-release/circle-dynamic-release.wxss */
+@import '/common/animate.wxss';
 .main {
   margin: 32rpx;
 }
 
 .content {
-  border: 1rpx solid #fff
+  width: 100%;
+  border: 1rpx solid rgb(235, 231, 231);
+  padding: 10rpx;
+  box-sizing: border-box;
 }
 
 .add-img {
@@ -26,6 +29,7 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   align-items: center;
+  margin-top: 20rpx;
 }
 
 .img {
@@ -48,8 +52,8 @@
 
 .closeimg{
   position: absolute;
-  top:-10rpx;
-  right: -8rpx;
-  width: 20rpx;
-  height: 20rpx;
+  top: -15rpx;
+  right: -14rpx;
+  width: 40rpx;
+  height: 40rpx;
 }

@@ -3,11 +3,27 @@
   <template is="tabBar" data="{{tabBar:bindData.tabBar}}" />
   <scroll-view scroll-y class="main">
     <!-- banner start  -->
-    <swiper autoplay="true" interval="3000" circular="true" class="banner" indicator-dots indicator-color="#fff" indicator-active-color="#D33B33">
-      <block wx:for="{{bannerList}}" wx:key="index">
+    <swiper 
+      autoplay="true" 
+      interval="3000" 
+      circular="true" 
+      class="banner" 
+      indicator-dots 
+      indicator-color="#fff" 
+      indicator-active-color="#D33B33"
+    >
+      <block 
+        wx:for="{{bannerList}}" 
+        wx:key="index"
+      >
         <swiper-item class="banner-item">
-          <button data-url="{{item.link}}" data-index="{{index}}" bindtap="goLink" form-type="submit">
-            <image mode="widthFix" src="{{item.src}}" />
+          <button 
+            data-url="{{item.link}}" 
+            data-index="{{index}}" 
+            bindtap="goLink" 
+            form-type="submit"
+          >
+            <image class="bg-img-photo animated faster simpleOpacity" lazy-load mode="widthFix" src="{{item.src}}" />
           </button>
         </swiper-item>
       </block>
@@ -20,155 +36,143 @@
 
     <!-- select start -->
     <view class="select">
-      <picker bindchange="bindGenderChange" value="{{genderIndex}}" range="{{gender}}" class="picker">
+      <picker 
+        class="picker"
+        value="{{genderIndex}}" 
+        range="{{gender}}" 
+        bindchange="genderChange" 
+      >
         性别 : {{gender[genderIndex]}}
         <image mode="widthFix" class="select-img" src="/images/icon/triangle.png" />
       </picker>
-      <picker bindchange="bindprovinceChange" value="{{provinceIndex}}" range="{{province}}" range-key="{{'value'}}" class="picker">
-        省份 : {{province[provinceIndex].value}}
+      <view class="picker" bindtap="selectCity">
+        城市 : {{chooseCitySub}} 
         <image mode="widthFix" class="select-img" src="/images/icon/triangle.png" />
-      </picker>
+      </view>
     </view>
     <!-- select end -->
 
     <!-- 动态列表 start -->
-    <block wx:for="{{selectList}}" wx:for-index="index" wx:key="i">
-      <view class="dynamic-list">
-        <button class="dynamic-avatar" 
-                form-type='submit' 
-                bindtap="goPageWithMyEdit"
-                data-userid="{{item.user_id}}"
-                data-circleid="{{item.circle_id}}"
-                form-type="submit"
+    <block wx:if="{{isContent}}" wx:for="{{selectList}}" wx:for-index="index" wx:key="i">
+      <view 
+        class="dynamic-list" 
+        bindtap="goPageWithDynamicDetail"
+        data-selectfeedid="{{item.select_feed_id}}"
+        data-feedid="{{item.feed_id}}"
+      >
+        <button 
+          class="dynamic-avatar" 
+          mode="aspectFill"
+          form-type='submit' 
+          catchtap="goPageWithMyEdit"
+          data-userid="{{item.user_id}}"
+          data-circleid="{{item.circle_id}}"
+          form-type="submit"
         >
-          <image  src="{{item.avatar}}" />
+          <image class="bg-img-avatar animated faster simpleOpacity" lazy-load  mode="aspectFill" src="{{item.avatar}}" />
         </button>
         <!-- 动态右侧部分 start -->
         <view class="dynamic-container">
-          <button class="dynamic-title"
-                  bindtap="goPageWithMyEdit"
-                  data-userId="{{item.user_id}}"
-                  data-circleId="{{item.circle_id}}"
-                  form-type="submit"
+          <button 
+            class="dynamic-title"
+            catchtap="goPageWithMyEdit"
+            data-userId="{{item.user_id}}"
+            data-circleId="{{item.circle_id}}"
+            form-type="submit"
           >{{item.nickname}}</button>
-          <view class="dynamic-content"
-                data-selectfeedid="{{item.select_feed_id}}"
-                data-feedid="{{item.feed_id}}"
-                bindtap="goPageWithDynamicDetail">
-            <text>{{item.isShowWithContent?item.contentSub:item.content}}</text>
-            <text class="on"
-                  wx:if="{{item.isShowWithContent}}" 
-                  data-index="{{index}}" 
-                  catchtap="openContent"
-            >查看全文</text>
+          <view 
+            class="dynamic-content"
+            data-selectfeedid="{{item.select_feed_id}}"
+            data-feedid="{{item.feed_id}}"
+            catchtap="goPageWithDynamicDetail"
+          >
+            <view class="{{item.isOpen?'on':''}}" >{{item.content}}</view>
+            <view 
+              class="editButton"
+              wx:if="{{item.isOverflow}}" 
+              data-index="{{index}}" 
+              catchtap="openContent"
+            >{{item.isOpen?'查看全文':'收起'}}</view>
           </view>
           <view class="dynamic-img">
-            <block  wx:for="{{item.images}}" wx:for-index="photoIndex" wx:key="i">
-              <image mode="aspectFill" 
-                     src="{{item}}" 
-                     bindtap="goPreview"
-                     data-index="{{index}}"
-                     data-photoIndex="{{photoIndex}}" />
+            <block wx:for="{{item.images}}" wx:for-index="photoIndex" wx:key="i">
+              <image 
+                class="bg-img-photo animated faster simpleOpacity"
+                mode="aspectFill" 
+                lazy-load
+                src="{{item}}" 
+                catchtap="goPreview"
+                data-index="{{index}}"
+                data-photoIndex="{{photoIndex}}" 
+              />
             </block>
           </view>
-          <button class="location" 
-                  form-type="submit" 
-                  open-type="getUserInfo" 
-                  bindgetuserinfo="getUseInfo"
-                  data-comeTo="location"
-                  data-navTitle="{{item.circle_name}}"
-                  data-circleid="{{item.circle_id}}"
-          >来自{{item.circle_name}}</button>
+          <button 
+            class="location" 
+            catchtap="notTouched"
+            form-type="submit" 
+            open-type="getUserInfo" 
+            data-comeTo="location"
+            data-navTitle="{{item.circle_name}}"
+            data-circleid="{{item.circle_id}}"
+            bindgetuserinfo="getUseInfo"
+          >
+            <text class="location-normal">来自</text> #{{item.circle_name}}#</button>
           <view class="like">
-            <button class="like-btn" 
-                    open-type="getUserInfo" 
-                    formType="submit" 
-                    bindgetuserinfo="getUseInfo"
-                    data-comeTo="interest"
-                    data-index="{{index}}"
-                    data-circleid="{{item.circle_id}}"
-                    data-feedid="{{item.feed_id}}"
+            <button 
+              class="like-btn" 
+              formType="submit" 
+              catchtap="notTouched"
+              open-type="getUserInfo" 
+              data-index="{{index}}"
+              data-comeTo="interest"
+              data-feedid="{{item.feed_id}}"
+              data-circleid="{{item.circle_id}}"
+              bindgetuserinfo="getUseInfo"
             >
               <image wx:if="{{!item.isInterest}}" src="/images/icon/collect.png" mode="aspectFit"/>
-              <image wx:if="{{item.isInterest}}" src='/images/icon/collect_on.png' mode="aspectFit"/>感兴趣 {{item.like}}
+              <image wx:else src="/images/icon/collect_on.png" mode="aspectFit"/>{{item.like}}人感兴趣 
             </button>
-            <button class="like-btn" 
-                    open-type="getUserInfo" 
-                    form-type="submit" 
-                    data-comeTo="comment"
-                    data-feedid="{{item.feed_id}}"
-                    data-circleid="{{item.circle_id}}"
-                    data-commentto="0"
-                    data-index="{{index}}"
-                    bindgetuserinfo="getUseInfo"
+            <button 
+              class="like-share" 
+              catchtap="notTouched"
+              open-type="share" 
+              form-type="submit" 
+              data-sex="{{item.user_sex}}"
+              data-img="{{item.images[0]}}"
+              data-feedid="{{item.feed_id}}" 
+              data-selectfeedid="{{item.select_feed_id}}"
             >
-              <image src="/images/icon/msg.png" mode="widthFix" />评论 {{item.comment_count}}
-            </button>
-            <button class="like-share" 
-                    open-type="share" 
-                    form-type="submit" 
-                    data-feedid="{{item.feed_id}}" 
-                    data-img="{{item.images[0]}}"
-                    data-sex="{{item.user_sex}}"
-                    data-selectfeedid="{{item.select_feed_id}}"
-                    >
-              <image src="/images/index-share.png" mode="aspectFill" />
+              <image lazy-load src="/images/wechat.png" mode="aspectFill" />
+              <text>分享</text>
             </button>
           </view>
-          <block wx:for="{{item.comment}}"  wx:for-index="commentIndex" wx:key="i">
-            <view class="comment-list">
-              <button form-type='submit' 
-                      bindtap="goPageWithMyEdit"
-                      data-userId="{{item.user_id}}"
-                      data-circleId="{{item.circle_id}}"
-              >
-                <image class="coment-avatar" src="{{item.user_id_avatar}}"/>
-              </button>
-              <view class="comment-content">
-                <button form-type='submit' 
-                        bindtap="goPageWithMyEdit"
-                        data-userId="{{item.user_id}}"
-                        data-circleId="{{item.circle_id}}"
-                        form-type="submit"
-                        class="comment-title"
-                >
-                  {{item.user_id_nickname}}
-                </button>
-                <button wx:if="{{!item.comment_to_nickname}}" 
-                        class="comment-message"
-                        open-type="getUserInfo" 
-                        form-type="submit" 
-                        data-comeTo="comment"
-                        data-feedid="{{item.feed_id}}"
-                        data-circleid="{{item.circle_id}}"
-                        data-commentto="{{item.user_id}}"
-                        data-index="{{index}}"
-                        bindgetuserinfo="getUseInfo"
-                >{{item.content}}</button>
-                <button wx:if="{{item.comment_to_nickname}}" 
-                        class="comment-message"
-                        open-type="getUserInfo" 
-                        form-type="submit" 
-                        data-comeTo="comment"
-                        data-feedid="{{item.feed_id}}"
-                        data-commentto="{{item.user_id}}"
-                        data-circleid="{{item.circle_id}}"
-                        data-index="{{index}}"
-                        bindgetuserinfo="getUseInfo"
-                >回复<text style="color:#D33B33">{{item.comment_to_nickname}}</text>{{item.content}}
-                </button>
-              </view>
-            </view>
-          </block>
+         
         </view>
         <!-- 动态右侧部分 end-->
       </view>
+    </block>
+    <block wx:if="{{!isContent}}">
+      <view class="empty">您当前选择地区暂无动态,</view>
+      <view class="empty">请查看其它地区的动态哦!</view>
     </block>
     <!-- 动态列表 end -->
   </scroll-view>
 </form>
 
 
-<mask wx:if="{{isCloseByMask}}" bind:myMask="closeMask" />
-<rule-toast wx:if="{{isCloseBytoast}}"  bind:mytoast="mytoast"/>
-<comment wx:if="{{isComment}}" commentInfo="{{commentInfo}}" bind:myComment="onComment"/>
+<mask 
+  wx:if="{{isCloseByMask}}" 
+  bind:myMask="closeMask" 
+/>
+<rule-toast 
+  wx:if="{{isCloseBytoast}}"  
+  bind:mytoast="mytoast"
+/>
+<location 
+  wx:if="{{isLocation}}" 
+  class="chooseLocation" 
+  chooseCity="{{chooseCity}}"
+  bind:myLocation="onSelectedLocation"
+/>
+

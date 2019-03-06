@@ -1,21 +1,23 @@
 // pages/circle-dynamic-release/circle-dynamic-release.js
 import {
-  showToastPromisify,
-  getStorageInfoPromisify,
-  showLoadingPromisify,
   jumpToPromisify,
+  showToastPromisify,
+  showModalPromisify,
   getStoragePromisify,
-  chooseImagePromisify
-} from "../../api/promisify.js"
+  chooseImagePromisify,
+  showLoadingPromisify,
+  getStorageInfoPromisify,
+} from '../../api/promisify.js'
 import {
   releaseDynamic
-} from "../../api/request.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+} from '../../api/request.js'
+import regeneratorRuntime from '../../api/regeneratorRuntime.js'
 import {
-  config
-} from "../../api/config.js"
+  config,
+  isTestEnvironment
+} from '../../api/config.js'
 
-const qiniuUploader = require("../../common/qiniuUploader.js")
+const qiniuUploader = require('../../common/qiniuUploader.js')
 const app = getApp();
 Page({
 
@@ -23,7 +25,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    content: "",
+    content: '',
     images: [],
     isUploading: true,
     circleId: 0, //当前圈子
@@ -33,13 +35,15 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    let {
-      circleId
-    } = options;
+  onLoad:async function(options) {
+    let storageInfo =await getStorageInfoPromisify();
+    if (!storageInfo.keys.includes('qiniuToken')) {
+      QiniuToken()
+    }
     this.setData({
-      circleId
+      circleId: options.circleId
     })
+    wx.hideShareMenu(); //取消顶部分享
   },
 
   /**
@@ -47,37 +51,50 @@ Page({
    */
   choosePhoto: async function() {
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("qiniuToken")) {
-      let qiniuToken = (await getStoragePromisify("qiniuToken")).qiniuToken;
-      let result = await chooseImagePromisify({
-        count: 1,
-        sizeType: "compressed"
-      })
-      showLoadingPromisify({
-        title: "上传中"
-      })
-      let filePath = result.tempFilePaths[0];
-      qiniuUploader.upload(filePath, (res) => {
-        wx.hideLoading()
-       let { images } = this.data;
-        images.push(res.imageURL)
-        if (images.length >= 9) this.setData({
-          images,
-          isUploading: false
-        });
-        else this.setData({
-          images,
-          isUploading: true
+    if (storageInfo.keys.includes('qiniuToken')) {
+      let { qiniuToken } = await getStoragePromisify('qiniuToken');
+      try {
+        let result = await chooseImagePromisify({
+          count: 1,
+          sizeType: 'compressed'
         })
-      }, (err) => {
-        showToastPromisify({
-          title: "上传失败!"
+        showLoadingPromisify({
+          title: '上传中'
         })
-      }, {
-        region: 'ECN',
-        domain: config.domain,
-        uptoken: qiniuToken
-      })
+        let filePath = result.tempFilePaths[0];
+        qiniuUploader.upload(filePath, (res) => {
+          wx.hideLoading()
+         let { images } = this.data;
+          images.push(res.imageURL)
+          if (images.length >= 9) this.setData({
+            images,
+            isUploading: false
+          });
+          else this.setData({
+            images,
+            isUploading: true
+          })
+        }, (err) => {
+          showToastPromisify({
+            title: '上传失败!'
+          })
+        }, {
+          region: 'ECN',
+          domain: config.domain,
+          uptoken: qiniuToken
+        })
+      } catch (error) {
+        if (error.errMsg !== "chooseImage:fail cancel")
+          await showModalPromisify({
+            content: "微信客户端未授权相机权限，请授权",
+            showCancel: false
+          });
+      }
+    } else {
+      await showModalPromisify({
+        content: "账号异常,请返回首页",
+        showCancel: false
+      });
     }
   },
 
@@ -109,7 +126,7 @@ Page({
     } = this.data;
     images.splice(index, 1);
     showToastPromisify({
-      title: "删除成功"
+      title: '删除成功'
     })
     if (images.length < 9) this.setData({
       images,
@@ -128,6 +145,7 @@ Page({
       formId
     } = e.detail
     formId && app.data.formID.push(formId);
+    
     let {
       content
     } = e.detail.value;
@@ -137,35 +155,36 @@ Page({
     } = this.data;
     if (content || images.length>0) {
       let storageInfo = await getStorageInfoPromisify();
-      if (storageInfo.keys.includes("Token")) {
+      if (storageInfo.keys.includes('Token')) {
         showLoadingPromisify()
         let result = await releaseDynamic({
           type: 0,
           circle_id: circleId,
           content,
-          images:images.join(",")
+          images:images.join(',')
         })
         if (result.statusCode === 201) {
           showToastPromisify({
-            title: "发布完成",
-            image: "/images/icon/success.png"
+            title: '发布完成',
+            image: '/images/icon/success.png'
           })
-          jumpToPromisify(1, "back")
+          jumpToPromisify(1, 'back')
         } else {
           showToastPromisify({
-            title: "网络错误! 请重试!"
+            title: '网络错误! 请重试!'
           })
         }
       } else {
-        showToastPromisify({
-          title: "未登录,请返回!"
+        let errModel = await showModalPromisify({
+          title:'提示',
+          content:'账号异常,点击确认返回',
+          showCancel:false,
         })
-        jumpToPromisify("index", "reLaunch")
+        errModel.confirm && jumpToPromisify('index','reLaunch')
       }
-
     } else {
       showToastPromisify({
-        title: "填写信息,才能发布哦!"
+        title: '填写信息,才能发布哦!'
       })
     }
   }

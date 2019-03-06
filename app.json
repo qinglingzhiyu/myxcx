@@ -1,9 +1,7 @@
 {
   "pages": [
-    "pages/program/program",
-    "pages/coast-index/coast-index",
     "pages/index/index",
-    "pages/coast-content/coast-content",
+    "pages/my-edit/my-edit",
     "pages/circle/circle",
     "pages/circle-dynamic/circle-dynamic",
     "pages/circle-introduce/circle-introduce",
@@ -14,7 +12,6 @@
     "pages/my/my",
     "pages/consulting/consulting",
     "pages/coupons/coupons",
-    "pages/my-edit/my-edit",
     "pages/person-info/person-info",
     "pages/dynamic/dynamic",
     "pages/bind-phone/bind-phone",
@@ -29,29 +26,7 @@
     "navigationBarTextStyle": "black"
   },
   "debug": false,
-  "navigateToMiniProgramAppIdList": [
-    "wx376658264a77cdc0",
-    "wx17ebf8231f79504d"
-  ],
-  "tabBar": {
-    "color": "#dddddd",
-    "selectedColor": "#8D91FF",
-    "borderStyle": "white",
-    "backgroundColor": "#ffffff",
-    "list": [{
-        "pagePath": "pages/coast-index/coast-index",
-        "iconPath": "images/i/calendar.png",
-        "selectedIconPath": "images/i/calendar_active.png",
-        "text": "日历"
-      },
-      {
-        "pagePath": "pages/coast-content/coast-content",
-        "iconPath": "images/i/team.png",
-        "selectedIconPath": "images/i/team_active.png",
-        "text": "节假日"
-      }
-    ]
-  },
+  "navigateToMiniProgramAppIdList": ["wx376658264a77cdc0", "wx17ebf8231f79504d", "wx1189f858022a128b"],
   "subpackages": [{
     "root": "subPackage_message",
     "pages": ["pages/message-content/message-content"]
@@ -61,7 +36,12 @@
       "packages": [
         "subPackage_message"
       ],
-      "network":"all"
+      "network": "all"
+    }
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于获取他人动态信息"
     }
   }
 }

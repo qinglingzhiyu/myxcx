@@ -1,4 +1,14 @@
-// pages/coast-content/coast-content.js
+/**
+ * Created by Terris
+ * https://github.com/qinglingzhiyu
+ *
+ * @date: 2019-01-09
+ * @flow
+ *
+ * description: coast-content  的逻辑
+ *
+ */
+
 Page({
 
   /**

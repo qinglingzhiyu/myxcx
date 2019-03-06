@@ -1,5 +1,13 @@
-// pages/consulting/consulting.js
-
+/**
+ * Created by Terris
+ * https://github.com/qinglingzhiyu
+ *
+ * @date: 2019-01-09
+ * @flow
+ *
+ * description: consulting的逻辑
+ *
+ */
 
 import {
   getStorageInfoPromisify,
@@ -8,19 +16,22 @@ import {
   getStoragePromisify,
   chooseImagePromisify,
   showLoadingPromisify
-} from "../../api/promisify.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+} from '../../api/promisify.js'
+import regeneratorRuntime, {
+  async
+} from '../../api/regeneratorRuntime.js'
 import {
   feedbackUrl
-} from "../../api/request.js"
+} from '../../api/request.js'
 import {
-  sleep
-} from "../../common/common.js"
+  sleep,
+  QiniuToken
+} from '../../common/common.js'
 import {
   config
-} from "../../api/config.js"
+} from '../../api/config.js'
 
-const qiniuUploader = require("../../common/qiniuUploader.js")
+const qiniuUploader = require('../../common/qiniuUploader.js')
 const app = getApp();
 Page({
 
@@ -28,65 +39,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    placeholderContent: "请填写您宝贵的意见或者遇到的问题",
+    placeholderContent: '请填写您宝贵的意见或者遇到的问题',
     images: [],
     isUploading: true
   },
 
   /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onShow:async function () {
+    let storageInfo = await getStorageInfoPromisify();
+    if (!storageInfo.keys.includes('qiniuToken')) {
+      QiniuToken()
+    }
   },
 
   /**
@@ -94,40 +59,53 @@ Page({
    */
   choosePhoto: async function () {
     let storageInfo = await getStorageInfoPromisify();
-    if (storageInfo.keys.includes("qiniuToken")) {
-      let {
-        qiniuToken
-      } = await getStoragePromisify("qiniuToken");
-      let result = await chooseImagePromisify({
-        count: 1,
-        sizeType: "compressed"
-      })
-      showLoadingPromisify({
-        title: "上传中"
-      })
-      let filePath = result.tempFilePaths[0];
-      qiniuUploader.upload(filePath, (res) => {
-        wx.hideLoading()
+    if (storageInfo.keys.includes('qiniuToken')) {
+      try {
         let {
-          images
-        } = this.data;
-        images.push(res.imageURL)
-        if (images.length >= 4) this.setData({
-          images,
-          isUploading: false
-        });
-        else this.setData({
-          images,
-          isUploading: true
+          qiniuToken
+        } = await getStoragePromisify('qiniuToken');
+        let result = await chooseImagePromisify({
+          count: 1,
+          sizeType: 'compressed'
         })
-      }, (err) => {
-        showToastPromisify({
-          title: "上传失败!"
+        showLoadingPromisify({
+          title: '上传中'
         })
-      }, {
-        region: 'ECN',
-        domain: config.domain,
-        uptoken: qiniuToken
+        let filePath = result.tempFilePaths[0];
+        qiniuUploader.upload(filePath, (res) => {
+          wx.hideLoading()
+          let {
+            images
+          } = this.data;
+          images.push(res.imageURL)
+          if (images.length >= 4) this.setData({
+            images,
+            isUploading: false
+          });
+          else this.setData({
+            images,
+            isUploading: true
+          })
+        }, (err) => {
+          showToastPromisify({
+            title: '上传失败!'
+          })
+        }, {
+          region: 'ECN',
+          domain: config.domain,
+          uptoken: qiniuToken
+        })
+      } catch (error) {
+        if (error.errMsg !== "chooseImage:fail cancel")
+          await showModalPromisify({
+            content: "微信客户端未授权相机权限，请授权",
+            showCancel: false
+          });
+      }
+    } else {
+      await showModalPromisify({
+        content: '账号异常,请返回重试',
+        showCancel: false
       })
     }
   },
@@ -149,7 +127,7 @@ Page({
   },
 
   /**
-   * 
+   * 删除照片
    * @param {*} e 
    */
   closeImg: function (e) {
@@ -161,7 +139,7 @@ Page({
     } = this.data;
     images.splice(index, 1);
     showToastPromisify({
-      title: "删除成功"
+      title: '删除成功'
     })
     if (images.length < 4) this.setData({
       images,
@@ -176,7 +154,7 @@ Page({
    *  搜集formid && 提交
    * @param {*} e 
    */
-  
+
   bindSubmit: async function (e) {
     let {
       formId
@@ -184,37 +162,36 @@ Page({
     let {
       images
     } = this.data;
+
     let {
       textarea
     } = e.detail.value;
     formId && app.data.formID.push(formId);
-    if (textarea === "" && images.length === 0) {
+    if (textarea.replace(/\s*/g, '').length === 0 && images.length === 0) {
       showToastPromisify({
-        title: "请输入您的宝贵意见"
+        title: '请输入您的宝贵意见'
       })
     } else {
       let storageInfo = await getStorageInfoPromisify();
-      if (storageInfo.keys.includes("Token")) {
+      if (storageInfo.keys.includes('Token')) {
         let result = await feedbackUrl({
           type: 1,
           content: textarea,
-          src: images.join(",")
+          src: images.join(',')
         })
         if (result.statusCode === 200) {
           await showToastPromisify({
-            title: "提示成功，感谢您的反馈",
+            title: '提示成功，感谢您的反馈',
             duration: 1500
           });
           await sleep(1500);
-          jumpToPromisify(1, "back");
+          jumpToPromisify(1, 'back');
         } else {
           showToastPromisify({
-            title: "网络异常,请重试"
+            title: '网络异常,请重试'
           })
         }
-      } else showToastPromisify({
-        title: "未登录,请返回!"
-      }), await sleep(1500), jumpToPromisify("index", "reLaunch");
+      }
     }
   },
 })

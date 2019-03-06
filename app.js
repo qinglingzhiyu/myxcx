@@ -10,6 +10,19 @@ import {
   sendFromid
 } from "./api/request.js"
 
+//在string原型对象增加一个自定义方法 --返回多少个字符
+String.prototype.gblen= function () {
+  let len = 0;
+  for (let i = 0; i < this.length; i++) {
+    if (this.charCodeAt(i) > 127 || this.charCodeAt(i) == 94) {
+      len += 2;
+    } else {
+      len++;
+    }
+  }
+  return len;
+}
+
 App({
   data: {
     formID: [],
@@ -48,5 +61,8 @@ App({
     if (result.statusCode === 201) {
       this.data.formID.splice(0);
     }
-  }
+  },
 })
+
+
+//JSON.stringify

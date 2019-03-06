@@ -1,14 +1,12 @@
 // components/warm/warm.js
 import {
   relateapp
-} from "../../api/request.js"
+} from '../../api/request.js'
 import {
+  setStoragePromisify,
   showLoadingPromisify,
-  getStorageInfoPromisify,
-  showToastPromisify,
-  setStoragePromisify
-} from "../../api/promisify.js"
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+} from '../../api/promisify.js'
+import regeneratorRuntime from '../../api/regeneratorRuntime.js'
 
 const app = getApp();
 Component({
@@ -31,14 +29,14 @@ Component({
    */
   methods: {
     closeLogin: function() {
-      this.triggerEvent("bindWarm", 'close')
+      this.triggerEvent('bindWarm', 'close')
     },
     bindSubmit: async function(e) {
       let {
         formId
       } = e.detail;
       formId && app.data.formID.push(formId);
-      let phone = wx.getStorageSync("phone");
+      let phone = wx.getStorageSync('phone');
       showLoadingPromisify();
       let result = await relateapp({
         type: 1,
@@ -52,7 +50,7 @@ Component({
         } = result.data;
         setStoragePromisify({ Token: token, userId:id})
       }
-      this.triggerEvent("bindWarm", result.statusCode)
+      this.triggerEvent('bindWarm', result.statusCode)
     }
   }
 })

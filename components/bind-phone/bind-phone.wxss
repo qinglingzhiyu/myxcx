@@ -1,4 +1,3 @@
-/* components/bind-phone/bind-phone.wxss */
 /* 登录 */
 .login {
   position: fixed;
@@ -14,7 +13,7 @@
 .user {
   width: 400rpx;
   margin: 76rpx 0;
-  border-bottom: 1rpx solid #70707049;
+  border-bottom: 1rpx solid #c7c4c4;
 }
 
 .verification {
@@ -24,7 +23,7 @@
 
 .ver-input {
   width: 300rpx;
-  border-bottom: 1rpx solid #70707049;
+  border-bottom: 1rpx solid #c7c4c4;
 }
 
 .ver-btn {

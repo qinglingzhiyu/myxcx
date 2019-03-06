@@ -1,45 +1,60 @@
 /* 我的圈子 */
+@import '/common/animate.wxss';
 
 .circle {
   margin: 38rpx 38rpx 60rpx;
 }
 
 .title {
+  margin: 32rpx 0 54rpx 0;
   font-size: 48rpx;
   font-weight: 700rpx;
-  padding-left: 20rpx;
   line-height: 48rpx;
-  border-left: 10rpx solid #ff6d6d;
-  margin: 32rpx 0;
+  /* border-left: 10rpx solid #ff6d6d; */
+}
+
+.my-tag::before {
+  content: " ";
+  margin-right: 24rpx;
+  border-right: 10rpx solid #E23A31;
+}
+
+.recommend-tag::before {
+  content: " ";
+  margin-right: 24rpx;
+  border-right: 10rpx solid #FF8800;
 }
 
 .list {
   display: flex;
-  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.11);
-  padding: 2rpx;
-  border-radius: 20rpx;
-  margin-bottom: 32rpx;
+  padding: 24rpx 0 0 0;
+  border-top: 1rpx solid #e4e4e4;
+  border-radius: 0;
+  margin-bottom: 20rpx;
   text-align: left;
 }
 
 .bg {
-  width: 198rpx;
-  height: 198rpx;
-  border-top-left-radius: 20rpx;
-  border-bottom-left-radius: 20rpx;
+  width: 168rpx;
+  height: 168rpx;
+  border-radius: 10rpx;
 }
 
 .content {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 440rpx;
-  padding: 16rpx 24rpx;
+  justify-content: flex-start;
+  padding: 0 24rpx 16rpx;
+  width: 320rpx;
 }
 
 .content-title {
   font-size: 32rpx;
   font-weight: 700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
 }
 
 .content-tip {
@@ -52,19 +67,33 @@
   content: '●';
   width: 14rpx;
   height: 14rpx;
-  color: #f80;
+  color: #FF1F00;
+  margin-right: 10rpx;
+}
+
+.otherOn ::before {
+  content: '●';
+  width: 14rpx;
+  height: 14rpx;
+  color: #FFAA00;
   margin-right: 10rpx;
 }
 
 .content-rec {
-  font-size: 24rpx;
-  color:#FF8800;
+  margin-top: 4rpx;
+  font-size: 28rpx;
+  color: #FF8800;
   line-height: 48rpx;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
 }
 
 .content-introduce {
-  font-size: 24rpx;
-  color:#979797;
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  line-height: 34rpx;
+  color: #979797;
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -75,8 +104,49 @@
 
 .content-img {
   position: absolute;
-  width: 70rpx;
-  height: 70rpx;
-  right: 0;
-  top:0;
+  width: 66rpx;
+  height: 69rpx;
+  left: -66rpx;
+  top: 0;
+}
+
+.circle-btn {
+  margin-top: 109rpx;
+  width: 136rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  text-align: center;
+  background:linear-gradient(to right,#EB5E39,#FF8113);
+  border-radius: 28rpx;
+}
+
+.my-circle-item {
+  display: flex;
+  flex-direction: column;
+  width: 226rpx;
+}
+
+.my-circle-img {
+  width: 226rpx;
+  height: 158rpx;
+  border-radius: 20rpx 20rpx 0 0;
+}
+
+.my-circle-title {
+  margin-top: 8rpx;
+  width: 226rpx;
+  font-size: 28rpx;
+  text-align: center;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap
+}
+
+.my-circle-tip {
+  margin-top: 10rpx;
+  width: 226rpx;
+  font-size: 24rpx;
+  text-align: center;
 }

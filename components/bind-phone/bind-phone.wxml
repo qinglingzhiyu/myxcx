@@ -1,34 +1,38 @@
 <!--components/bind-phone/bind-phone.wxml-->
 <form report-submit="true" bindsubmit="bindSubmit">
   <view class="login" catchtouchmove="ture">
-    <input placeholder='请输入手机号'
-          class="user"
-          value=""
-          placeholder-class="user-on"
-          maxlength="11"
-          type="number"
-          name="user"
-          bindinput="validatePhone"
+    <input 
+      placeholder='请输入手机号'
+      class="user"
+      value=""
+      placeholder-class="user-on"
+      maxlength="11"
+      type="number"
+      name="user"
+      bindinput="validatePhone"
     ></input>
     <view class="verification">
-      <input placeholder="验证码"
-             value=""
-             class="ver-input"
-             maxlength="4"
-             type="number"
-             name="verify"
-             bindinput="validateCode"
+      <input 
+        placeholder="验证码"
+        value=""
+        class="ver-input"
+        maxlength="4"
+        type="number"
+        name="verify"
+        bindinput="validateCode"
       />
-      <button class="ver-btn"
-              disabled="{{disabled}}"
-              style="{{verStyle}}"
-              bindtap="verExp"
+      <button 
+        class="ver-btn"
+        disabled="{{disabled}}"
+        style="{{verStyle}}"
+        bindtap="verExp"
       >{{verContent}}</button>
     </view>
-    <button class="affirm"
-            form-type="submit"
-            disabled="{{affirmDisabled}}"
-            style="{{affirmStyle}}"
+    <button 
+      class="affirm"
+      form-type="submit"
+      disabled="{{affirmDisabled}}"
+      style="{{affirmStyle}}"
     >确定绑定</button>
     <image class="close" src="/images/icon/close.png" bindtap="closeLogin"/>
   </view>

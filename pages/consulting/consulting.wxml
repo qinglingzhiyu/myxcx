@@ -6,8 +6,8 @@
     <view class="add-title">添加照片</view>
       <view class="photo-content">
         <view class="img" wx:for="{{images}}" wx:key="index">
-          <image src="{{item}}" class="bigimg" bindtap='goPreview' data-index="{{index}}" />
-          <image src="/images/icon/close.png" class="closeimg" bindtap="closeImg" data-index="{{index}}" />
+          <image src="{{item}}" class="bg-img-photo animated faster simpleOpacity bigimg" bindtap='goPreview' data-index="{{index}}" />
+          <image src="/images/del.png" class="closeimg" bindtap="closeImg" data-index="{{index}}" />
         </view>
         <image wx:if="{{isUploading}}" src="/images/icon/default-photo.png" class="defaultimg" bindtap="choosePhoto" />
       </view>

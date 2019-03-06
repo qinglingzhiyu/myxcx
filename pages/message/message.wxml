@@ -18,10 +18,15 @@
       </view>
     </block>
     <block wx:if="{{!isEmpty}}" wx:for="{{messageData.conversation}}" wx:key="index">
-      <view class="msg"  bindtap="goPageWithMessageContent" data-withUserId="{{item.with_user_id}}" 
-            data-navtitle="{{item.with_user_info.occupation}}"
-            data-conversationid="{{item.conversation_id}}" bindlongpress="deleteMessage">
-        <image class="msg-bg" src="{{item.with_user_info.avatar}}" />
+      <view 
+        class="msg"  
+        bindtap="goPageWithMessageContent" 
+        data-withUserId="{{item.with_user_id}}" 
+        data-navtitle="{{item.with_user_info.occupation}}"
+        data-conversationid="{{item.conversation_id}}" 
+        bindlongpress="deleteMessage"
+      >
+        <image class="msg-bg bg-img-avatar animated faster simpleOpacity" src="{{item.with_user_info.avatar}}" />
         <view class="msg-right">
           <view class="msg-title">
             <text class="msg-user">{{item.with_user_info.occupation}}</text>

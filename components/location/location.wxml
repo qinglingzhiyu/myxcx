@@ -1,0 +1,61 @@
+<scroll-view 
+  scroll-y 
+  class="city_mask animated faster {{animatedType}}" 
+  catchtouchmove="true" 
+>
+  <view class="city_list">
+    <view class="choose_city">当前城市</view>
+    <view class="local_item local_position">
+      <view 
+        wx:if="{{isDefaultStatus}}" 
+        class="defaultLocal" 
+        bindtap="onChooseCity"
+      >{{defaultText}}</view>
+      <view wx:else>{{ifLocal}}<text class="local_po">当前选择</text>
+        <image class="po_img" src="/images/icon/position.png" />
+      </view>
+    </view>
+    <view class="choose_city martop">选择城市</view>
+    <view class="local_item" bindtap="chooseChinese">
+      <view class="prov {{onChinese}}">全国</view>
+    </view>
+    <block 
+      wx:for="{{allCity}}" 
+      wx:for-index="index" 
+      wx:key="i"
+    >
+      <view 
+        class="local_item"
+        bindtap="clickProv"
+        data-index="{{index}}"
+      >
+        <view class="prov">{{item.label}}
+          <image wx:if="{{item.sub.length>1}}" class="local_ud" src="{{item.img}}" />
+        </view>
+        <view 
+          class="city_child" 
+          bindtap="cList" 
+          data-index="{{index}}" 
+          wx:if="{{item.isShowWithChild}}"
+        >
+          <block wx:for="{{item.sub}}" wx:for-index="subIndex" wx:key="i">
+            <view 
+              class="city_one" 
+              catchtap="cityOne" 
+              data-index="{{index}}" 
+              data-subindex="{{subIndex}}" 
+              data-city="{{item.label}}"
+              data-adcode="{{item.value}}"
+            >
+              <view class="city_border {{item.on}}">
+                <text class="hidden_word">{{item.label}}</text>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </view>
+</scroll-view>
+
+<mask bind:myMask="closeMask"/>

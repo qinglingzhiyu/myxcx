@@ -146,7 +146,8 @@ module.exports = {
   ],
   expPhone: /^1[3578]\d{9}$/,
   expVerify: /^\d{6}$/,
-  expIsApp: /^[1]$/,
+  expIsApp: /[1]/,
+  expContent: /\[(\S+?)\]/,
   defaultImage: "https://images.daqinjia.cn/tmp/wxecddadbf5ad405e5.o6zAJs_3Ydnv9TBlkKfvV-VEwOJQ.3WH6V4qeBTZz336e26e3c96fbe286e3e233fefe7781d.png",
   host: [{
       label: '北京市',
@@ -1523,6 +1524,9 @@ module.exports = {
       }, {
         label: '固原市',
         value: 640400
+      },{
+        label: '中卫市',
+        value: 640500
       }]
     },
     {

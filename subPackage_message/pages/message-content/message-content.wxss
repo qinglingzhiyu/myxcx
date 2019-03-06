@@ -1,12 +1,15 @@
-/* pages/message-content/message-content.wxss */
+@import '/common/animate.wxss';
 .bg {
   width: 100%;
+  height: 150rpx;
 }
 
 .msg {
   display: flex;
   flex-direction: column;
-  margin: 28rpx 32rpx;
+  height: 980rpx;
+  padding: 10rpx 32rpx;
+  box-sizing: border-box;
 }
 
 .time {
@@ -23,12 +26,13 @@
 
 .content-right {
   display: flex;
-}
-
-.content-right {
   flex-direction: row-reverse;
 }
 
+.content-emji {
+  width: 45rpx;
+  height: 45rpx;
+}
 
 .avatar {
   width: 94rpx;
@@ -63,11 +67,11 @@
   text-align: right;
 }
 
-.msg {
-  margin-bottom: 100rpx;
-}
 
 .msg-content {
+  display: flex;
+  flex-wrap:wrap;
+  align-items: center;
   top: 10rpx;
   font-size: 28rpx;
   background-color: #FFF6BC;
@@ -143,3 +147,25 @@
   background-color: #D33B33;
   color: #fff;
 }
+
+.message-emotion {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(232, 232, 232);
+}
+
+.click-with-emotion {
+  bottom: 400rpx;
+}
+
+.pad-bottom {
+  padding-bottom: 400rpx;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+

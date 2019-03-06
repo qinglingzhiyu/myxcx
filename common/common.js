@@ -12,16 +12,18 @@
 import regeneratorRuntime from "../api/regeneratorRuntime.js"
 import {
   host
-} from "const.js"
+} from "./const.js"
 import {
   getStorageInfoPromisify,
+  getStoragePromisify,
   checkSessionPromisify,
   setStoragePromisify,
   showLoadingPromisify
 } from "../api/promisify.js"
 import {
   login,
-  getQiNiuTokenWithToken
+  getQiNiuTokenWithToken,
+  updatePersonInfo
 } from "../api/request.js"
 import md5 from "../common/md5.js"
 module.exports = {
@@ -37,10 +39,26 @@ module.exports = {
       let result = sessionStatus.errMsg === "checkSession:ok" && await login({
         ...param
       })
-      await setStoragePromisify({
+      result.data.token && await setStoragePromisify({
         "Token": result.data.token,
         "userId": result.data.id
       })
+      //登录过后把选更新用户信息location
+      let userId = result.data.id
+      let info = {};
+      let {
+        SELECTED_CITY
+      } = await getStoragePromisify('SELECTED_CITY')
+      SELECTED_CITY.adcode && (info = {
+        location: SELECTED_CITY.adcode + '00'
+      });
+      !SELECTED_CITY.adcode && (info = {
+        location: '110100,120100,310100,500100'
+      });
+      updatePersonInfo({
+        userId,
+        info
+      });
       return result
     } else {
       return {
@@ -51,14 +69,21 @@ module.exports = {
 
   /**
    * 居住地转换
+   * @param {Number} param 
+   * @returns result
    */
   occupationByNumber: (param) => {
+    let result;
     host.map(item => {
       item.sub.map(item2 => {
-        if (item2.value == param)
-          return (item.label + "-" + item2.label)
+        if (item2.value === param) {
+          result = `${item.label}-${item2.label}`
+          return
+        }
       })
     })
+
+    return result
   },
 
   /**
@@ -192,5 +217,61 @@ module.exports = {
         length: Math.ceil(arr.length / size)
       }, (v, i) =>
       arr.slice(i * size, i * size + size)
-    )
+    ),
+
+  /**
+   * 缩略图转原图
+   * @param {[Array,String]} images 缩略图
+   */
+  thumbnailByMasterMap: (images) => {
+    if (images.constructor === String) {
+      return `${images.split('?')[0]}`
+    } else if (images instanceof Array) {
+      let imgs = [];
+      images.map((item) => {
+        imgs.push(item.split('?')[0])
+      })
+      return imgs
+    }
+  },
+
+  /**
+   * 原图转换缩略图
+   * @param {[Array,String]} images //原图
+   * @param {Number} size 转为缩略图尺寸
+   */
+  MasterMapByThumbnail: (images, size) => {
+    if (images.constructor === String) {
+      if (/[?]/.test(images)) return `${images.split('?')[0]}?imageView2/0/w/${size}/h/${size}`
+      else return `${images}?imageView2/0/w/${size}/h/${size}`
+    } else if (images instanceof Array) {
+      let imgs = [];
+      images.map((item) => {
+        if (/[?]/.test(item)) {
+          imgs.push(`${item.split('?')[0]}?imageView2/0/w/${size}/h/${size}`)
+        } else {
+          imgs.push(`${item}?imageView2/0/w/${size}/h/${size}`)
+        }
+      });
+      return imgs
+    }
+  },
+
+  /**
+   * 防抖函数
+   * @param method 事件触发的操作
+   * @param delay 多少毫秒内连续触发事件，不会执行
+   * @returns {Function}
+   */
+  debounce: function (method, delay) {
+    let timer = null;
+    return function () {
+      let self = this,
+        args = arguments;
+      timer && clearTimeout(timer);
+      timer = setTimeout(function () {
+        method.apply(self, args);
+      }, delay);
+    }
+  }
 }

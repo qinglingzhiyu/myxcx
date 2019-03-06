@@ -1,4 +1,5 @@
 /* pages/person-info/person-info.wxss */
+@import '/common/animate.wxss';
 .form-flex {
   display: flex;
   justify-content: space-between;
@@ -9,7 +10,7 @@
 }
 
 .font-red {
-  color:#D33B33
+  color: #D33B33
 }
 
 .avatar {
@@ -29,14 +30,16 @@
 .photo {
   margin: 0 32rpx;
   padding-bottom: 32rpx;
-  border-bottom: 1rpx solid #70707059;
-} 
-
-.introduce {
-  margin: 0 32rpx 100rpx;
+  border-bottom: 1rpx solid rgba(174, 174, 174, 0.1);
 }
 
-.photo-title, .introduce-title {
+.introduce {
+  position: relative;
+  margin: 0 32rpx 50rpx;
+}
+
+.photo-title,
+.introduce-title {
   padding: 32rpx 0 15rpx 0;
 }
 
@@ -53,27 +56,27 @@
   margin: 20rpx 20rpx 20rpx 0;
 }
 
-.bigimg{
- width: 100%;
- height: 100%;
- border-radius: 10rpx;
+.bigimg {
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+  
 }
 
-.defaultimg{
-   width: 153rpx;
-   height: 153rpx;
+.defaultimg {
+  width: 153rpx;
+  height: 153rpx;
 }
 
-.closeimg{
+.closeimg {
   position: absolute;
-  top:-10rpx;
-  right: -8rpx;
-  width: 20rpx;
-  height: 20rpx;
+  top: -15rpx;
+  right: -14rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
 
-
-photo-img {
+.photo-img {
   width: 160rpx;
   height: 160rpx;
   border-radius: 10rpx
@@ -84,18 +87,31 @@ photo-img {
 }
 
 .introduce-content {
-  border: 1rpx solid rgba(174, 174, 174, 0.1);
+  display: block;
+  border: 1rpx solid rgba(174, 174, 174, 0.2);
   width: 93%;
+  min-height: 300rpx;
   padding: 10rpx 20rpx;
+  margin-bottom: 100rpx;
 }
 
 .submit-btn {
+  position: fixed;
+  bottom: 0;
   font-size: 36rpx;
   line-height: 88rpx;
   text-align: center;
-  color:#fff;
+  color: #fff;
   background: linear-gradient(#FF4B41, #E23A31);
   width: 100%;
-  border-radius: 10rpx;
+  border-radius: 5rpx;
 }
 
+.textareaWithHide {
+  position: absolute;
+  left: 1000rpx;
+}
+
+.textareaWithShow {
+  position: absolute;
+}

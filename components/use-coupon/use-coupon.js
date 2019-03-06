@@ -1,6 +1,6 @@
 // components/use-coupon/use-coupon.js
 const app = getApp();
-import regeneratorRuntime from  "../../api/regeneratorRuntime.js"
+import regeneratorRuntime from  '../../api/regeneratorRuntime.js'
 Component({
   /**
    * 组件的属性列表
@@ -26,7 +26,7 @@ Component({
      * 关闭优惠券列表
      */
     close: function() {
-      this.triggerEvent("myList", "close")
+      this.triggerEvent('myList', 'close')
     },
 
     /**
@@ -37,7 +37,7 @@ Component({
         formId
       } = e.detail;
      formId && app.data.formID.push(formId);
-      this.triggerEvent("myList", e.detail.value, )
+      this.triggerEvent('myList', e.detail.value, )
     }
   }
 })

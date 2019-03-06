@@ -1,0 +1,119 @@
+@import '/common/animate.wxss';
+
+.city_mask {
+  position: fixed;
+  height: 100vh;
+  width: 75%;
+  top: 0;
+  right: 0;
+  font-size: 32rpx;
+  z-index: 1002;
+}
+
+.city_list {
+  box-sizing: border-box;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #FFFFFF;
+  padding-top: 24rpx;
+}
+
+.choose_city {
+  font-weight: 900;
+  text-align: left;
+  padding-left: 20rpx;
+}
+
+.local_item {
+  text-align: left;
+  border-bottom: 2rpx solid #eeeeee;
+  padding: 26rpx 0 18rpx 0;
+}
+
+.martop {
+  margin-top: 20rpx;
+}
+
+.local_position {
+  padding-left: 20rpx;
+}
+
+.get_local {
+  color: rgba(211, 59, 51, 1);
+}
+
+.local_ud {
+  position: absolute;
+  height: 24rpx;
+  width: 24rpx;
+  top: 5rpx;
+  right: 32rpx;
+}
+
+.local_po {
+  margin-left: 12rpx;
+  color: rgba(151, 151, 151, 1);
+  font-size: 22rpx;
+}
+
+.po_img {
+  height: 20rpx;
+  width: 20rpx;
+  margin: 0 0 5rpx 8rpx;
+  vertical-align: bottom;
+}
+
+.prov {
+  padding: 0 0 18rpx 20rpx;
+  position: relative;
+  text-align: left;
+  padding-right: 32rpx;
+  box-sizing: border-box;
+}
+
+.city_child {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.city_one {
+  width: 30%;
+  padding: 24rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.city_border {
+  box-sizing: border-box;
+  font-size: 28rpx;
+  padding: 15rpx 0;
+  width: 100%;
+  text-align: center;
+  border: 2rpx solid transparent;
+  border-radius: 10rpx;
+  background-color: rgba(244, 246, 247, 1);
+}
+
+.hidden_word {
+  display: -webkit-box;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.on {
+  border: 1rpx solid #D33B33;
+  color: #D33B33;
+  background-color: #FFD7D5
+}
+
+.on-chinese {
+  color: #D33B33;
+}
+
+.defaultLocal {
+  color:#D33B33;
+}

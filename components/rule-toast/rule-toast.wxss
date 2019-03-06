@@ -1,4 +1,4 @@
-/* components/rule-toast/rule-toast.wxss */
+@import '/common/animate.wxss';
 .toast {
   position: fixed;
   display: flex;

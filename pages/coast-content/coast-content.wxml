@@ -5,5 +5,4 @@
     <text class="item-title">{{item.title}}</text>
     <text class="item-day">放假时间:{{item.day}}</text>
   </view>
-
 </block>

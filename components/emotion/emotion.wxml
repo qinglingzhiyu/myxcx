@@ -1,16 +1,33 @@
 <!--components/emoticon/emotion.wxml-->
-<form report-submit="true" 
-      bindsubmit="bindSubmit"
->
-  <swiper indicator-dots
-          circular
+<swiper indicator-dots circular class="main">
+  <block 
+    wx:for="{{emojiList}}" 
+    wx:for-item="subEmojiList" 
+    wx:for-index="index" 
+    wx:key="i"
   >
-    <block wx:for="{{emjiList}}" wx:for-item="subEmjiList" wx:key="index">
-      <swiper-item class="emji">
-        <block wx:for="{{subEmjiList}}" wx:for-item="emji" wx:key="item-index">
-          <image class="img" mode="aspectFit" src="/subPackage_message/images/{{emji.value}}"/>
-        </block>
-      </swiper-item>
-    </block>
-  </swiper>
-</form>
+    <swiper-item class="emji">
+      <block 
+        wx:for="{{subEmojiList}}" 
+        wx:for-item="emoji" 
+        wx:for-index="itemIndex" 
+        wx:key="itemi"
+      >
+        <image 
+          class="img" 
+          mode="aspectFit" 
+          bindtap="chooseEmoji" 
+          data-index="{{index}}"
+          data-itemindex="{{itemIndex}}" 
+          src="/subPackage_message/images/{{emoji.value}}" 
+        />
+      </block>
+      <image 
+        class="img" 
+        mode="aspectFit" 
+        bindtap="delEmoji"
+        src="/subPackage_message/images/drawable-xhdpi/face_delete.png" 
+      />
+    </swiper-item>
+  </block>
+</swiper>

@@ -16,9 +16,15 @@
     <image class="sale-bg" src="/images/red.png" />
     <view class="sale-title font34">圈子名称: {{saleData.name}}</view>
     <view class="sale-price">当前价格: {{saleData.newprice}}元
-      <text style="color:#FBFF95;margin-left:30rpx" wx:if="{{couponData.isOnSale}}">已优惠 <text style="font-size:48rpx">{{couponData.money}}</text> 元</text>
+      <text 
+        style="color:#FBFF95;margin-left:30rpx" 
+        wx:if="{{couponData.isOnSale}}"
+      >已优惠 <text style="font-size:48rpx">{{couponData.money}}</text> 元</text>
     </view>
-    <view wx:if="{{couponData.isOnSale}}" class="count-down">优惠券倒计时: <text class="count-time">{{couponData.deadline}}</text></view>
+    <view 
+      wx:if="{{couponData.isOnSale}}" 
+      class="count-down"
+    >优惠券倒计时: <text class="count-time">{{couponData.deadline}}</text></view>
     <view class="sale-content">
       <view wx:for="{{saleData.declaration}}" wx:key="index">{{item}}</view>
     </view>
@@ -62,10 +68,10 @@
   <!-- 优惠券 start  -->
   <view class="coupon">
     <button class="select" bindtap="powerDrawer" data-statu="open">
-      <image class="select-bg" mode="widthFix" src="/images/coupon.png" />
+      <image class="select-bg" mode="aspectFit" src="/images/coupon.png" />
       <text class="select-title">优惠券</text>
       <text class="select-content">{{couponData.tip}}</text>
-      <image class="select-more" mode="widthFix" src="/images/icon/price-more.png" />
+      <image class="select-more" mode="aspectFit" src="/images/icon/price-more.png" />
     </button>
     <view class="pay">
       <image class="pay-bg" src="/images/icon/weChat.png" />
@@ -90,6 +96,20 @@
   <button class="comfirm-pay" form-type="submit" bindtap="goPageWithPersonInfo">确认支付</button>
 </form>
 <!-- 确认支付 end -->
-<view class="mask" wx:if="{{isCloseByMask}}" catchtouchmove="true" catchtap="true"/>
-<coupon wx:if="{{isCloseBycoupon}}" firstCoupon="{{firstCouponData}}" bind:MyFirstCoupon="onFirstCoupon" />
-<use-coupon animation="{{animationData}}" couponList="{{couponListData}}"wx:if="{{isCloseByUseCoupon}}" bind:myList="closeCouponList" />
+<view 
+  class="mask" 
+  wx:if="{{isCloseByMask}}" 
+  catchtouchmove="true" 
+  catchtap="true"
+/>
+<coupon 
+  wx:if="{{isCloseBycoupon}}" 
+  firstCoupon="{{firstCouponData}}" 
+  bind:MyFirstCoupon="onFirstCoupon" 
+/>
+<use-coupon 
+  animation="{{animationData}}" 
+  couponList="{{couponListData}}"
+  wx:if="{{isCloseByUseCoupon}}" 
+  bind:myList="closeCouponList" 
+/>

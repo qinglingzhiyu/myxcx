@@ -1,4 +1,4 @@
-/* pages/coupons/coupons.wxss */
+@import '/common/animate.wxss';
 /* 空状态 */
 .empty {
   width: 100%;

@@ -1,20 +1,20 @@
 // components/bind-phone/bind-phone.js
 ///
-import regeneratorRuntime from "../../api/regeneratorRuntime.js"
+import regeneratorRuntime from '../../api/regeneratorRuntime.js'
 import {
   expPhone
-} from "../../common/const.js";
+} from '../../common/const.js';
 import {
   showToastPromisify,
   setStoragePromisify,
   showLoadingPromisify,
   getStorageInfoPromisify
-} from "../../api/promisify.js";
+} from '../../api/promisify.js';
 import {
   verifycode,
   relateapp,
   selectFeed
-} from "../../api/request.js"
+} from '../../api/request.js'
 
 const app = getApp();
 Component({
@@ -30,11 +30,11 @@ Component({
    */
   data: {
     disabled: true,
-    verContent: "获取验证码",
-    verStyle: "",
-    phone: "",
+    verContent: '获取验证码',
+    verStyle: '',
+    phone: '',
     affirmDisabled: true,
-    affirmStyle: "",
+    affirmStyle: '',
     isCounting: false,
     timer: '',
     countDownNum: '60',
@@ -52,14 +52,14 @@ Component({
 
     //   let val = e.detail.value;
     //   val && !expPhone.test(Number(val)) && showToastPromisify({
-    //     title: "手机号格式有误",
-    //     image: "/images/icon/fail.png"
+    //     title: '手机号格式有误',
+    //     image: '/images/icon/fail.png'
     //   }), _this.setData({
-    //     verStyle: "",
+    //     verStyle: '',
     //     disabled: true
     //   })
     //   val && expPhone.test(Number(val)) && _this.setData({
-    //     verStyle: "color:#fff;background-color:#FF5050",
+    //     verStyle: 'color:#fff;background-color:#FF5050',
     //     disabled: false,
     //     phone: e.detail.value
     //   })
@@ -75,7 +75,7 @@ Component({
         phone: _this.data.phone
       })
       res.statusCode !== 201 && showToastPromisify({
-        title: "请输入正确的验证码"
+        title: '请输入正确的验证码'
       })
       res.statusCode === 201 && _this.countDown()
     },
@@ -88,7 +88,7 @@ Component({
       _this.setData({
         verContent: countDownNum + ' s',
         disabled: true,
-        verStyle: "",
+        verStyle: '',
       })
       _this.setData({
         timer: setInterval(() => {
@@ -113,9 +113,9 @@ Component({
       let that = this
       clearInterval(that.data.timer)
       that.setData({
-        verContent: "重新获取",
+        verContent: '重新获取',
         disabled: false,
-        verStyle: "color:#fff;background-color:#FF5050",
+        verStyle: 'color:#fff;background-color:#FF5050',
         countDownNum: '60',
         isCounting: false,
       })
@@ -128,15 +128,15 @@ Component({
     //   let _this = this;
     //   let val = e.detail.value;
     //   val && val.length !== 4 && showToastPromisify({
-    //     title: "验证码错误",
-    //     image: "/images/icon/fail.png"
+    //     title: '验证码错误',
+    //     image: '/images/icon/fail.png'
     //   }), _this.setData({
     //     affirmDisabled: true,
-    //     affirmStyle: ""
+    //     affirmStyle: ''
     //   })
     //   val && val.length === 4 && _this.setData({
     //     affirmDisabled: false,
-    //     affirmStyle: "background-color:#EB4639;color:#fff"
+    //     affirmStyle: 'background-color:#EB4639;color:#fff'
     //   })
     // },
 
@@ -157,9 +157,9 @@ Component({
         code: e.detail.value.verify
       })
       setStoragePromisify({
-        "phone": e.detail.value.user
+        'phone': e.detail.value.user
       })
-      _this.triggerEvent("bindPhone", result.data)
+      _this.triggerEvent('bindPhone', result.data)
     },
 
     validatePhone: function(e) {
@@ -167,14 +167,14 @@ Component({
       if(that.data.isCounting) {
         return;
       }
-
+      
       let phonereg=/^[1][3,4,5,7,8][0-9]{9}$/;
       let val = e.detail.value;
       let isvalid = phonereg.test(val);
       this.setData({
         disabled: !isvalid,
         phone: val,
-        verStyle: isvalid ? "color:#fff;background-color:#FF5050" : ""
+        verStyle: isvalid ? 'color:#fff;background-color:#FF5050' : ''
       })
     },
 
@@ -187,7 +187,7 @@ Component({
       if(val && codereg.test(val) && phonereg.test(that.data.phone)) {
         that.setData({
           affirmDisabled: false,
-          affirmStyle: "background-color:#EB4639;color:#fff"
+          affirmStyle: 'background-color:#EB4639;color:#fff'
         })
       } else {
         that.setData({

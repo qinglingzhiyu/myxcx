@@ -1,6 +1,6 @@
 <!--components/rule-toast/rule-toast.wxml-->
 <form report-submit="true" bindsubmit="bindSubmit">
-  <view class="toast" catchtouchmove="ture">
+  <view class="toast animated pulse" catchtouchmove="ture">
     <image class="toast-img" src="/images/icon/toast.png" />
     <text class="toast-title">提示</text>
     <text class="toast-content">为保证圈内相亲环境</text>

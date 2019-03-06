@@ -19,7 +19,7 @@ Component({
    */
   methods: {
     preventTouchMove: function () {
-      this.triggerEvent('myMask', "close")
+      this.triggerEvent('myMask', 'close')
     }
   }
 })

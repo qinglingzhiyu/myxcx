@@ -28,7 +28,7 @@
   margin-top: 16rpx;
   width: 600rpx;
   text-align: center;
-  padding-bottom: 186rpx;
+  padding-bottom: 150rpx;
 }
 
 .toast-title {
@@ -36,6 +36,11 @@
   margin-top: 32rpx;  
 }
 
+.toast-title ::before,
+.toast-title ::after {
+  content:"————————";
+  padding: 0 20rpx;
+}
 .toast-content {
   font-size: 32rpx;
   margin-top: 16rpx;

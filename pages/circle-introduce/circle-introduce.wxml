@@ -1,13 +1,17 @@
 <!--pages/circle-introduce/circle-introduce.wxml-->
 <view class="main">
   <!-- banner start -->
-  <view class="introduce">
-    <image class="introduce-bg" src="{{circleIntroduceData.bg_image}}" />
-    <image class="introduce-avatar" src="{{circleIntroduceData.image}}"/>
-    <text class="introduce-title">{{circleIntroduceData.name}}</text>
+  <view 
+    class="introduce" 
+    style="background-image: url({{circleIntroduceData.bg_image}});background-repeat: no-repeat;background-size: 100% 100%"
+  >
+    <view class="introduce-info">
+      <image class="introduce-avatar" src="{{circleIntroduceData.image}}"/>
+      <text class="introduce-title">{{circleIntroduceData.name}}</text>
+    </view>
     <view class="mask"></view>
     <view class="introduce-bottom">
-      <image class="trumpet" src="/images/icon/trumpet.png"/>
+      <image class="trumpet animated faster simpleOpacity" src="/images/icon/trumpet.png"/>
       <swiper class="banner" autoplay circular duration="1500" interval="3000">
         <block wx:for="{{circleIntroduceData.brief}}" wx:key="index">
           <swiper-item>{{item}}</swiper-item>
@@ -19,8 +23,8 @@
 
   <!-- 圈子规则 start -->
   <view class="rule">
-    <image class="rule-bg" src="/images/red.png"/>
-    <view class="rule-title">圈子规则</view>
+    <image class="rule-bg animated faster simpleOpacity" src="/images/red.png"/>
+    <text class="rule-title">圈子规则</text>
     <view class="rule-content" >
       <view wx:for="{{circleIntroduceData.descr}}" wx:key="index">{{item}}</view>
     </view>
@@ -29,16 +33,28 @@
 
   <!-- 圈子福利 start-->
   <view class="weal">
-    <image class="weal-bg" src="/images/yellow.png"/>
-    <view class="weal-title">圈子福利</view>
+    <image class="weal-bg animated faster simpleOpacity" src="/images/yellow.png"/>
+    <text class="weal-title">圈子福利</text>
     <view class="weal-content">
       <view wx:for="{{circleIntroduceData.welfare}}" wx:key="index">{{item}}</view>
     </view>
   </view>
   <!-- 圈子福利 end -->
   <form report-submit="true" bindsubmit="bindSubmit">
-    <button class="join" form-type="submit" data-circleid="{{circleIntroduceData.circle_id}}" data-name="{{circleIntroduceData.name}}" open-type="getUserInfo" bindgetuserinfo="userInfo">加入圈子</button>
-    <button class="share" form-type="submit" open-type="share" data-circleName="{{circleIntroduceData.name}}">
+    <button 
+      class="join" 
+      form-type="submit" 
+      data-circleid="{{circleIntroduceData.circle_id}}" 
+      data-name="{{circleIntroduceData.name}}" 
+      open-type="getUserInfo" 
+      bindgetuserinfo="userInfo"
+    >加入圈子</button>
+    <button
+      class="share" 
+      form-type="submit" 
+      open-type="share" 
+      data-circleName="{{circleIntroduceData.name}}"
+    >
       <image src="/images/introduce-share.png"/>
     </button>
     <button class="more" form-type="submit" bindtap="goPageWithCircle">

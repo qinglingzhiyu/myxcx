@@ -1,9 +1,8 @@
-/* pages/consulting/consulting.wxss */
+@import '/common/animate.wxss';
 .main {
   width: 100%;
   padding: 0 32rpx;
   box-sizing: border-box;
-
 }
 
 .content {
@@ -73,8 +72,8 @@
 
 .closeimg{
   position: absolute;
-  top:-10rpx;
-  right: -8rpx;
-  width: 20rpx;
-  height: 20rpx;
+  top: -15rpx;
+  right: -14rpx;
+  width: 40rpx;
+  height: 40rpx;
 }
