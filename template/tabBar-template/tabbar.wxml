@@ -1,4 +1,5 @@
 <template name="tabBar">
+  
   <view class="tabBar">
     <block wx:for="{{tabBar}}" wx:for-item="item" wx:key="tabBar">
       <view class="tabBar-item">
